@@ -1,0 +1,269 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Materi - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>Materi</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('materi')|raw }}
+
+        <div class="bs-callout bs-callout-warning">
+            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI MATERI</a></b>
+
+            <div id="form-filter" class="collapse" style="margin-top: 5px;">
+                {{ form_open('materi')|raw }}
+                    <table class="table table-condensed">
+                        <tr>
+                            <th  style="border-top: none;">Mapel</th>
+                            <td  style="border-top: none;">
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    {% for m in mapel %}
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="mapel_id[]" value="{{ m.id }}" {{ set_checkbox('mapel_id[]', m.id, (filter.mapel_id is not empty and in_array(m.id, filter.mapel_id)) ? true) }}> {{ m.nama }}
+                                        </label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Kelas</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    {% for k in kelas %}
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="kelas_id[]" value="{{ k.id }}" {{ set_checkbox('kelas_id[]', k.id, (filter.kelas_id is not empty and in_array(k.id, filter.kelas_id)) ? true) }}> {{ k.nama }}
+                                        </label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tipe</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="type[]" value="tertulis" {{ set_checkbox('type[]', 'tertulis', (filter.type is not empty and in_array('tertulis', filter.type)) ? true) }}> Tertulis
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="type[]" value="file" {{ set_checkbox('type[]', 'file', (filter.type is not empty and in_array('file', filter.type)) ? true) }}> File
+                                        </label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">Judul</th>
+                            <td>
+                                <input type="text" name="judul" class="span4" value="{{ set_value('judul', filter.judul) }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Konten</th>
+                            <td>
+                                <input type="text" name="konten" class="span5" value="{{ set_value('konten', filter.konten) }}">
+                            </td>
+                        </tr>
+                        {% if is_admin() == true %}
+                        <tr>
+                            <th>Pembuat</th>
+                            <td>
+                                <input type="text" name="pembuat" class="span4" value="{{ set_value('pembuat', filter.pembuat) }}">
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="publish[]" value="1" {{ set_checkbox('publish[]', '1', (filter.publish is not empty and in_array('1', filter.publish)) ? true) }}> Terbit
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="publish[]" value="0" {{ set_checkbox('publish[]', '0', (filter.publish is not empty and in_array('0', filter.publish)) ? true) }}> Konsep
+                                        </label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+        </div>
+        <br>
+
+        {% if is_siswa() == false %}
+            <div class="btn-group pull-left" style="margin-top:-5px;">
+                {{ anchor('materi/add/tertulis', '<i class="icon-pencil"></i>Tambah Materi Tertulis', {'class' : 'btn btn-primary'})|raw }}
+                {{ anchor('materi/add/file', '<i class="icon-file"></i>Tambah Materi File', {'class' : 'btn btn-success'})|raw }}
+            </div>
+            {% endif %}<br><br>
+
+        
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    {% if is_siswa() == true %}
+                    <th>Daftar Materi</th>
+                    {% else %}
+                    <th width="7%">ID</th>
+                    <th>Daftar Materi</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for no, m in materi %}
+
+                {% if is_admin() == true %}
+                    {% set action_edit = true %}
+                    {% set action_delete = true %}
+                {% elseif is_pengajar() == true %}
+                    {% if m.pengajar_id == get_sess_data('user', 'id') %}
+                        {% set action_edit = true %}
+                        {% set action_delete = true %}
+                    {% else %}
+                        {% set action_edit = false %}
+                        {% set action_delete = false %}
+                    {% endif %}
+                {% elseif is_siswa() == true %}
+                    {% if m.siswa_id == get_sess_data('user', 'id') %}
+                        {% set action_edit = true %}
+                        {% set action_delete = true %}
+                    {% else %}
+                        {% set action_edit = false %}
+                        {% set action_delete = false %}
+                    {% endif %}
+                {% endif %}
+
+                
+                    {% if is_siswa() == true %}
+                    <tr class="clickable-row" data-href="{{ site_url('materi/detail/' ~ m.id)}}">
+                    
+                    <td>
+                        <strong class="text-warning">
+                        <a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a>
+                        </strong><br>
+                        
+                                <small>Mapel: <b>{{ m.mapel.nama }}</b>,
+                                    diposting oleh: <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>, {{ tgl_jam_indo(m.tgl_posting) }} <br>
+                                {{ m.jml_komentar }} Komentar
+                                </small>
+                            
+                    </td>
+                    </tr>
+
+
+                    {% else %}
+                    <tr>
+                    <td><b>{{ m.id }}</b></td>
+                    <td>
+                        
+                        {% if m.publish == 0 %}
+                        <strong style="color: grey"><a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a></strong>
+
+
+                        {% elseif m.publish == 1 %}
+                        <strong style="color: green"><a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a></strong>
+                        
+                        {% endif %}
+                        
+                                {{ (m.publish == 1) ? '<span class="badge badge-success">Terbit</span>' : '<span class="badge badge-danger">Konsep</span>' }}
+                        <br>
+                        
+                        
+                                {{ (m.file is not empty) ? '<span style="color: blue">File</span>' : '<span style="color: green">Tertulis</span>' }}, 
+                        
+                                {{ m.mapel.nama }}, 
+                        
+                                {% for mk in m.materi_kelas %}
+                                    {{ mk.nama }}&nbsp;
+                                {% endfor %}, 
+                        
+                                {% if is_pengajar() == false %}
+                                    Pembuat <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>
+                                    , {{ tgl_jam_indo(m.tgl_posting) }},
+                                {% else %}
+                                    Dibuat {{ tgl_jam_indo(m.tgl_posting) }},
+                                {% endif %} 
+                        
+                                {{ (m.file is empty) ? 'Dibaca' : 'Diunduh' }}
+                                {{ m.views }} kali, 
+                        
+                                {{ m.jml_komentar }} Komentar
+                        
+
+                         <!-- dropdown -->
+                         {% if is_siswa() == false %}
+                   
+                        
+                            <ul class="nav">
+                            <li class="nav-user dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                            
+                                <ul class="dropdown-menu">
+
+                                    {% if m.file is not empty %}
+                                        {% set url_type = 'file' %}
+                                    {% else %}
+                                        {% set url_type = 'tertulis' %}
+                                    {% endif %}
+                                    
+
+                                   <!--  <li>{{ anchor('materi/detail/' ~ m.id, '<i class="icon-zoom-in"></i> Lihat Materi')|raw }}</li> -->
+
+                                    <li> {{ anchor('materi/absen/' ~ m.id, '<i class="icon-group"></i> Kehadiran')|raw }}</li>
+
+                                    {% if action_edit == true %}
+                                        <li>{{ anchor('materi/edit/' ~ url_type ~ '/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-edit"></i> Edit')|raw }}</li>
+                                    {% endif %}
+
+                                    {% if is_admin() == true %}
+                                        {% if action_delete == true %}
+                                            <li>{{ anchor('materi/delete/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i style="color: red" class="icon-trash"></i> <span style="color: red">Hapus</span>', {'onclick' : "return confirm('Anda yakin ingin menghapus?')"})|raw }}</li>
+                                        {% endif %}
+                                    {% endif %}
+                                    
+                                </ul>
+                            </li>
+                            </ul>
+              
+                        {% endif %}
+
+                    </td>
+                    
+
+                        {% endif %}
+
+                       
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {{ pagination|raw }}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Daftar Hadir Santri {{ materi.judul }}-{{ materi.mapel.nama }} - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>{{ anchor('materi', 'Materi')|raw }} / Kehadiran Santri</h3>
+    </div>
+    <div class="module-body">
+                
+                    {% if error is not defined %}
+                
+                    <table class="table" width="100%">
+                        <tr>
+                            <td width="30%">Judul Materi</td>
+                            <td width="2%">:</td>
+                            <td><b>{{ materi.judul }}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Mata Pelajaran</td>
+                            <td>:</td>
+                            <td>{{ materi.mapel.nama }}</td>
+                        </tr>
+                        <tr>
+                            <td>Untuk Kelas</td>
+                            <td>:</td>
+                            <td>
+                                {% for mk in materi.materi_kelas %}
+                                    {{ mk.nama }},
+                                {% endfor %}
+                            </td>
+                        </tr>
+                
+                        <tr>
+                            <td width="30%">Guru</td>
+                            <td width="2%">:</td>
+                            <td><a href="{{ materi.pembuat.link_profil }}">{{ materi.pembuat.nama }}</a></td>
+                      
+                        </tr>
+                        <tr>
+                            <td>Diposting Pada</td>
+                            <td>:</td>
+                            <td>{{ tgl_jam_indo(materi.tgl_posting) }}</td>
+                        </tr>
+                        
+                    </table>
+              
+                 {% endif %} <hr>
+
+                 <div>
+
+                    <form method='post' target='_blank' action="{{ site_url('materi/excel') }}">
+                        <input type="hidden" name="materi_id" value="{{ materi.id }}">
+                        <button class='btn btn-primary btn-sm'>Export Excel</button>
+                    </form>
+
+                 </div><br>
+                    
+                    <table class="table table-striped datatable" width="100%">
+                        <thead>
+                        <tr class="active">
+                            <th style="text-align: center;"></th>
+                            <th style="text-align: center;">Waktu Masuk</th>
+                            <th style="text-align: center;">Nama Siswa</th>
+                            <th style="text-align: center;">Kelas</th>
+                            {% if is_admin()==true %}
+                            <th></th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for s in absen %}
+                            <tr>
+                                <td></td>
+                                <td>{{ s.waktu }}</td>
+                                <td>{{ s.siswa_nama }}</td>
+                                <td>{{ s.kelas_nama }}</td>
+
+                                {% if is_admin()==true %}
+                                <td>
+                                    <form method="post" action="{{ site_url('materi/hapus_absen') }}">
+                                        <input type="hidden" name="materi_id" value="{{ materi.id }}">
+                                        <input type="hidden" name="absen_id" value="{{ s.id }}">
+                                        <button class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus | {{ s.siswa_nama }} | {{ s.kelas_nama }} ?')"><i class="icon-trash"></i></button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                
+                    
+                
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "layout-iframe.html" %}
+
+{% block content %}
+{% if sudah_dikoreksi == false %}
+    <h4>Koreksi Jawaban</h4>
+{% else %}
+    <h4>Detail Jawaban</h4>
+{% endif %}
+
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>Tgl Mengerjakan</th>
+            {% if sudah_dikoreksi == true %}
+            <th>Nilai</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ tgl_jam_indo(history.mulai) }}</td>
+            {% if sudah_dikoreksi == true %}
+            <th>{{ round(nilai.nilai, 2) }}</th>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+<br>
+
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>IP</th>
+            <th>Device</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ history.ip }}</td>
+            <td>{{ history.agent_string }}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+
+{{ form_open('tugas/detail_jawaban/' ~ siswa.id ~ '/' ~ tugas.id)|raw }}
+<b>File upload</b><br>
+<table class="table table-condensed table-striped">
+
+    <tbody>
+        <tr>
+            <th>Nama</th>
+            <td><a href="{{ base_url('userfiles/files/' ~ file_info.name) }}" target="_tab">{{file_info.name}}</a></td>
+        </tr>
+        <tr>
+            <th width="20%">Ukuran</th>
+            <td>{{ byte_format(file_info.size) }}</td>
+        </tr>
+        <tr>
+            <th>Tipe</th>
+            <td>{{ file_info.mime }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="badge bagde-success"><a style="color: white" href="{{ base_url('userfiles/files/' ~ file_info.name) }}" target="_tab"><i class="icon-search"></i>Lihat Tugas</a></span>                
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<b>Nilai :</b>
+<br>
+<input type="text" name="nilai" style="width:50px;" value="{{ nilai.nilai }}">
+
+<hr style="margin-top: 5px;">
+{% if sudah_dikoreksi == false %}
+<button class="btn btn-primary" type="submit">Simpan Nilai</button>
+{% else %}
+<button class="btn btn-primary" type="submit">Update Nilai</button>
+{% endif %}
+</form>
+
+{% endblock %}

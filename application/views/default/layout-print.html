@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    {% include 'layout-header.html' %}
+    
+
+
+<style type="text/css">
+
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: grey;
+        font: 12pt "calibri";
+        color: black;
+    }
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .container {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 0.5in;
+        margin: 0.5cm auto;
+        border: 0px solid #D3D3D3;
+        border-radius: 0px;
+        background: white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .subpage {
+        padding: 0.5in;
+        border: 5px red solid;
+        height: 297mm;
+        outline: 2cm #FFEAEA solid;
+    }
+    
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    @media print {
+        html, body {
+            width: 210mm;
+            height: 297mm;        
+        }
+        .page {
+            margin: 0;
+            border: initial;
+            border-radius: initial;
+            width: initial;
+            min-height: initial;
+            box-shadow: initial;
+            background: initial;
+            page-break-after: always;
+        }
+
+        div {
+     width:200px;
+     height: 48px;
+   }
+   .garis_tepi1 {
+     border: 2px solid red;
+   }
+   .garis_tepi2 {
+     border: 10px dotted blue;
+   }
+    }
+        
+</style>
+    
+</head>
+<body>
+    <div class="container">
+        <table width="100%">
+            <tr>
+                <td>
+                    <img src="http://smp-ia.sch.id/assets/images/kop.png" width="100%">            
+                </td>
+            </tr>
+        </table>
+            
+        <br>
+        {% block content %}{% endblock %}
+    </div>
+
+
+</body>
+
+<script type="text/javascript">
+  window.print();
+</script>
+</html>

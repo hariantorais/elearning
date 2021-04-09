@@ -1,0 +1,230 @@
+{% extends "layout-ujian.html" %}
+
+{% block title %}
+{{ data.tugas.judul }} - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div id="wrap" style="font-size: 18px">
+    <div class="container">
+        <div class="row-fluid">
+                
+                   {% if data.tugas.type_id != 1 %}
+                    <div class="pull-right clock" data-spy="affix" ><br>
+                            <table>
+                                <tr>
+                                    <td align="center">
+                                            <img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar img-polaroid img-circle" style="width: 100px; height: 100px"><br>
+                                            <b>{{ strtoupper(nama_panggilan(get_sess_data('user', 'nama'))) }}</b>
+                                            <br>
+                                            {{ get_sess_data('user', 'nis') }}<hr>
+                                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">Siswa Waktu</td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <div class="iosl-theme-wrapper countdown" {{ (hide_countdown == 1) ? 'style="display:none;"' }}>
+                                        <b class="hours">00</b> : <b class="minutes">00</b>
+                                        </div> <hr>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                    </div>
+                    {% endif %}
+                
+            
+            <!-- <div class="span3">
+                <ul class="unstyled inline pull-right user-info">
+                    <li><b>{{ nama_panggilan(get_sess_data('user', 'nama')) }}</b></li>
+                    <li><img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" </li>
+                </ul>
+            </div> -->
+        </div>
+        <br>
+        <div class="wrap-content">
+            <div class="span2"></div>
+            <div class="content span9">
+                <center><h1>LEMBAR TUGAS</h1></center>
+
+                {% if data.tugas.type_id != 1 %}
+
+                <table class="table" width="100%" style="background-color: lavender">
+                    <tr>
+                        <td align="center"><center><b>{{ strtoupper(data.tugas.judul) }}</b></center></td>
+                    </tr>
+                </table><br>
+                {% endif %}
+                
+                <div class="row-fluid">
+                    {% if data.tugas.type_id != 1 %}
+                    <div class="span8">
+                        <b><i>{{ data.tugas.info|raw }}</i></b>
+                    </div>
+                    
+                    {% else %}
+                    <div class="span6">
+                        <b class="badge badge-info">Informasi Tugas : </b><br>
+                        <p>{{ data.tugas.info|raw }}</p>
+                    </div><hr>
+                    <div class="span6">
+                        <div class="well well-sm">
+                            <p><b>Upload file tugas anda: </b></p>
+                            {{ form_open_multipart('tugas/submit_upload/' ~ data.tugas.id ~ '/' ~ data.unix_id)|raw }}
+                            <input type="file" name="userfile">
+                            <hr class="hr1">
+                            <div class="row-fluid">
+                                <div class="span3">
+                                    <button type="submit" class="btn btn-success">Upload</button>
+                                </div>
+                                <div class="span9">
+                                    {{ get_flashdata('upload')|raw }}
+                                </div>
+                            </div><br>
+                            {{ form_close()|raw }}
+                            <div style="border: 1px dashed red;padding: 10px">
+                            <b>Cara Upload File:</b>
+                            <ol>
+                            <li>Baca permintaan tugas pada bagian <b>Informasi tugas</b>.</li>
+                            <li>Klik tombol <b>Telusuri</b> dan pilih file anda. <br></li>
+                            <li>Klik tombol <b>Upload</b>.</li>
+                            </ol>
+
+
+<a href="https://wa.widget.web.id/b8f41a" class="act-wa" target="_blank"><img src="http://smp-ia.sch.id/elearning/assets/themes/default/images/wa.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if data.tugas.type_id == 3 %}
+                    <table class="table">
+                        <!-- <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Pertanyaan {{ (data.tugas.type_id == 3) ? ' dan Pilihan' }}</th>
+                            </tr>
+                        </thead> -->
+                        <tbody>
+                            {% for p in data.pertanyaan %}
+                            <tr id="pertanyaan-{{ p.id }}">
+                                <td width="5%"><b>{{ loop.index }}.</b></td>
+                                <td>
+                                    <div class="pertanyaan">
+                                        {{ p.pertanyaan|raw }}
+                                    </div>
+
+                                    <div id="pilihan-{{ p.id }}">
+                                        <table class="table table-condensed table-striped">
+                                            <tbody>
+                                                {% for pil in p.pilihan if pil.konten is not empty %}
+                                                <tr>
+                                                    <td width="8%" valign="center"><label class="label-radio"><input {{ (is_pilih(data.jawaban, p.id, pil.id)) ? 'checked' }} type="radio" name="pilihan-{{ p.id }}" value="{{ pil.urutan }}" onclick="update_ganda({{ data.tugas.id }}, {{ p.id }}, {{ pil.id }})" class="radio">&nbsp;&nbsp;&nbsp;<b>{{ get_abjad(pil.urutan) }}.</b></label></td>
+                                                    <td>
+                                                        {{ pil.konten|raw }}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br><br><br>
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="well well-sm">
+                        <p style="color: red">Periksa kembali jawaban anda sebelum mengahiri pengerjaan tugas ini.</p>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#selesai-mengerjakan">
+                            Selesai Mengerjakan
+                        </button>
+                    </div>
+
+                    <div class="modal fade" id="selesai-mengerjakan" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    Anda yakin ingin mengahiri pengerjaan tugas ini?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Nanti dulu</button>
+                                    <a class="btn btn-primary" href="{{ site_url('tugas/finish/' ~ data.tugas.id ~ '/' ~ data.unix_id) }}" id="btn-submit">Ya, saya sudah selesai</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+                {% if data.tugas.type_id == 2 %}
+                    {{ form_open('tugas/submit_essay/' ~ data.tugas.id ~ '/' ~ data.unix_id, {'id' : 'form-essay'})|raw }}
+                    <input type="hidden" id="str_id" value="{{ data.str_id }}">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th>Pertanyaan {{ (data.tugas.type_id == 3) ? ' dan Pilihan' }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in data.pertanyaan %}
+                            <tr id="pertanyaan-{{ p.id }}">
+                                <td><b>{{ loop.index }}.</b></td>
+                                <td>
+                                    <div class="pertanyaan">
+                                        {{ p.pertanyaan|raw }}
+                                    </div>
+
+                                    <textarea name="jawaban[{{ p.id }}]" id="jawaban-{{ p.id }}">{{ get_jawaban(data.jawaban, p.id)|raw }}</textarea>
+
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="well well-sm">
+                        <p style="color: red">Periksa kembali jawaban anda sebelum mengahiri pengerjaan tugas ini.</p>
+                        <button type="button" class="btn btn-large btn-primary" data-toggle="modal" data-target="#selesai-mengerjakan">
+                            Selesai Mengerjakan
+                        </button>
+                    </div>
+                    {{ form_close()|raw }}
+
+                    <div class="modal fade" id="selesai-mengerjakan" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    Anda yakin ingin mengahiri pengerjaan tugas ini?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Nanti dulu</button>
+                                    <button type="button" class="btn btn-primary" id="btn-submit">Ya, saya sudah selesai</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+            <div class="span1"></div>
+        </div>
+    </div>
+</div>
+{% if data.tugas.type_id != 1 %}
+<input type="hidden" id="process-submit" value="0">
+<input type="hidden" id="tugas_id" value="{{ data.tugas.id }}">
+<input type="hidden" id="type_id" value="{{ data.tugas.type_id }}">
+<input type="hidden" id="sisa_menit" value="{{ data.sisa_menit }}">
+<input type="hidden" id="finish_url" value="{{ site_url('tugas/finish/' ~ data.tugas.id ~ '/' ~ data.unix_id) }}">
+<input type="hidden" id="siswa_id" value="{{ get_sess_data('user', 'id') }}">
+{% endif %}
+{% endblock %}

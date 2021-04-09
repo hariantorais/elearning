@@ -1,0 +1,31 @@
+{% extends 'layout-print.html' %}
+
+{% block title %}
+    Print materi - {{ materi.judul }}
+{% endblock %}
+
+{% block content %}
+
+<table width="100%">
+    <tr>
+        <td width="20%">Judul Materi</td>
+        <td>:</td>
+        <td>{{ materi.judul }}</td>
+    </tr>
+    <tr>
+        <td>Mata Pelajaran</td>
+        <td>:</td>
+        <td>{{ materi.mapel.nama }}</td>
+    </tr>
+    <tr>
+        <td>Guru</td>
+        <td>:</td>
+        <td>{{ materi.pembuat.nama }}</td>
+    </tr>
+</table>
+
+<hr>
+
+        {{ materi.konten|raw }}
+
+{% endblock %}

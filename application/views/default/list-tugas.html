@@ -1,0 +1,309 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Tugas - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>Tugas</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('tugas')|raw }}
+
+        {% if (is_siswa() == false) %}
+        <div class="bs-callout bs-callout-info">
+            
+            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI TUGAS</a></b>
+            
+
+            <div id="form-filter" class="collapse" style="margin-top: 5px;">
+                {{ form_open('tugas')|raw }}
+                    <table class="table table-condensed">
+                        <tr>
+                            <th  style="border-top: none;">Mapel</th>
+                            <td  style="border-top: none;">
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    {% for m in mapel %}
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="mapel_id[]" value="{{ m.id }}" {{ set_checkbox('mapel_id[]', m.id, (filter.mapel_id is not empty and in_array(m.id, filter.mapel_id)) ? true) }}> {{ m.nama }}
+                                        </label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% if (is_siswa() == false) %}
+                        <tr>
+                            <th>Kelas</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    {% for k in kelas %}
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="kelas_id[]" value="{{ k.id }}" {{ set_checkbox('kelas_id[]', k.id, (filter.kelas_id is not empty and in_array(k.id, filter.kelas_id)) ? true) }}> {{ k.nama }}
+                                        </label>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Tipe</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="type[]" value="3" {{ set_checkbox('type[]', '3', (filter.type is not empty and in_array('3', filter.type)) ? true) }}> Ganda
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="type[]" value="2" {{ set_checkbox('type[]', '2', (filter.type is not empty and in_array('2', filter.type)) ? true) }}> Essay
+                                        </label>
+                                    </li>
+                                   <!--  <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="type[]" value="1" {{ set_checkbox('type[]', '1', (filter.type is not empty and in_array('1', filter.type)) ? true) }}> Upload
+                                        </label>
+                                    </li> -->
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="15%">Judul</th>
+                            <td>
+                                <input type="text" name="judul" class="span4" value="{{ set_value('judul', filter.judul) }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Info</th>
+                            <td>
+                                <input type="text" name="info" class="span5" value="{{ set_value('info', filter.info) }}">
+                            </td>
+                        </tr>
+                        {% if is_pengajar() == false %}
+                        <tr>
+                            <th>Pembuat</th>
+                            <td>
+                                <input type="text" name="pembuat" class="span4" value="{{ set_value('pembuat', filter.pembuat) }}">
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <ul class="unstyled inline" style="margin-left: -5px;">
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="status[]" value="1" {{ set_checkbox('status[]', '1', (filter.status is not empty and in_array('1', filter.status)) ? true) }}> Terbit
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox inline">
+                                            <input type="checkbox" name="status[]" value="0" {{ set_checkbox('status[]', '0', (filter.status != '' and in_array('0', filter.status)) ? true) }}> Tutup
+                                        </label>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="submit" class="btn btn-info">Filter</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+        </div>
+        {% endif %}
+
+        <br>
+
+        {% if (is_siswa() == false) %}
+        <table width="100%" align="center">
+            <tr>
+                <td align="center"><div class="badge badge-info">Tambah Tugas</div></td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div class="btn-group">
+             
+                            {{ anchor('tugas/add/3', 'Pilihan Ganda', {'class' : 'btn btn-success'})|raw }}
+                            {{ anchor('tugas/add/2', 'Essay', {'class' : 'btn btn-primary'})|raw }}
+                            <!-- {{ anchor('tugas/add/1', 'Upload', {'class' : 'btn btn-warning'})|raw }} -->
+                              
+                    </div>
+                </td>
+            </tr>
+        
+        </table>
+        <br><br>
+        {% endif %}
+
+
+        <!-- JIKA SISWA -->
+        {% if (is_siswa() == true) %}
+         <table class="table table-striped">
+            <thead>
+               
+            </thead>
+            <tbody>
+                {% for no, m in tugas %}
+                <tr>
+
+                    <!-- <tr {{ (is_siswa() and m.aktif == 1 and sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false) ? 'class="success"' }}> -->
+                   
+                    <td>
+                        <strong class="text-success">{{ m.judul }}</strong>
+                        <br><small>Mapel: <b>{{ m.mapel.nama }}</b>,
+
+                        {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
+                            , durasi: {{ m.durasi }} Menit,
+                        {% endif %}
+
+                        dibuat oleh : <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a></small>
+                        {% if is_siswa() and m.info != '' %} |
+                        <small>Tipe Tugas :</small>
+                        {% if m.type_label == 'Ganda' %}
+                            <span class="label label-success">Ganda</span>
+                        {% elseif m.type_label == 'Essay' %}
+                            <span class="label label-info">Essay</span>
+                        {% elseif m.type_label == 'Upload' %}
+                            <span class="label label-warning">Upload</span>
+                        {% endif %}
+                          <!--   <hr style="margin-top: 5px;margin-bottom: 5px;border:none;border-bottom: 1px dashed black;">
+                            {{ m.info|raw }} -->
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div>
+                        {% if is_siswa() == true %}
+                            {% if m.aktif == 1 %}
+                                {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false %}
+                                    {{ anchor('tugas/kerjakan/' ~ m.id, '<i class="icon-arrow-right"></i> Kerjakan', {'class' : 'btn btn-primary btn-small', 'onclick' : 'return confirm(\'Anda yakin ingin memulai mengerjakan tugas ini?\')'})|raw }}
+                                {% endif %}
+
+                                {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == true %}
+                                    <small><b>Status:</b> <span class="label label-info">Dalam proses pengoreksian</span></small>
+                                {% endif %}
+                            {% else %}
+                                {{ anchor('tugas/nilai/' ~ m.id, '<i class="icon-flag"></i> Lihat Nilai', {'class' : 'btn btn-info btn-small iframe-lihat-nilai'})|raw }}
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- JIKA ADMIN DAN GURU -->
+        {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="7%">ID</th>
+                    <th>Informasi Tugas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for no, m in tugas %}
+                <tr {{ (is_siswa() and m.aktif == 1 and sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false) ? 'class="success"' }}>
+                    <td><b>{{ m.id }}</b></td>
+                    <td>
+                        {% if m.aktif == 0 %}
+                        <strong style="color: grey">{{ m.judul }}</strong>
+
+                        <span class="badge badge-default">Ditutup</span>
+
+                        {% elseif m.aktif == 1 %}
+                        <strong style="color: green">{{ m.judul }}</strong>
+                            <span class="badge badge-success">Dibuka</span>
+                        {% endif %}
+
+                        <br><small><b>{{ m.mapel.nama }}</b>
+
+                        {% for mk in m.tugas_kelas %}
+                            , {{ mk.nama }}
+                        {% endfor %}
+
+                        {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
+                            , durasi: {{ m.durasi }} Menit ,
+                        {% endif %}
+
+                       , <b>Pembuat : </b> <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>, {{ tgl_jam_indo(m.tgl_buat) }}</small>
+                        <!-- {% if is_siswa() and m.info != '' %}
+                            <hr style="margin-top: 5px;margin-bottom: 5px;border:none;border-bottom: 1px dashed black;">
+                            {{ m.info|raw }}
+                        {% endif %} -->
+
+                        {% if m.type_label == 'Ganda' %}
+                            <span><b style="color: green">Ganda</b></span>
+                        {% elseif m.type_label == 'Essay' %}
+                            <span><b style="color: blue">Essay</b></span>
+                        {% elseif m.type_label == 'Upload' %}
+                            <span><b style="color: orange">Upload</b></span>
+                        {% endif %}
+
+
+                    <!--     <hr style="border: 1px dashed grey"> -->
+
+                     {% if is_siswa() == false %}
+                   
+                        
+                            <ul class="nav">
+                                <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <b class="caret"></b>
+                            </a>
+                                
+                                <ul class="dropdown-menu">
+                                    
+
+                                    {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
+                                        <li>{{ anchor('tugas/manajemen_soal/' ~ m.id, '<i class="icon-tasks"></i> Soal')|raw }}</li>
+                                    {% endif %}
+
+
+                                    {% if m.aktif == 0 %}
+                                        <li>{{ anchor('tugas/terbitkan/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-check"></i> Terbitkan')|raw }}</li>
+                                    {% elseif m.aktif == 1 %}
+                                        <li>{{ anchor('tugas/tutup/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-minus"></i> Tutup')|raw }}</li>
+                                    {% endif %}
+
+                                    <li>{{ anchor('tugas/edit/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-edit"></i> Edit')|raw }}</li>
+
+                                    {% if m.type_id == 3 %}
+                                        <li>{{ anchor('tugas/nilai/' ~ m.id, '<i class="icon-flag"></i> Nilai')|raw }}</li>
+                                    {% else %}
+                                        <li>{{ anchor('tugas/koreksi/' ~ m.id, '<i class="icon-list"></i> Koreksi')|raw }}</li>
+                                    {% endif %}
+                                    
+                                </ul>
+                            </li>
+                            </ul>
+              
+                        {% endif %}
+
+
+                    </td>
+
+                    
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+       
+        <br>
+        {{ pagination|raw }}
+
+    </div>
+</div>
+{% endblock %}

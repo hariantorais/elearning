@@ -1,0 +1,43 @@
+<table>
+    <thead>
+        <tr>
+            <th colspan="4">REKAP KEHADIRAN BELAJAR DARING SISWA</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="4" align="center"><b>{{ materi.judul }}</b></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">Mapel: <b>{{ materi.mapel.nama }}</b>, Guru: <b>{{ materi.pembuat.nama }}</b> </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center">Tanggal Terbit: <b>{{ tgl_jam_indo(materi.tgl_posting) }}</b></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table border="1">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Waktu Masuk</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in absen %}
+        <tr>
+            <td>{{ loop.index }}.</td>
+            <td>{{ s.waktu }}</td>
+            <td>{{ s.siswa_nama }}</td>
+            <td>{{ s.kelas_nama }}</td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+

@@ -1,0 +1,154 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+{{ materi.judul }} - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        {% if type == 'tertulis' %}
+        <form method="post" action="{{ site_url('materi/print') }}" target="_blank">
+            <input type="hidden" name="materi_id" value="{{ materi.id }}">
+            <input type="hidden" name="type" value="{{ type }}">
+            <button class="btn btn-info pull-right btn-xs"><i class="icon-print"></i> Print</button>
+        </form>
+        {% endif %}
+
+        
+        <h3>{{ anchor('materi', 'Materi')|raw }} / Detail Materi</h3>
+    </div>
+    <div class="module-body">
+        <center><span style="font-size: 25px; color: black">{{ materi.judul }}</span></center>
+        {% if error is not defined %}
+        <center><ul class="unstyled inline ul-top">
+            <li><b>{{ materi.mapel.nama }}</b>,</li>
+            {% for mk in materi.materi_kelas %}
+                <li>{{ mk.nama }},</li>
+            {% endfor %}
+            <li>Diposting oleh <a href="{{ materi.pembuat.link_profil }}">{{ materi.pembuat.nama }}</a></li>
+            <li>{{ tgl_jam_indo(materi.tgl_posting) }},</li>
+            <li>{{ (type == 'tertulis') ? 'Dibaca' : 'Diunduh' }} {{ materi.views }} Kali</li>
+            <li>{{ materi.jml_komentar }} Komentar</li>
+        </ul></center>
+        {% endif %}<hr style="border: 1px solid black">
+
+
+                    {% if is_siswa() == true %}
+                        {% if absen.siswa_id == get_sess_data('user', 'id') and absen.absen == 1 %}
+                        <div class="komentar" style="background-color: lightgreen">
+                        <center>
+                        <p style="color: darkgreen;">Anda sudah mengisi daftar hadir pada mapel ini.</p>
+                        </center>
+                        </div>
+                        
+                        {% else %}
+                        <div class="komentar" style="background-color: mistyrose">
+                            <center>
+                        <p><b><u>Perhatian!</u></b><br>
+                        Anda belum mengisi daftar hadir, silahkan klik tombol berwarna merah di bawah ini!</p>
+                        <form method="post" action="{{ site_url('materi/hadir/' ~ materi.id) }}">
+                            <input type="hidden" name="materi_id" value="{{ materi.id }}">
+                            <input type="hidden" name="siswa_id" value="{{ get_sess_data('user','id') }}">
+                            <button class="btn btn-danger"><i class="icon-pencil"></i>Isi Daftar Hadir</button>
+                        </form>
+                        </center>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                 
+                    <hr>
+
+        
+        <div class="wrap-content">
+            <div class="content" style="color: black">
+                {% if error is not defined %}
+                    {% if type == 'tertulis' %}
+                        {{ materi.konten|raw }}
+                    {% elseif type == 'file' %}
+                        <dl class="dl-horizontal">
+                            <dt>Info File</dt>
+                            <dd>{{ (materi.file_info.name is empty) ? 'tidak ada' : materi.file_info.name }}</dd>
+                            <dt>Ukuran</dt>
+                            <dd>{{ byte_format(materi.file_info.size) }}</dd>
+                            <dt>Diupload</dt>
+                            <dd>{{ tgl_jam_indo(mdate('%Y-%m-%d %H:%i:%s', materifile_info.date)) }}</dd>
+                            <dt>Format</dt>
+                            <dd>{{ materi.file_info.mime }}</dd>
+                            <dt></dt>
+                            <!--<video width="430px" height="350px" controls>-->
+                            <!--        <source src="{{ materi.download_link }}" type="video/mp4">-->
+                            <!--            <source src="{{ materi.download_link }}" type="audio/mp3">-->
+                            <!--</video>-->
+                            <dd><br><a href="{{ materi.download_link }}" class="btn btn-success"><i class="icon-download"></i> Download File</a></dd>
+                        </dl>
+                    {% endif %}
+                    
+                 
+                    <hr>
+
+
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <h4>
+                                <i class="icon-pencil"></i> Tulis komentar
+                                <div class="pull-right" style="font-size: 14px;">{{ form_error('komentar')|raw }}</div>
+                            </h4>
+                            <div class="bg-form-komentar" id="form-komentar">
+                                <form method="post" action="{{ site_url('materi/detail/' ~ materi.id) }}">
+                                    <p><textarea class="span12 texteditor-komentar" id="komentar" name="komentar">{{ set_value('komentar')|raw }}</textarea></p>
+                                    <p>
+                                        <button class="btn btn-primary pull-right">Post komentar</button>
+                                        <img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" style="height:30px;width:30px; margin-right:5px;" class="img-circle img-polaroid">
+                                        {{ get_sess_data('user', 'nama') }}
+                                    </p>
+                                    <div class="clear"></div>
+                                </form>
+                            </div>
+                            <br>
+
+                            {% if materi.jml_komentar > 0 %}
+                                <h4><i class="icon-comments"></i> {{ materi.jml_komentar }} Komentar</h4>
+
+                                {% for k in materi.komentar %}
+                                <div class="komentar" id="komentar-{{ k.id }}">
+                                    <img src="{{ k.login.link_image }}" style="height:25px;width:25px; margin-left:5px;" class="img-circle img-polaroid pull-right">
+                                    <p><a href="{{ k.login.link_profil }}"><b>{{ k.login.nama }}</b></a>, <small>{{ k.tgl_posting|date('d F Y H:i:s') }}</small>, <small><a href="{{ site_url('materi/detail/' ~ materi.id ~ '/laporkan/' ~ k.id) }}" class="text-muted iframe-laporkan"><i class="icon-bug"></i> laporkan</a></small></p>
+                                    <small>{{ k.konten|raw }}</small>
+                                </div>
+                                {% endfor %}
+
+                                <div style="font-size:12px;">
+                                {{ materi.komentar_pagination|raw }}
+                                </div>
+                            {% endif %}
+                        </div><hr>
+                        <div class="span4">
+                            <h4><i class="icon-file"></i> Materi lainnya</h4>
+                            <ul class="unstyled ul-materi">
+                                {% for t in terkait %}
+                                <li>
+                                    <div class="materi">
+                                        <small><a href="{{ site_url('materi/detail/' ~ t.id) }}"><i class="{{ (t.file is empty) ? 'icon-file' : 'icon-download' }} img-circle img-polaroid {{ (strlen(t.judul) > 33) ? 'pull-left' }}" style="padding:10px; margin-right:10px;"></i>{{ t.judul|raw }}</a>
+                                        </small>
+                                    </div>
+                                </li>
+                                {% endfor %}
+
+                                {% if terkait is empty %}
+                                <div class="alert alert-info">Tidak ada materi terkait</div>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <div class="alert alert-danger">
+                        <h3>{{ error }}</h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

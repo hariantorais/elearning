@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'layout-header.html' %}
+        <link type="text/css" href="{{ base_url_theme }}css/read.css" rel="stylesheet">
+        <link type="text/css" href="{{ base_url_theme }}css/theme.css" rel="stylesheet">
+        {% block css %}{% endblock %}
+    </head>
+    <body>
+
+        {% block content %}{% endblock %}
+
+        <br><br>
+        <!--/.wrapper-->
+        <div class="footer">
+            <div class="container">
+                <center>
+                    <b class="copyright">SMP Islam As-Sunnah Bagek Nyaka</b> &copy; 2020<br>
+                    by Harianto Rais
+                </center>
+            </div>
+        </div>
+
+        {% include 'layout-footer.html' %}
+        {% block js %}{% endblock %}
+    </body>
+</html>

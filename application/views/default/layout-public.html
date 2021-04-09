@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    {% include 'layout-header.html' %}
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner" style="background: #143db4">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <i class="icon-reorder shaded"></i>
+                </a>
+
+                <a class="brand" href="{{ site_url() }}" style="color: white">
+                    <img src="{{ get_logo_config() }}"> <span class="visible-phone brand-txt">Belajar Online</span><span class="visible-desktop visible-tablet brand-txt">{{ site_name }}</span>
+                </a>
+
+            </div>
+        </div><!-- /navbar-inner -->
+    </div><!-- /navbar -->
+
+    <div class="wrapper">
+        <div class="container">
+
+            {% block content %}{% endblock %}
+
+        </div>
+    </div><!--/.wrapper-->
+
+    <div class="footer">
+        <div class="container">
+            <center>
+                    <b class="copyright">{{ copyright|raw }} </b><br>
+                    by Harianto Rais
+                </center>
+        </div>
+    </div>
+
+    {% include 'layout-footer.html' %}
+    {% block js %}{% endblock %}
+</body>

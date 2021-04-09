@@ -1,0 +1,99 @@
+{% extends "layout-private.html" %}
+
+{% block content %}
+<div class="btn-controls">
+    <div id="show-urgent-info"></div>
+
+    {% if is_siswa() %}
+    {% set peraturan = get_pengaturan('peraturan-elearning', 'value') %}
+    {% if peraturan is not empty %}
+    <div class="btn-box-row row-fluid">
+         <div class="span12">
+            <div class="well well-small well-box">
+                <b>Peraturan e-learning : </b><br>
+                {{ peraturan|raw }}
+            </div>
+         </div>
+    </div>
+    {% endif %}
+    
+
+    <div class="btn-box-row row-fluid">
+        <div class="span6">
+            <div class="well well-small well-box">
+                <b><i class="icon-tasks"></i> Daftar Tugas</b><br><br>
+                <table class="table table-striped table-condensed">
+                    <tr>
+                        <th>Judul</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for m in tugas_terbaru %}
+                    <tr>
+                        <td>
+                            <a href="{{ site_url('tugas?judul=' ~ urlencode(m.judul)) }}">{{ m.judul }} </a> 
+                            (
+                            {% if m.mapel_id ==1 %}
+                            BHS. INDONESIA
+                            {% elseif m.mapel_id==2 %}
+                            BHS. INGGRIS
+                            {% elseif m.mapel_id==3 %}
+                            MATEMATIKA
+                            {% elseif m.mapel_id==4 %}
+                            PENJASKES
+                            {% elseif m.mapel_id==5 %}
+                            PAI
+                            {% elseif m.mapel_id==6 %}
+                            PPKn
+                            {% elseif m.mapel_id==7 %}
+                            IPA
+                            {% elseif m.mapel_id==8 %}
+                            IPS
+                            {% elseif m.mapel_id==9 %}
+                            PRAKARYA
+                            {% elseif m.mapel_id==10 %}
+                            SENI BUDAYA
+                            {% elseif m.mapel_id==11 %}
+                            AQIDAH
+                            {% elseif m.mapel_id==12 %}
+                            FIQIH
+                            {% elseif m.mapel_id==13 %}
+                            BAHASA ARAB
+                            {% elseif m.mapel_id==14 %}
+                            DO'A & DZIKIR
+                            {% elseif m.mapel_id==15 %}
+                            KHOT IMLA'
+                            {% elseif m.mapel_id==16 %}
+                            NAHWU
+                            {% elseif m.mapel_id==17 %}
+                            SHOROF
+                            {% elseif m.mapel_id==19 %}
+                            TAJWID
+                            {% endif %}
+                            )
+                            
+                        </td>
+                        <td align="center">
+                        {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == true %}
+                           <i style="color: green" class="icon-ok-sign"></i>
+                        {% endif %}        
+
+                        {% if m.aktif == 0 and sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false %}
+                       
+                        <i style="color: red"><b>X</b></i>
+                        
+                        {% endif %}        
+                        </td>
+  
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="span6"></div>
+    </div>
+    {% endif %}
+
+</div>
+<!--/#btn-controls-->
+{% endblock %}
