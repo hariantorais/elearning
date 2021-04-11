@@ -208,6 +208,18 @@ class Siswa extends MY_Controller
         $this->twig->display('tambah-siswa.html', $data);
     }
 
+    function kartu()
+    {
+        # harus login sebagai admin
+        if (!is_admin()) {
+            redirect('welcome');
+        }
+
+        $data['siswa']     = $this->db->select('*')->from('login')->where('pengajar_id', null)->join('siswa', 'siswa.id=login.siswa_id')->get()->result();
+
+        $this->twig->display('print-kartu.html', $data);
+    }
+
     function filter($segment_3 = '')
     {
         $data['kelas_all'] = $this->kelas_model->retrieve_all_child(true);

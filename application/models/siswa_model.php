@@ -7,7 +7,7 @@ class Siswa_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean
-     * @author Almazari <almazary@gmail.com>
+      
      * @since  1.8
      */
     public function delete_foto($id)
@@ -23,7 +23,7 @@ class Siswa_model extends CI_Model
      * @param  string $by
      * @param  array  $param
      * @return integer
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function count($by, $param = array())
     {
@@ -65,7 +65,7 @@ class Siswa_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete($id)
     {
@@ -85,7 +85,7 @@ class Siswa_model extends CI_Model
      * @param  null|integer $tahun_masuk
      * @param  null|integer $status_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all(
         $no_of_records = 10,
@@ -122,7 +122,7 @@ class Siswa_model extends CI_Model
      * @param  string $nama
      * @return array
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_by_name($nama)
     {
@@ -165,7 +165,7 @@ class Siswa_model extends CI_Model
      * @param  integer $page_no
      * @param  boolean $pagination
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_filter(
         $nis           = '',
@@ -278,7 +278,7 @@ class Siswa_model extends CI_Model
      * @param  string  $foto
      * @param  integer $status_id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update(
         $id,
@@ -322,7 +322,7 @@ class Siswa_model extends CI_Model
      * @param  integer $id
      * @param  string  $nis
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve($id = null, $nis = null)
     {
@@ -350,7 +350,7 @@ class Siswa_model extends CI_Model
      * @param  string  $foto
      * @param  integer $status_id
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create(
         $nis = null,

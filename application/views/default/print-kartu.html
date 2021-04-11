@@ -1,0 +1,63 @@
+{% extends 'layout-print-kartu.html' %}
+
+{% block title %}
+    Print Kartu - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    
+	{% for s in siswa %}
+		
+	        <table border="1" cellspacing="0">
+	        	<tr>
+	        		<td>
+	        		<table>
+	        			<tr>
+		        		<td border=0><img src="{{ get_logo_config() }}" style="height: 40px; width: 40px; margin-right: 20px"></td>
+		        		<td align="center">
+		        			<center>
+		        			KARTU PESERTA UJIAN SEKOLAH <br>
+		        			{{ strtoupper(site_name) }} <br>
+		        			TAHUN PELAJARAN 2020-2021
+		        			</center>
+		        		</td>
+		        		</tr>
+	        		</table>
+	        		</td>
+	        	</tr>
+	        	<tr>
+	        		<td>
+	        			<table>
+	        				<tr>
+				        		<td>Nama Peserta</td>
+				        		<td>: <b>{{ s.nama }}</b></td>
+				        	</tr>
+				        	<tr>
+				        		<td>Username</td>
+				        		<td>: <b>{{ s.username }}</b></td>
+				        	</tr>
+				        	<tr>
+				        		<td>Password</td>
+				        		<td>: <b>{{ s.password }}</b></td>
+				        	</tr>		
+				        	<tr>
+				        		<td>
+				        			<center><img style="height:50px;width:40px;margin-right: 20px" src="{{ get_url_image_siswa(s.foto, 'medium', s.jenis_kelamin) }}"></center>
+				        		</td>
+				        		<td style="font-size: 8px;padding-left: 100px">
+				        			Bagik Nyaka, 22 April 2021 <br>
+				        			Kepala Sekolah <br>
+				        			<img src=""><br>
+				        			<b>Ahmad Yani, S.Pd</b> <br>
+				        			NIP. 
+				        		</td>
+				        	</tr>
+	        			</table>
+	        		</td>
+	        	</tr>
+	        </table>
+	        <br>
+    	
+    {% endfor %}
+
+{% endblock %}

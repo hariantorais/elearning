@@ -12,7 +12,8 @@ class Login extends MY_Controller
 
         if ($this->form_validation->run('login') == TRUE) {
             $email    = $this->input->post('email', TRUE);
-            $password = md5($this->input->post('password', TRUE));
+            // $password = md5($this->input->post('password', TRUE));
+            $password = $this->input->post('password', TRUE);
 
             $get_login = $this->login_model->retrieve(null, $email, $password);
 

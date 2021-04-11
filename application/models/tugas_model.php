@@ -36,7 +36,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $tugas_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_nilai($tugas_id)
     {
@@ -53,7 +53,7 @@ class Tugas_model extends CI_Model
      * @param  null|integer $tugas_id
      * @param  null|integer $siswa_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_nilai(
         $id       = null,
@@ -84,7 +84,7 @@ class Tugas_model extends CI_Model
      * @param  integer $tugas_id
      * @param  integer $siswa_id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_nilai(
         $id,
@@ -114,7 +114,7 @@ class Tugas_model extends CI_Model
      * @param  integer $tugas_id
      * @param  integer $siswa_id
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_nilai(
         $nilai,
@@ -139,7 +139,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_nilai($id)
     {
@@ -152,7 +152,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $pertanyaan_id
      * @param  integer $pilihan_id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_kunci($pertanyaan_id, $pilihan_id)
     {
@@ -169,7 +169,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_pilihan($id)
     {
@@ -189,7 +189,7 @@ class Tugas_model extends CI_Model
      * Method untuk update urutan pilihan
      *
      * @param  integer $pertanyaan_id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function reorder_pilihan($pertanyaan_id)
     {
@@ -216,7 +216,7 @@ class Tugas_model extends CI_Model
      * @param  integer  $pertanyaan_id
      * @param  string   $order
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_pilihan(
         $pertanyaan_id,
@@ -234,7 +234,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_pilihan($id, $pertanyaan_id = null)
     {
@@ -258,7 +258,7 @@ class Tugas_model extends CI_Model
      * @param  integer $kunci
      * @param  integer $urutan
      * @return boolan true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_pilihan(
         $id,
@@ -290,7 +290,7 @@ class Tugas_model extends CI_Model
      * @param  string  $konten
      * @param  integer $kunci
      * @return array   last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_pilihan(
         $pertanyaan_id,
@@ -330,7 +330,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolan  true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_pertanyaan($id)
     {
@@ -350,7 +350,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $tugas_id
      * @return boolan  true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     private function reorder_pertanyaan($tugas_id)
     {
@@ -382,7 +382,7 @@ class Tugas_model extends CI_Model
      * @param  integer      $page_no
      * @param  integer|null $tugas_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_pertanyaan(
         $no_of_records = 10,
@@ -425,7 +425,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $tugas_id
      * @return integer
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function count_pertanyaan($tugas_id)
     {
@@ -440,7 +440,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_pertanyaan($id)
     {
@@ -459,7 +459,7 @@ class Tugas_model extends CI_Model
      * @param  integer $urutan
      * @param  integer $tugas_id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_pertanyaan(
         $id,
@@ -487,7 +487,7 @@ class Tugas_model extends CI_Model
      * @param  string  $pertanyaan
      * @param  integer $tugas_id
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_pertanyaan(
         $pertanyaan,
@@ -524,7 +524,7 @@ class Tugas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete($id)
     {
@@ -549,7 +549,7 @@ class Tugas_model extends CI_Model
      * @param  array   $aktif
      * @return array
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all(
         $no_of_records = 20,
@@ -628,7 +628,7 @@ class Tugas_model extends CI_Model
      * @param  integer $mepal_id
      * @param  integer $type_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve($id, $mapel_id = null, $type_id = null)
     {
@@ -654,7 +654,7 @@ class Tugas_model extends CI_Model
      * @param  integer $kelas_id
      * @return array
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_kelas($tugas_id = null, $kelas_id = null)
     {
@@ -678,7 +678,7 @@ class Tugas_model extends CI_Model
      * @param  integer|null $kelas_id
      * @return array
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_kelas($id = null, $tugas_id = null, $kelas_id = null)
     {
@@ -702,7 +702,7 @@ class Tugas_model extends CI_Model
      * @param  integer $id
      * @return boolean
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_kelas($id)
     {
@@ -719,7 +719,7 @@ class Tugas_model extends CI_Model
      * @param  integer $kelas_id
      * @return boolean
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_kelas($id, $tugas_id, $kelas_id)
     {
@@ -739,7 +739,7 @@ class Tugas_model extends CI_Model
      * @param  integer $tugas_id
      * @param  integer $kelas_id
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_kelas($tugas_id, $kelas_id)
     {
@@ -764,7 +764,7 @@ class Tugas_model extends CI_Model
      * @param  string  $tgl_tutup
      * @param  integer $durasi
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update(
         $id,
@@ -801,7 +801,7 @@ class Tugas_model extends CI_Model
      * @param  integer $id
      * @return boolean true
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function terbitkan($id)
     {
@@ -816,7 +816,7 @@ class Tugas_model extends CI_Model
      * @param  integer $id
      * @return boolean true
      *
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function tutup($id)
     {
@@ -835,7 +835,7 @@ class Tugas_model extends CI_Model
      * @param  string  $info
      * @param  integer $durasi
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create(
         $mapel_id,

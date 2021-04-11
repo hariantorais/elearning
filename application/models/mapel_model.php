@@ -19,7 +19,7 @@ class Mapel_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_kelas($id)
     {
@@ -35,7 +35,7 @@ class Mapel_model extends CI_Model
      * @param  integer $kelas_id
      * @param  integer $aktif
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_kelas(
         $mapel_id = null,
@@ -71,7 +71,7 @@ class Mapel_model extends CI_Model
      * @param  null|integer $kelas_id
      * @param  null|integer $mapel_id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_kelas($id = null, $kelas_id = null, $mapel_id = null)
     {
@@ -100,7 +100,7 @@ class Mapel_model extends CI_Model
      * @param  integer $mapel_id
      * @param  integer $aktif
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_kelas($id, $kelas_id, $mapel_id, $aktif)
     {
@@ -124,7 +124,7 @@ class Mapel_model extends CI_Model
      * @param  integer $kelas_id
      * @param  integer $mapel_id
      * @return integer last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_kelas($kelas_id, $mapel_id)
     {
@@ -145,7 +145,7 @@ class Mapel_model extends CI_Model
      * @param  integer      $no_of_records
      * @param  integer      $page_no
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all(
         $no_of_records = 10,
@@ -165,7 +165,7 @@ class Mapel_model extends CI_Model
      * Method untuk mendapatkan semua data mapel tanpa pagging
      *
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_mapel()
     {
@@ -180,7 +180,7 @@ class Mapel_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete($id)
     {
@@ -198,7 +198,7 @@ class Mapel_model extends CI_Model
      * @param  string       $nama
      * @param  null|string  $info
      * @return boolean      true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update($id, $nama, $info = null, $aktif = 1)
     {
@@ -220,7 +220,7 @@ class Mapel_model extends CI_Model
      *
      * @param  integer $id
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve($id)
     {
@@ -237,7 +237,7 @@ class Mapel_model extends CI_Model
      * @param  string       $nama
      * @param  null|string  $info
      * @return integer      last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create($nama, $info = null)
     {

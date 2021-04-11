@@ -28,10 +28,7 @@ class Kelas_model extends CI_Model
 
     /**
      * Method untuk mengambil satu record data kelas
-     *
-     * @param  integer $id
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+     
      */
     public function retrieve($id, $show_not_active = false)
     {
@@ -51,7 +48,7 @@ class Kelas_model extends CI_Model
      * @param  string       $nama
      * @param  integer|null $parent_id
      * @return integer      last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create(
         $nama,
@@ -88,7 +85,7 @@ class Kelas_model extends CI_Model
      * @param  integer      $urutan
      * @param  integer      $aktif         1|0
      * @return boolean      true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update(
         $id,
@@ -121,7 +118,7 @@ class Kelas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete($id)
     {
@@ -139,7 +136,7 @@ class Kelas_model extends CI_Model
      * @param  integer  $siswa_id
      * @param  integer  $aktif
      * @return integer  last insert id
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function create_siswa(
         $kelas_id,
@@ -168,7 +165,7 @@ class Kelas_model extends CI_Model
      * @param  integer $siswa_id
      * @param  integer $aktif
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function update_siswa(
         $id,
@@ -203,7 +200,7 @@ class Kelas_model extends CI_Model
      * );
      * </code>
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_siswa($id = null, $array_where = null)
     {
@@ -227,7 +224,7 @@ class Kelas_model extends CI_Model
      * @param  integer      $page_no
      * @param  null|array   $array_where
      * @return array
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function retrieve_all_siswa(
         $no_of_records = 10,
@@ -255,7 +252,7 @@ class Kelas_model extends CI_Model
      *
      * @param  integer $id
      * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+      
      */
     public function delete_siswa($id)
     {

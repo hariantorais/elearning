@@ -13,12 +13,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk mendapatkan semua data login log
-     *
-     * @param  integer $no_of_records
-     * @param  integer $page_no
-     * @param  string  $login_id
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+   
      */
     public function retrieve_all_log(
         $no_of_records = 10,
@@ -41,10 +36,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk mendapatkan waktu aktifitas terahir
-     *
-     * @param  integer $log_id
-     * @return integer
-     * @author Almazari <almazary@gmail.com>
+   
      */
     public function retrieve_last_activity($log_id)
     {
@@ -54,10 +46,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk update last_activity
-     * @param  integer $log_id
-     * @param  integer $time
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+  
      */
     public function update_last_activity($log_id, $time = "")
     {
@@ -70,9 +59,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk mendapatkan login log terahir berdasarkan login_id
-     * @param  integer $login_id
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+  
      */
     public function retrieve_last_log($login_id)
     {
@@ -84,9 +71,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk mendapatkan satu data log berdasarkan id
-     * @param  integer $id
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+   
      */
     public function retrieve_log($id)
     {
@@ -97,9 +82,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk menambahkan riwayat log
-     * @param  integer $login_id
-     * @return integer insert id
-     * @author Almazari <almazary@gmail.com>
+   
      */
     public function create_log($login_id)
     {
@@ -148,10 +131,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk menghapus data login
-     *
-     * @param  integer $id
-     * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+    
      */
     public function delete($id)
     {
@@ -165,11 +145,7 @@ class Login_model extends CI_Model
     /**
      * Method untuk mengambil banyak data login
      *
-     * @param  integer $no_of_records
-     * @param  integer $page_no
-     * @param  integer $is_admin
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+  
      */
     public function retrieve_all(
         $no_of_records = 10,
@@ -202,14 +178,7 @@ class Login_model extends CI_Model
     /**
      * Method untuk mengambil satu data login
      *
-     * @param  null|integer $id
-     * @param  null|string  $username
-     * @param  null|string  $password
-     * @param  null|integer $siswa_id
-     * @param  null|integer $pengajar_id
-     * @param  null|integer $is_admin
-     * @return array
-     * @author Almazari <almazary@gmail.com>
+   
      */
     public function retrieve(
         $id          = null,
@@ -252,17 +221,15 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk mengupdate password login
-     *
-     * @param  integer $id
-     * @param  string  $password
-     * @return boolean true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+    
      */
     public function update_password($id, $password)
     {
         $id = (int)$id;
 
-        $data = array('password' => md5($password));
+        // $data = array('password' => md5($password));
+        $data = array('password' => $password);
+
         $this->db->where('id', $id);
         $this->db->update('login', $data);
         return true;
@@ -271,14 +238,7 @@ class Login_model extends CI_Model
     /**
      * Method untuk memperbaharui data login
      *
-     * @param  integer      $id
-     * @param  string       $username
-     * @param  integer|null $siswa_id
-     * @param  integer|null $pengajar_id
-     * @param  integer      $is_admin
-     * @param  string|null  $reset_kode
-     * @return boolean      true jika berhasil
-     * @author Almazari <almazary@gmail.com>
+     
      */
     public function update(
         $id,
@@ -320,14 +280,7 @@ class Login_model extends CI_Model
 
     /**
      * Method untuk menambah data login
-     *
-     * @param  string       $username
-     * @param  string       $password
-     * @param  integer|null $siswa_id
-     * @param  integer|null $pengajar_id
-     * @param  integer      $is_admin
-     * @return integer      last insert id
-     * @author Almazari <almazary@gmail.com>
+    
      */
     public function create(
         $username,
@@ -346,7 +299,7 @@ class Login_model extends CI_Model
 
         $data = array(
             'username'    => $username,
-            'password'    => md5($password),
+            'password'    => $password,
             'siswa_id'    => $siswa_id,
             'pengajar_id' => $pengajar_id,
             'is_admin'    => $is_admin,
