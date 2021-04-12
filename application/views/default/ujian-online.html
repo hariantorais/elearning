@@ -12,7 +12,7 @@
                    {% if data.tugas.type_id != 1 %}
                     <div class="pull-right clock" data-spy="affix" ><br>
                             <table>
-                                <tr>
+                                <tr class="visible-desktop">
                                     <td align="center">
                                             <img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar img-polaroid img-circle" style="width: 100px; height: 100px"><br>
                                             <b>{{ strtoupper(nama_panggilan(get_sess_data('user', 'nama'))) }}</b>
@@ -141,7 +141,7 @@
                     </table>
 
                     <div class="well well-sm">
-                        <p style="color: red">Periksa kembali jawaban anda sebelum mengahiri pengerjaan tugas ini.</p>
+                        <p style="color: red">Periksa kembali jawaban anda sebelum mengakhiri ujian ini.</p>
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#selesai-mengerjakan">
                             Selesai Mengerjakan
                         </button>
@@ -151,7 +151,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    Anda yakin ingin mengahiri pengerjaan tugas ini?
+                                    Anda yakin ingin mengakhiri ujian ini?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Nanti dulu</button>
@@ -203,7 +203,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    Anda yakin ingin mengahiri pengerjaan tugas ini?
+                                    Anda yakin ingin mengakhiri pengerjaan tugas ini?
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Nanti dulu</button>

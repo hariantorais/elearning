@@ -7,19 +7,20 @@
 {% block content %}
     
 	{% for s in siswa %}
-		
-	        <table border="1" cellspacing="0" width="45%">
+		<div class="page">
+			
+	        <table border="1" cellspacing="0" width="100%" style="font-size: 9pt;">
 	        	<tr>
 	        		<td>
-	        		<table>
+	        		<table width="100%">
 	        			<tr>
-		        		<td border=0><img src="{{ get_logo_config() }}" style="height: 40px; width: 40px; margin-right: 20px"></td>
-		        		<td align="center">
-		        			<center>
-		        			KARTU PESERTA UJIAN SEKOLAH <br>
-		        			{{ strtoupper(site_name) }} <br>
-		        			TAHUN PELAJARAN 2020-2021
-		        			</center>
+		        		<td border=0><center><img src="{{ get_logo_config() }}" style="height: 40px; width: 40px;"></center></td>
+		        		<td width="85%">
+	        			<center>
+	        			KARTU PESERTA UJIAN SEKOLAH <br>
+	        			{{ strtoupper(site_name) }} <br>
+	        			TAHUN PELAJARAN 2020-2021
+	        			</center>
 		        		</td>
 		        		</tr>
 	        		</table>
@@ -27,36 +28,43 @@
 	        	</tr>
 	        	<tr>
 	        		<td>
-	        			<table>
+	        			<table width="100%">
 	        				<tr>
 				        		<td>Nama Peserta</td>
-				        		<td>: <b>{{ s.nama }}</b></td>
+				        		<td>:</td>
+				        		<td><b>{{ strtoupper(s.nama) }}</b></td>
 				        	</tr>
 				        	<tr>
 				        		<td>Username</td>
-				        		<td>: <b>{{ s.username }}</b></td>
+				        		<td>:</td>
+				        		<td><b>{{ s.username }}</b></td>
 				        	</tr>
 				        	<tr>
 				        		<td>Password</td>
-				        		<td>: <b>{{ s.password }}</b></td>
-				        	</tr>		
+				        		<td>:</td>
+				        		<td><b>{{ s.password }}</b></td>
+				        	</tr>
 				        	<tr>
-				        		<td>
-				        			<center><img style="height:50px;width:40px;margin-right: 20px" src="{{ get_url_image_siswa(s.foto, 'medium', s.jenis_kelamin) }}"></center>
-				        		</td>
-				        		<td style="font-size: 8px;padding-left: 100px">
-				        			Bagik Nyaka, 22 April 2021 <br>
-				        			Kepala Sekolah <br>
-				        			<img src=""><br>
-				        			<b>Ahmad Yani, S.Pd</b> <br>
-				        			NIP. 
-				        		</td>
+				        		<table width="100%">
+				        			<tr>
+				        				<td><br>
+						        			<center><img style="height:2.8cm;width:2.3cm;margin-right: 20px" src="{{ get_url_image_siswa(s.foto, 'medium', s.jenis_kelamin) }}"></center>
+						        		</td>
+						        		<td colspan="2" style="text-align: right;">
+						        			<br>
+						        		
+						        			<img src="{{ base_url('userfiles/images/ttd.png') }}" style="width: 150px">
+						        		
+						        		</td>
+				        			</tr>
+				        		</table>
 				        	</tr>
 	        			</table>
 	        		</td>
 	        	</tr>
 	        </table>
-	        <br>
+	        
+	        </div>
     	
     {% endfor %}
 

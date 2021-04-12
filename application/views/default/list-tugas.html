@@ -160,18 +160,18 @@ Tugas - {{ parent() }}
                     <!-- <tr {{ (is_siswa() and m.aktif == 1 and sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false) ? 'class="success"' }}> -->
                    
                     <td>
-                        <strong class="text-success">{{ m.judul }}</strong>
-                        <br><small>Mapel: <b>{{ m.mapel.nama }}</b>,
+                        <strong class="text-success" style="font-size: 20px">{{ m.judul }}</strong>
+                        <br>Mapel: <b>{{ m.mapel.nama }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                         {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
-                            , durasi: {{ m.durasi }} Menit,
+                            Durasi: <b>{{ m.durasi }} Menit</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% endif %}
 
-                        dibuat oleh : <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a></small>
-                        {% if is_siswa() and m.info != '' %} |
+                        <!-- dibuat oleh : <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a> |-->
+                        {% if is_siswa() and m.info != '' %}
                         <small>Tipe Tugas :</small>
                         {% if m.type_label == 'Ganda' %}
-                            <span class="label label-success">Ganda</span>
+                            <span><b>Pilihan Ganda</b></span>
                         {% elseif m.type_label == 'Essay' %}
                             <span class="label label-info">Essay</span>
                         {% elseif m.type_label == 'Upload' %}
@@ -186,7 +186,24 @@ Tugas - {{ parent() }}
                         {% if is_siswa() == true %}
                             {% if m.aktif == 1 %}
                                 {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false %}
-                                    {{ anchor('tugas/kerjakan/' ~ m.id, '<i class="icon-arrow-right"></i> Kerjakan', {'class' : 'btn btn-primary btn-small', 'onclick' : 'return confirm(\'Anda yakin ingin memulai mengerjakan tugas ini?\')'})|raw }}
+                                    <!-- {{ anchor('tugas/kerjakan/' ~ m.id, '<i class="icon-arrow-right"></i> Kerjakan', {'class' : 'btn btn-primary btn-small', 'onclick' : 'return confirm(\'Anda yakin ingin memulai mengerjakan tugas ini?\')'})|raw }} -->
+                                    <button type="button" class="btn btn-small btn-primary" data-toggle="modal" data-target="#mulai-mengerjakan"><i class="icon-arrow-right"></i>
+                                        Kerjakan
+                                    </button>
+
+                                    <div class="modal fade" id="mulai-mengerjakan" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <h3>Saya atas nama {{ strtoupper(get_sess_data('user', 'nama')) }} berjanji akan mematuhi tata tertib ujian dan mengikuti ujian ini secara jujur. Apabila ditemukan ada indikasi kecurangan atau melanggar tata tertib ujian, maka saya bersedia dikeluarkan dari ruang ujian dan dianggap tidak mengikuti ujian.</h3>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
+                                                <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/' ~ m.id) }}" id="btn-submit">Setuju, Mulai Mengerjakan.</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {% endif %}
 
                                 {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == true %}

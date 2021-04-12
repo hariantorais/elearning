@@ -15,7 +15,7 @@ Data Siswa - {{ parent() }}
         <div class="row-fluid">
             <div class="span7">
                 <a href="{{ site_url('siswa/add/' ~ status_id) }}" class="btn btn-primary">Tambah Siswa</a>
-                <a href="{{ site_url('siswa/kartu/' ~ status_id) }}" class="btn btn-success">Kartu Ujian</a>
+                <a href="{{ site_url('siswa/kartu/' ~ status_id) }}" class="btn btn-success" target="_blank" onclick="alert('Ukuran kertas: A7 (74x105 mm)')">Kartu Ujian</a>
             </div>
 
             <div class="span5">

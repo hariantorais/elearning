@@ -5,7 +5,7 @@ Detail Pengumuman - {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="module">
+<div class="module" style="background: white">
     {% if is_siswa() == false %}
     <div class="module-head">
         <h3>{{ anchor('pengumuman', 'Pengumuman')|raw }} / Detail Pengumuman</h3>
@@ -27,7 +27,7 @@ Detail Pengumuman - {{ parent() }}
         {% endfor %}
         </div>
 
-        <b style="margin-bottom: 0px;">{{ p.judul }}</b>
+        <b style="margin-bottom: 0px; font-size: 20px">{{ p.judul }}</b>
         <small>
         <ul class="unstyled inline" style="margin-left: -5px;">
             <li><b>Pembuat : </b>{{ anchor(p.pengajar.link_profil, p.pengajar.nama)|raw }}</li>

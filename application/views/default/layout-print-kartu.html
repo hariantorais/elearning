@@ -5,9 +5,9 @@
      
 </head>
 <body>
-    <div class="page">
+    
         {% block content %}{% endblock %}
-    </div>
+    
 </body>
 
 <script type="text/javascript">
@@ -30,30 +30,30 @@
         -moz-box-sizing: border-box;
     }
     .page {
-        width: 210mm;
-        min-height: 297mm;
-        padding: 0.5in;
-        margin: 0.5cm auto;
+        width: 105mm;
+        min-height: 74mm;
+        padding: 0.15in;
+        margin: 0.1cm auto;
         border: 0px solid #D3D3D3;
         border-radius: 0px;
         background: white;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
     .subpage {
-        padding: 0.5in;
+        padding: 0.1in;
         border: 5px red solid;
-        height: 297mm;
-        outline: 2cm #FFEAEA solid;
+        height: 74mm;
+        outline: 0.5cm #FFEAEA solid;
     }
     
     @page {
-        size: A4;
+        size: A7;
         margin: 0;
     }
     @media print {
         html, body {
-            width: 210mm;
-            height: 297mm;        
+            width: 105mm;
+            height: 74mm;        
         }
         .page {
             margin: 0;
@@ -66,21 +66,18 @@
             page-break-after: always;
         }
 
-        div {
-     width:200px;
-     height: 48px;
-   }
+       
    .garis_tepi1 {
-     border: 2px solid red;
+     border: 1px solid red;
    }
    .garis_tepi2 {
-     border: 10px dotted blue;
+     border: 1px dotted blue;
    }
 
    .card {
         display:grid;
         grid-template-columns: 50% auto;
-        padding: 4em 1em;
+        padding: 1em 1em;
     }
 }
         
