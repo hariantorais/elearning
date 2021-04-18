@@ -141,7 +141,7 @@
                     </table>
 
                     <div class="well well-sm">
-                        <p style="color: red">Periksa kembali jawaban anda sebelum mengakhiri ujian ini.</p>
+                        <p style="color: red">Periksa kembali jawaban antum sebelum mengakhiri ujian ini.</p>
                         <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#selesai-mengerjakan">
                             Selesai Mengerjakan
                         </button>
@@ -151,11 +151,12 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    Anda yakin ingin mengakhiri ujian ini?
+                                    Alhadmulillah. Ana sudah menjawab dengan jujur. <br>
+                                    Ana yakin akan mengakhiri ujian ini.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Nanti dulu</button>
-                                    <a class="btn btn-primary" href="{{ site_url('tugas/finish/' ~ data.tugas.id ~ '/' ~ data.unix_id) }}" id="btn-submit">Ya, saya sudah selesai</a>
+                                    <a class="btn btn-primary" href="{{ site_url('tugas/finish/' ~ data.tugas.id ~ '/' ~ data.unix_id) }}" id="btn-submit"> Selesai</a>
                                 </div>
                             </div>
                         </div>
