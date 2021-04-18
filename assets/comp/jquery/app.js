@@ -599,7 +599,7 @@
         if ($(".iframe-pertanyaan, .iframe-pilihan").length) {
             $(".iframe-pertanyaan, .iframe-pilihan").colorbox({
                 iframe:true,
-                width:"440",
+                width:"600",
                 height:"600",
                 fixed:true,
                 overlayClose: false,
