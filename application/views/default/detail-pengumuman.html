@@ -10,6 +10,7 @@ Detail Pengumuman - {{ parent() }}
     <div class="module-head">
         <h3>{{ anchor('pengumuman', 'Pengumuman')|raw }} / Detail Pengumuman</h3>
     </div>
+
     {% endif %}
 
     <div class="module-body">
@@ -37,6 +38,10 @@ Detail Pengumuman - {{ parent() }}
         <hr style="margin-top: 5px;margin-bottom: 10px;">
 
         {{ p.konten|raw }}
+
+        <hr>
+
+        <a href="{{ site_url }}" class="btn btn-small btn-primary">Kembali</a>
     </div>
 </div>
 {% endblock %}
