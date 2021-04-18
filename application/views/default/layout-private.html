@@ -71,7 +71,7 @@
                     </div>
                     <!--/.span3-->
                     <div class="span9 mobile-12">
-                        <div class="content">
+                        <div class="content" style="font-weight: 600; color: #777">
                             {% if pass_siswa_equal_nis() == true %}
                                 {{ get_alert('warning', "Dimohon untuk segera mengganti password anda untuk alasan keamanan. " ~ anchor('login/pp?show=edit-password', 'Ganti Password'))|raw }}
                             {% endif %}
