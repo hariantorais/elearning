@@ -7,9 +7,9 @@ Tugas - {{ parent() }}
 {% block content %}
 <div class="module">
     <div class="module-head">
-        <h3>Tugas</h3>
+        <h3>Ujian</h3>
     </div>
-    <div class="module-body">
+    <div class="module-body"  style="background-color: white">
         {{ get_flashdata('tugas')|raw }}
 
         {% if (is_siswa() == false) %}
@@ -149,10 +149,7 @@ Tugas - {{ parent() }}
 
         <!-- JIKA SISWA -->
         {% if (is_siswa() == true) %}
-         <table class="table table-striped">
-            <thead>
-               
-            </thead>
+         <table width="100%">
             <tbody>
                 {% for no, m in tugas %}
                 <tr>
@@ -161,14 +158,14 @@ Tugas - {{ parent() }}
                    
                     <td>
                         <strong class="text-success" style="font-size: 20px">{{ m.judul }}</strong>
-                        <br>Mapel: <b>{{ m.mapel.nama }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <br><!-- Mapel: <b>{{ m.mapel.nama }}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
 
                         {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
                             Durasi: <b>{{ m.durasi }} Menit</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {% endif %}
 
                         <!-- dibuat oleh : <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a> |-->
-                        {% if is_siswa() and m.info != '' %}
+                        <!-- {% if is_siswa() and m.info != '' %}
                         <small>Tipe Tugas :</small>
                         {% if m.type_label == 'Ganda' %}
                             <span><b>Pilihan Ganda</b></span>
@@ -176,7 +173,7 @@ Tugas - {{ parent() }}
                             <span class="label label-info">Essay</span>
                         {% elseif m.type_label == 'Upload' %}
                             <span class="label label-warning">Upload</span>
-                        {% endif %}
+                        {% endif %} -->
                           <!--   <hr style="margin-top: 5px;margin-bottom: 5px;border:none;border-bottom: 1px dashed black;">
                             {{ m.info|raw }} -->
                         {% endif %}
@@ -210,7 +207,8 @@ Tugas - {{ parent() }}
                                     <small><b>Status:</b> <span class="label label-info">Dalam proses pengoreksian</span></small>
                                 {% endif %}
                             {% else %}
-                                {{ anchor('tugas/nilai/' ~ m.id, '<i class="icon-flag"></i> Lihat Nilai', {'class' : 'btn btn-info btn-small iframe-lihat-nilai'})|raw }}
+                                <!-- {{ anchor('tugas/nilai/' ~ m.id, '<i class="icon-flag"></i> Lihat Nilai', {'class' : 'btn btn-info btn-small iframe-lihat-nilai'})|raw }} -->
+                                <span style="background-color: darkred;color: white; padding: 2px 5px 2px 5px">Ujian ini belum aktif</span>
                             {% endif %}
                         {% endif %}
                         </div>

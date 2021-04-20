@@ -263,8 +263,9 @@
                 <div class="module-head" style="background-color: white">
                     <b>Daftar Ujian</b>
                 </div>
-                <div class="module-body">
+                <div class="module-body" style="background-color: white">
                     <table class="table table-striped table-condensed">
+
                     {% for m in tugas_terbaru %}
                     {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false %}
                     <tr>
@@ -283,9 +284,9 @@
                 <div class="module-head" style="background-color: white">
                      <b>Hasil Ujian</b>
                 </div>
-                <div class="module-body">
+                <div class="module-body" style="background-color: white">
                     <div style="border-radius: 5px;">
-                        <table width="100%">
+                        <table class="table table-striped table-condensed">
                         {% for m in tugas_selesai %}
                       
                         <tr>
@@ -293,7 +294,7 @@
                                 {{ m.judul }}
                             </td>
                             <td>
-                                <span style="border-radius: 4px; background-color: darkorange; color: white; padding: 2px 3px 2px 3px">
+                                <span style="border-radius: 4px; background-color: darkorange; color: white; padding: 2px 5px 2px 5px">
                                 {{ round(m.nilai) }}
                                 </span>
                             </td>

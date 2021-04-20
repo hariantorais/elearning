@@ -1603,7 +1603,7 @@ class Tugas extends MY_Controller
             $history    = retrieve_field($history_id);
 
             if (empty($history)) {
-                exit('Tugas ini tidak anda kerjakan. Hubungi guru mapel.');
+                exit('Ujian ini belum aktif.');
             }
 
             $history_value   = json_decode($history['value'], 1);
