@@ -14,12 +14,12 @@ class Menu
         $this->menus['admin'] = array(
             0 => array(
                 '<a href="' . site_url() . '"><i class="menu-icon icon-home"></i>Beranda</a>',
+                '<a href="' . site_url('tugas?clear_filter=true') . '"><i class="menu-icon icon-tasks"></i>Ujian </a>',
+                '<a href="' . site_url('pengumuman') . '"><i class="menu-icon icon-bullhorn"></i> Informasi</a>',
                 '<a href="' . site_url('siswa'). '"><i class="menu-icon icon-group"></i>Siswa <span class="menu-count-pending-siswa"></span></a>',
                 '<a href="' . site_url('pengajar'). '"><i class="menu-icon icon-user"></i>Pengajar <span class="menu-count-pending-pengajar"></span></a>',
-                '<a href="' . site_url('tugas?clear_filter=true') . '"><i class="menu-icon icon-tasks"></i>Tugas </a>',
                 // '<a href="' . site_url('materi?clear_filter=true') . '"><i class="menu-icon icon-book"></i>Materi </a>',
                 // '<a href="' . site_url('materi/komentar') . '"><i class="menu-icon icon-comments"></i>Komentar Materi <span class="menu-count-unread-laporan"></span></a>',
-                '<a href="' . site_url('pengumuman') . '"><i class="menu-icon icon-bullhorn"></i>Pengumuman</a>',
                 // '<a href="' . site_url('message') . '"><i class="menu-icon icon-comments"></i>Pesan <span class="menu-count-new-msg"></span></a>',
 
                 //  '<a href="' . site_url('kelas/mapel_kelas') . '"><i class="menu-icon icon-paste"></i>Matapelajaran Kelas </a>',
@@ -60,13 +60,13 @@ class Menu
             0 => array(
                 '<a href="' . site_url() . '"><i class="menu-icon icon-home"></i>Beranda</a>',
                 // '<a href="' . site_url('pengumuman') . '"><i class="menu-icon icon-bullhorn"></i>Pengumuman</a>',
-                '<a href="' . site_url('message') . '"><i class="menu-icon icon-comments"></i>Pesan <span class="menu-count-new-msg"></span></a>',
-                '<a href="' . site_url('pengajar/jadwal') . '"><i class="menu-icon icon-tasks"></i>Jadwal Mengajar </a>',
-                '<a href="' . site_url('tugas?clear_filter=true') . '"><i class="menu-icon icon-tasks"></i>Tugas </a>',
+                // '<a href="' . site_url('message') . '"><i class="menu-icon icon-comments"></i>Pesan <span class="menu-count-new-msg"></span></a>',
+                // '<a href="' . site_url('pengajar/jadwal') . '"><i class="menu-icon icon-tasks"></i>Jadwal Mengajar </a>',
+                '<a href="' . site_url('tugas?clear_filter=true') . '"><i class="menu-icon icon-tasks"></i>Ujian </a>',
                 // '<a href="' . site_url('materi?clear_filter=true') . '"><i class="menu-icon icon-book"></i>Materi </a>',
-                '<a href="' . site_url('materi/komentar') . '"><i class="menu-icon icon-comment"></i>Komentar saya</a>',
-                '<a href="' . site_url('pengajar/filter') . '"><i class="menu-icon icon-search"></i>Pengajar </a>',
-                '<a href="' . site_url('siswa/filter') . '"><i class="menu-icon icon-search"></i>Santri </a>',
+                // '<a href="' . site_url('materi/komentar') . '"><i class="menu-icon icon-comment"></i>Komentar saya</a>',
+                // '<a href="' . site_url('pengajar/filter') . '"><i class="menu-icon icon-search"></i>Pengajar </a>',
+                // '<a href="' . site_url('siswa/filter') . '"><i class="menu-icon icon-search"></i>Santri </a>',
                 '<a href="' . site_url('login/logout') . '"><i class="menu-icon icon-signout"></i>Logout </a>'
             )
             // 1 => array(

@@ -16,14 +16,15 @@ Filter Siswa - {{ parent() }}
         <div class="row-fluid">
             <div class="span7">
                 <a href="{{ site_url('siswa/add/1') }}" class="btn btn-primary">Tambah Siswa</a>
+                <a href="{{ site_url('siswa/kartu/' ~ status_id) }}" class="btn btn-success" target="_blank" onclick="alert('Ukuran kertas: A7 (74x105 mm)')">Kartu Ujian</a>
             </div>
 
             <div class="span5">
                 <div class="btn-group pull-right">
-                    {{ anchor('siswa/index/1', 'Aktif', {'class' : 'btn btn-default'})|raw }}
+                    <!-- {{ anchor('siswa/index/1', 'Aktif', {'class' : 'btn btn-default'})|raw }}
                     {{ anchor('siswa/index/0', 'Pending ' ~ ((count_pending > 0) ? '<span class="label label-warning">' ~ count_pending  ~ '</span>'), {'class' : 'btn btn-default'})|raw }}
                     {{ anchor('siswa/index/2', 'Blocking', {'class' : 'btn btn-default'})|raw }}
-                    {{ anchor('siswa/index/3', 'Alumni', {'class' : 'btn btn-default'})|raw }}
+                    {{ anchor('siswa/index/3', 'Alumni', {'class' : 'btn btn-default'})|raw }} -->
                     {{ anchor('siswa/filter', '<i class="icon-search" style="line-height: 0px;"></i> Filter', {'class' : 'btn btn-info'})|raw }}
                 </div>
             </div>
