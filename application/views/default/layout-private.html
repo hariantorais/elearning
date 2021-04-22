@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <div class="navbar" style="position: fixed;z-index: 9999">
+        <div class="navbar hidden-phone" style="position: fixed;z-index: 9999">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
@@ -24,7 +24,7 @@
                             </button>
                         </form>
                         <ul class="nav pull-right">
-                            {% include 'top-mobile-menu.html' %}
+                            <!-- {% include 'top-mobile-menu.html' %} -->
 
                            
                             <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -43,9 +43,9 @@
                                     <li>{{ anchor('login/pp', 'Profil & Akun Login')|raw }}</li>
                                     {% endif %}
 
-                                    {% if is_siswa() %}
+                                    <!-- {% if is_siswa() %}
                                     <li>{{ anchor('login/pp', 'Profil & Akun Login')|raw }}</li>
-                                    {% endif %}
+                                    {% endif %} -->
 
                                     <li><a href="{{ site_url('login/login_log/' ~ get_sess_data('login', 'id')) }}">Login log</a></li>
                                     <li><a href="{{ site_url('login/logout') }}">Logout</a></li>
@@ -87,10 +87,31 @@
         <!--/.wrapper-->
 
         <div class="nav-phone visible-phone">
-            <div class="phone-menu">
-            <a href=""><i class="icon-home"></i></a>
-            <br>
-            Home
+            <div class="phone-menu"><br>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <a onclick="window.history.back()"><i style="font-size: 30px" class="icon-arrow-left"></i></a>
+                            <br>
+                            Kembali
+                        </td>
+                        
+                        <td width="30%"></td>
+
+                        <td>
+                            <a href="{{ site_url }}"><i style="font-size: 30px" class="icon-home"></i></a>
+                            <br>
+                            Home 
+                        </td>
+                        
+                        <td width="30%"></td>
+                        <td>
+                            <a href="{{ site_url('login/logout') }}"><i style="font-size: 30px" class="icon-signout"></i></a>
+                            <br>
+                            Logout
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
 

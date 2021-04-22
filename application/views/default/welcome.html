@@ -9,12 +9,12 @@
     <div class="btn-box-row row-fluid">
         <div class="span12">
             <div class="visible-desktop alert"><h4>Assalamu'alaikum. Selamat Datang {{ get_sess_data('user', 'nama') }}.</h4></div>
-            <table class="visible-phone visible-tablet">
+            <table class="visible-phone visible-tablet" width="100%">
                 <tr>
                     <td><img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar-welcome img-polaroid" />
                     </td>
                     <td width="70%">
-                                <span style="color: black";>Assalamu'alaikum</span>, <b>{{ get_sess_data('user', 'nama') }}</b> <br>
+                                <span style="color: black";>Assalamu'alaikum</span> <b>{{ get_sess_data('user', 'nama') }}</b> <br>
                                 {% if is_siswa() %}                                
                                 Kelas {{ pengguna.nama_kelas }}
                                 {% endif %}
@@ -24,8 +24,7 @@
                                 {% if is_admin() %}                                
                                 Pengajar | <span class="badge badge-warning">Administrator</span>
                                 {% endif %}
-                    </td>
-                    <td width="5%" align="right">
+                   
                         {% if is_admin() %}
                         {{ anchor('pengajar/detail/'~ get_sess_data('user', 'status_id') ~'/' ~ get_sess_data('user', 'id'), '<i style="font-size: 16px; color: grey" class="icon-edit"></i>', {'title' : 'Detail Profil'})|raw }}
                         {% endif %}
@@ -35,7 +34,7 @@
                         {% endif %}
 
                         {% if is_siswa() %}
-                        {{ anchor('login/pp', '<i style="font-size: 16px; color: grey" class="icon-edit"></i>')|raw }}
+                        <!-- {{ anchor('login/pp', '<i style="font-size: 16px; color: grey" class="icon-edit"></i>')|raw }} -->
                         {% endif %}
                     </td>
                 </tr>
@@ -100,54 +99,34 @@
 
     <table width="100%" class="visible-phone">
         <tr>
-            <td width="33%" align="center">
-                <a href="{{ site_url('siswa/index/1') }}" class="btn-box big span2">
-                    <i class="icon-group"></i>
-                    <!-- <b>{{ jml_siswa }}</b> -->
-                    <p><span class="badge" style="background-color: blue; color: white">Siswa</span><span class="menu-count-pending-siswa2"></span></p>
+            <td width="25%" align="center">
+                <a href="{{ site_url('tugas?clear_filter=true') }}">
+                    <i style="font-size: 30px" class="icon-tasks"></i>
+                    <p>Ujian</p>
                 </a>
             </td>
-            <td width="33%" align="center">
-                 <a href="{{ site_url('pengajar/index/1') }}" class="btn-box big span2">
-                    <i class="icon-user"></i>
+            <td width="25%" align="center">
+                <a href="{{ site_url('pengumuman') }}">
+                    <i style="font-size: 30px" class="icon-bullhorn"></i>
+                    <p>Informasi</p>
+                </a>
+            </td>
+            <td width="25%" align="center">
+                <a href="{{ site_url('siswa/index/1') }}">
+                    <i style="font-size: 30px" class="icon-group"></i>
+                    <p>Siswa</p>
+                </a>
+            </td>
+            <td width="25%" align="center">
+                 <a href="{{ site_url('pengajar/index/1') }}">
+                    <i style="font-size: 30px" class="icon-user"></i>
                     <!-- <b>{{ jml_pengajar }}</b> -->
-                    <p><span class="badge" style="background-color: blue; color: white">Guru</span><span class="menu-count-pending-pengajar2"></span></p>
-                </a>
-            </td>
-            <td width="33%" align="center">
-                <a href="{{ site_url('message') }}" class="btn-box big span2">
-                    <i class="icon-comments"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Pesan</span><span class="menu-count-new-msg2"></span></p>
-                </a>
-            </td>
-            
-        </tr>
-    </table>
-    <table width="100%" class="visible-phone">
-        <tr>
-            <td width="33%" align="center">
-                <a href="{{ site_url('materi?clear_filter=true') }}" class="btn-box big span2">
-                    <i class="icon-book"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Materi</p>
-                </a>
-            </td>
-            <td width="33%" align="center">
-                <a href="{{ site_url('tugas?clear_filter=true') }}" class="btn-box big span2">
-                    <i class="icon-tasks"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Tugas</p>
-                </a>
-            </td>
-            
-            <td width="33%" align="center">
-                <a href="{{ site_url('pengumuman') }}" class="btn-box big span2">
-                    <i class="icon-bullhorn"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Pengumuman</p>
+                    <p>Guru</p>
                 </a>
             </td>
         </tr>
     </table>
-
-    
+   
 
     <div class="btn-box-row row-fluid">
         <div class="span6">
@@ -165,8 +144,9 @@
                     </table>
                 </div>
               </div>
-
-              <div class="module">
+        </div>
+        <div class="span6">
+            <div class="module">
                 <div class="module-head" style="background-color: white">
                     <span class="badge" style="background-color: salmon; color: white"><i class="icon-signin"></i> Riwayat Login User</span>
                 </div>
@@ -174,7 +154,6 @@
                     <div id="show-last-login-list"></div>
                 </div>
               </div>
-
         </div>
     </div>
     {% endif %}
