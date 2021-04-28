@@ -14,7 +14,7 @@ Lihat Nilai - {{ parent() }}
 
         <div class="bs-callout bs-callout-info">
             <div class="btn-group pull-right" style="margin-top:-5px;">
-                {{ anchor('tugas/edit/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon icon-edit"></i> Edit Tugas', {'class' : 'btn btn-default'})|raw }}
+                {{ anchor('tugas/edit/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon icon-edit"></i> Edit', {'class' : 'btn btn-default'})|raw }}
                 {% if tugas.aktif == 0 %}
                     {{ anchor('tugas/terbitkan/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-ok"></i> Terbitkan', {'class' : 'btn btn-success btn-small'})|raw }}
                 {% elseif tugas.aktif == 1 %}
@@ -63,8 +63,7 @@ Lihat Nilai - {{ parent() }}
 
         <div class="btn-group">
             <a href="{{ site_url('tugas/pantau/' ~ tugas.id) }}" class="btn btn-primary">Pantau</a>
-            <!-- <a data-original-title="Print Query" href="#" class="btn btn-primary" data-toggle="popover" data-html="true" data-placement="top" data-content="<form method='post' target='_blank' action='{{ site_url('tugas/nilai/' ~ tugas.id ~ '/print') }}'><select name='kelas_id'><option value='all'>--Semua Kelas--</option>{% for k in kelas_nilai %} <option value='{{ k.id }}'>{{ k.nama }}</option> {% endfor %}</select><label><input type='checkbox' name='tampil_jawaban' value='1' style='margin-top:0px;'> Tampilkan jawaban</label><button class='btn btn-primary btn-sm'>Print</button</form>">Print</a> -->
-            <a data-original-title="Export Query" href="#" class="btn btn-primary" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<form method='post' target='_blank' action='{{ site_url('tugas/nilai/' ~ tugas.id ~ '/export_excel') }}'><select name='kelas_id'><option value='all'>--Semua Kelas--</option>{% for k in kelas_nilai %} <option value='{{ k.id }}'>{{ k.nama }}</option> {% endfor %}</select><label><input type='checkbox' name='tampil_jawaban' value='1' style='margin-top:0px;'> Tampilkan jawaban</label><button class='btn btn-primary btn-sm'>Download</button</form>">Export</a>
+            <a data-original-title="Export Query" href="#" class="btn btn-success" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<form method='post' target='_blank' action='{{ site_url('tugas/nilai/' ~ tugas.id ~ '/export_excel') }}'><select name='kelas_id'><option value='all'>--Semua Kelas--</option>{% for k in kelas_nilai %} <option value='{{ k.id }}'>{{ k.nama }}</option> {% endfor %}</select><label><input checked type='checkbox' name='tampil_jawaban' value='1' style='margin-top:0px;'> Tampilkan jawaban</label><button class='btn btn-primary btn-sm'>Download</button</form>">Export</a>
         </div>
 
         <br><br>
@@ -103,8 +102,8 @@ Lihat Nilai - {{ parent() }}
         </table>
 
         <div class="btn-group">
-            <button name="reset_tipe" value="terpilih" type="submit" onclick="return confirm('Reset jawaban siswa terpilih?')" class="btn btn-primary">Reset jawaban siswa terpilih</button>
-            <button name="reset_tipe" value="semua" type="submit" onclick="return confirm('Reset jawaban semua siswa?')" class="btn btn-primary">Reset jawaban semua siswa</button>
+            <!-- <button class="btn btn-danger" name="reset_tipe" value="terpilih" type="submit" onclick="return confirm('Reset jawaban siswa terpilih?')" class="btn btn-primary">Reset jawaban siswa terpilih</button> -->
+            <button class="btn btn-danger" name="reset_tipe" value="semua" type="submit" onclick="return confirm('Anda yakin akan mereset jawaban semua siswa?')" class="btn btn-primary">Reset semua</button>
         </div>
         <input type="hidden" name="url_back" value="{{ current_url() }}">
 
