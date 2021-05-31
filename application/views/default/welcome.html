@@ -171,7 +171,7 @@
     </div>
     {% endif %}
 
-    <table width="100%">
+    <!-- <table width="100%">
         <tr>
             <td width="20%" align="center">
                 <a href="{{ site_url('materi?clear_filter=true') }}" class="btn-box big span2">
@@ -198,7 +198,7 @@
                 </a>
             </td>
         </tr>
-    </table>
+    </table> -->
 
     <div class="btn-box-row row-fluid">
         <div class="span6">
@@ -249,7 +249,23 @@
                     {% if sudah_ngerjakan(m.id, get_sess_data('user', 'id')) == false %}
                     <tr>
                         <td>
-                            <b><a style="text-decoration: none" href="{{ site_url('tugas?judul=' ~ urlencode(m.judul)) }}">{{ m.judul }}</a> </b>
+                            <b>{{ m.judul }}</b>
+                            <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-target="#mulai-mengerjakan"><i class="icon-arrow-right"></i>
+                                        Kerjakan
+                            </button>
+
+                            <div class="modal fade" id="mulai-mengerjakan" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <span style="font-size: 15pt">Bismillah... <br>Ana atas nama <b>{{ strtoupper(get_sess_data('user', 'nama')) }}</b> menyatakan, akan berjanji mematuhi tata tertib ujian. Apabila ana terbukti melakukan kecurangan atau melanggar tata tertib ujian, maka ana bersedia dikeluarkan dari ruang ujian.</span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
+                                        <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/' ~ m.id) }}" id="btn-submit">Setuju, Mulai Mengerjakan.</a>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                        
                     </tr>

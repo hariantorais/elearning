@@ -7,58 +7,25 @@ Manajemen Soal Tugas - {{ parent() }}
 {% block content %}
 <div class="module">
     <div class="module-head">
-        <h3>{{ anchor('tugas', 'Tugas')|raw }} / Manajemen Soal Tugas</h3>
+        <h3>{{ anchor('tugas', 'Tugas')|raw }} / Manajemen Soal Ujian</h3>
     </div>
     <div class="module-body">
         {{ get_flashdata('tugas')|raw }}
 
-        <div class="bs-callout bs-callout-info">
-            
-            <b><a class="as-link" data-toggle="collapse" data-target="#detail-tugas"><i class="icon-info-sign" style="line-height: 0px;"></i> {{ tugas.judul|upper }}</a></b>
-
-            <div id="detail-tugas" class="collapse" style="margin-top: 5px;">
-                <table class="table">
-                    <tr>
-                        <th style="border-top: none;" width="15%">Tipe</th>
-                        <td style="border-top: none;">{{ tugas.type_label }}</td>
-                    </tr>
-                    <tr>
-                        <th>Judul</th>
-                        <td>{{ tugas.judul }}</td>
-                    </tr>
-                    <tr>
-                        <th>Matapelajaran</th>
-                        <td>{{ tugas.mapel.nama }}</td>
-                    </tr>
-                    <tr>
-                        <th>Kelas</th>
-                        <td>
-                            <ul class="unstyled inline" style="margin-left: -5px;margin-bottom: 0px;">
-                                {% for k in tugas.tugas_kelas %}
-                                <li>{{ k.nama }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Info</th>
-                        <td>{{ tugas.info|raw }}</td>
-                    </tr>
-                    <tr>
-                        <th>Durasi</th>
-                        <td>{{ tugas.durasi }} Menit</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div>
-                    {{ anchor('tugas/edit/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon icon-edit"></i> Edit Tugas', {'class' : 'btn btn-default'})|raw }}
+        <div class="pull-right">
+                    {{ anchor('tugas/edit/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon icon-edit"></i> Edit', {'class' : 'btn btn-default'})|raw }}
                     {% if tugas.aktif == 0 %}
                         {{ anchor('tugas/terbitkan/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-ok"></i> Terbitkan', {'class' : 'btn btn-success btn-small'})|raw }}
                     {% elseif tugas.aktif == 1 %}
                         {{ anchor('tugas/tutup/' ~ tugas.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-minus"></i> Tutup', {'class' : 'btn btn-danger btn-small'})|raw }}
                     {% endif %}
               </div>
+
+            
+            <b><a title="{{ tugas.mapel.nama }}, {% for k in tugas.tugas_kelas %}{{ k.nama }},{% endfor %} {{ tugas.durasi }} Menit" class="as-link" data-toggle="collapse" data-target="#detail-tugas"><i class="icon-info-sign" style="line-height: 0px;"></i></a> {{ tugas.judul|upper }}</b>
+
+            <div id="detail-tugas" class="collapse" style="margin-top: 5px;">
+              
         </div>
         <br>
 
@@ -69,16 +36,10 @@ Manajemen Soal Tugas - {{ parent() }}
         <br><br>
 
         <table class="table">
-            <thead>
-                <tr>
-                    <th width="5%">No</th>
-                    <th>Pertanyaan {{ (tugas.type_id == 3) ? ' dan Pilihan' }}</th>
-                </tr>
-            </thead>
             <tbody>
                 {% for p in pertanyaan %}
                 <tr id="pertanyaan-{{ p.id }}">
-                    <td><b>{{ p.urutan }}.</b></td>
+                    <td width="5%"><b>{{ p.urutan }}.</b></td>
                     <td>
                         <div class="pertanyaan">
                             <div class="btn-group pull-right" style="margin-left:10px;">

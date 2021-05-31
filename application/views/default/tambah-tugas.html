@@ -58,7 +58,7 @@ Tambah Tugas {{ type_label }} - {{ parent() }}
             <div class="control-group">
                 <label class="control-label">Durasi <span class="text-error">*</span></label>
                 <div class="controls">
-                    <input type="text" name="durasi" class="span2" value="{{ set_value('durasi') }}" placeholder="Dalam menit">
+                    <input type="number" name="durasi" class="span3" value="{{ set_value('durasi') }}" placeholder="Dalam menit">
                     <br>{{ form_error('durasi')|raw }}
                 </div>
             </div>

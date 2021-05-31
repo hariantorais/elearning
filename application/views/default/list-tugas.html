@@ -7,6 +7,17 @@ Tugas - {{ parent() }}
 {% block content %}
 <div class="module">
     <div class="module-head">
+        {% if (is_siswa() == false) %}
+       
+                    <div class="btn-group pull-right">
+             
+                            {{ anchor('tugas/add/3', 'Tambah', {'class' : 'btn btn-success'})|raw }}
+                            <!-- {{ anchor('tugas/add/2', 'Essay', {'class' : 'btn btn-primary'})|raw }} -->
+                            <!-- {{ anchor('tugas/add/1', 'Upload', {'class' : 'btn btn-warning'})|raw }} -->
+                              
+                    </div>
+        
+        {% endif %}
         <h3>Ujian</h3>
     </div>
     <div class="module-body"  style="background-color: white">
@@ -15,7 +26,7 @@ Tugas - {{ parent() }}
         {% if (is_siswa() == false) %}
         <div class="bs-callout bs-callout-info">
             
-            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI TUGAS</a></b>
+            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI UJIAN</a></b>
             
 
             <div id="form-filter" class="collapse" style="margin-top: 5px;">
@@ -125,26 +136,7 @@ Tugas - {{ parent() }}
 
         <br>
 
-        {% if (is_siswa() == false) %}
-        <table width="100%" align="center">
-            <tr>
-                <td align="center"><div class="badge badge-info">Tambah Tugas</div></td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <div class="btn-group">
-             
-                            {{ anchor('tugas/add/3', 'Pilihan Ganda', {'class' : 'btn btn-success'})|raw }}
-                            {{ anchor('tugas/add/2', 'Essay', {'class' : 'btn btn-primary'})|raw }}
-                            <!-- {{ anchor('tugas/add/1', 'Upload', {'class' : 'btn btn-warning'})|raw }} -->
-                              
-                    </div>
-                </td>
-            </tr>
         
-        </table>
-        <br><br>
-        {% endif %}
 
 
         <!-- JIKA SISWA -->
@@ -220,7 +212,7 @@ Tugas - {{ parent() }}
 
         <!-- JIKA ADMIN DAN GURU -->
         {% else %}
-        <table class="table table-striped">
+        <table class="table table-striped datatable">
             <thead>
                 <tr>
                     <th width="7%">ID</th>
@@ -249,7 +241,7 @@ Tugas - {{ parent() }}
                         {% endfor %}
 
                         {% if m.type_label == 'Ganda' or m.type_label == 'Essay' %}
-                            , durasi: {{ m.durasi }} Menit ,
+                            , durasi: {{ m.durasi }} Menit
                         {% endif %}
 
                        , <b>Pembuat : </b> <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>, {{ tgl_jam_indo(m.tgl_buat) }}</small>

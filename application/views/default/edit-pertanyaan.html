@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="btn-group pull-right">
-    <a class="btn btn-primary btn-small" href="{{ site_url('tugas/tambah_soal/' ~ tugas.id) }}">Tambah Pertanyaan</a>
+    <!-- <a class="btn btn-primary btn-small" href="{{ site_url('tugas/tambah_soal/' ~ tugas.id) }}">Tambah Pertanyaan</a> -->
     {% if tugas.type_id == 3 %}
     <a class="btn btn-primary btn-small" href="{{ site_url('tugas/tambah_pilihan/' ~ tugas.id ~ '/' ~ pertanyaan.id) }}">Tambah Pilihan</a>
     {% endif %}
 </div>
 
-<h4>Edit Pertanyaan ke {{ no_pertanyaan }}</h4>
+<h4>No <span class="badge" style="background-color: darkblue">{{ no_pertanyaan }}</span></h4>
 {{ get_flashdata('tugas')|raw }}
 
 {{ form_open('tugas/edit_soal/' ~ tugas.id ~ '/' ~ pertanyaan.id)|raw }}
