@@ -250,13 +250,13 @@
                     <tr>
                         <td>
                             <b>{{ m.judul }}</b>
-                            <!-- <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-target="#mulai-mengerjakan"><i class="icon-arrow-right"></i>
+                            <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-target="#mulai-mengerjakan{{ m.id }}"><i class="icon-arrow-right"></i>
                                         Kerjakan
-                            </button> -->
+                            </button>
 
-                            <a class="btn btn-xs btn-primary pull-right" href="{{ site_url('tugas/kerjakan/'~m.id) }}"><i class="icon-arrow-right"></i>Kerjakan</a>
 
-                            <div class="modal fade" id="mulai-mengerjakan" tabindex="-1" role="dialog">
+
+                            <div class="modal fade" id="mulai-mengerjakan{{ m.id }}" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
@@ -267,6 +267,7 @@
                                         <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/'~m.id) }}" id="btn-submit">Setuju, Mulai Mengerjakan.</a>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </td>
                        
