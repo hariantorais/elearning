@@ -48,6 +48,13 @@ Tambah Tugas {{ type_label }} - {{ parent() }}
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Sesi <span class="text-error">*</span></label>
+                <div class="controls">
+                    <input type="number" name="sesi" class="span3" value="{{ set_value('sesi') }}" required>
+                    <br>{{ form_error('sesi')|raw }}
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Info</label>
                 <div class="controls">
                     <textarea name="info" id="info" class="texteditor">{{ set_value('info')|raw }}</textarea>

@@ -29,7 +29,7 @@
 
                            
                             <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                {{ nama_panggilan(get_sess_data('user', 'nama')) }}
+                                {{ get_sess_data('user', 'nama') }}
 
                                 <span class="pull-right">
                                 <img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar img-polaroid" style="padding: 0; width: 40px; height: 40px;" />
@@ -119,7 +119,7 @@
         <div class="footer visible-desktop">
             <div class="container">
                 <center>
-                    <b>Computer Based Test</b> <br>
+                    <b>Elemes Assunnah</b> <br>
                     {{ site_name }}<br>
                     <span style="color: grey">by <a href="https://facebook.com/hariantorais">Harianto Rais</a></span>
                 </center>

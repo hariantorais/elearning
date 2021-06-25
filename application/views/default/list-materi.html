@@ -7,6 +7,12 @@ Materi - {{ parent() }}
 {% block content %}
 <div class="module">
     <div class="module-head">
+        {% if is_siswa() == false %}
+            <div class="btn-group pull-right" style="margin-top:-5px;">
+                <!-- {{ anchor('materi/add/tertulis', '<i class="icon-pencil"></i>Tambah Materi Tertulis', {'class' : 'btn btn-primary'})|raw }} -->
+                {{ anchor('materi/add/file', '<i class="icon-plus"></i>Tambah', {'class' : 'btn btn-primary'})|raw }}
+            </div>
+        {% endif %}
         <h3>Materi</h3>
     </div>
     <div class="module-body">
@@ -111,159 +117,62 @@ Materi - {{ parent() }}
             </div>
 
         </div>
-        <br>
-
-        {% if is_siswa() == false %}
-            <div class="btn-group pull-left" style="margin-top:-5px;">
-                {{ anchor('materi/add/tertulis', '<i class="icon-pencil"></i>Tambah Materi Tertulis', {'class' : 'btn btn-primary'})|raw }}
-                {{ anchor('materi/add/file', '<i class="icon-file"></i>Tambah Materi File', {'class' : 'btn btn-success'})|raw }}
-            </div>
-            {% endif %}<br><br>
-
         
-
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    {% if is_siswa() == true %}
-                    <th>Daftar Materi</th>
-                    {% else %}
-                    <th width="7%">ID</th>
-                    <th>Daftar Materi</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for no, m in materi %}
-
-                {% if is_admin() == true %}
-                    {% set action_edit = true %}
-                    {% set action_delete = true %}
-                {% elseif is_pengajar() == true %}
-                    {% if m.pengajar_id == get_sess_data('user', 'id') %}
-                        {% set action_edit = true %}
-                        {% set action_delete = true %}
-                    {% else %}
-                        {% set action_edit = false %}
-                        {% set action_delete = false %}
-                    {% endif %}
-                {% elseif is_siswa() == true %}
-                    {% if m.siswa_id == get_sess_data('user', 'id') %}
-                        {% set action_edit = true %}
-                        {% set action_delete = true %}
-                    {% else %}
-                        {% set action_edit = false %}
-                        {% set action_delete = false %}
-                    {% endif %}
-                {% endif %}
-
-                
-                    {% if is_siswa() == true %}
-                    <tr class="clickable-row" data-href="{{ site_url('materi/detail/' ~ m.id)}}">
-                    
-                    <td>
-                        <strong class="text-warning">
-                        <a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a>
-                        </strong><br>
-                        
-                                <small>Mapel: <b>{{ m.mapel.nama }}</b>,
-                                    diposting oleh: <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>, {{ tgl_jam_indo(m.tgl_posting) }} <br>
-                                {{ m.jml_komentar }} Komentar
-                                </small>
-                            
-                    </td>
-                    </tr>
-
-
-                    {% else %}
-                    <tr>
-                    <td><b>{{ m.id }}</b></td>
-                    <td>
-                        
-                        {% if m.publish == 0 %}
-                        <strong style="color: grey"><a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a></strong>
-
-
-                        {% elseif m.publish == 1 %}
-                        <strong style="color: green"><a href="{{ site_url('materi/detail/' ~ m.id)}}">{{ m.judul }}</a></strong>
-                        
-                        {% endif %}
-                        
-                                {{ (m.publish == 1) ? '<span class="badge badge-success">Terbit</span>' : '<span class="badge badge-danger">Konsep</span>' }}
-                        <br>
-                        
-                        
-                                {{ (m.file is not empty) ? '<span style="color: blue">File</span>' : '<span style="color: green">Tertulis</span>' }}, 
-                        
-                                {{ m.mapel.nama }}, 
-                        
-                                {% for mk in m.materi_kelas %}
-                                    {{ mk.nama }}&nbsp;
-                                {% endfor %}, 
-                        
-                                {% if is_pengajar() == false %}
-                                    Pembuat <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>
-                                    , {{ tgl_jam_indo(m.tgl_posting) }},
-                                {% else %}
-                                    Dibuat {{ tgl_jam_indo(m.tgl_posting) }},
-                                {% endif %} 
-                        
-                                {{ (m.file is empty) ? 'Dibaca' : 'Diunduh' }}
-                                {{ m.views }} kali, 
-                        
-                                {{ m.jml_komentar }} Komentar
-                        
-
-                         <!-- dropdown -->
-                         {% if is_siswa() == false %}
-                   
-                        
-                            <ul class="nav">
-                            <li class="nav-user dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
-                            
-                                <ul class="dropdown-menu">
-
-                                    {% if m.file is not empty %}
-                                        {% set url_type = 'file' %}
-                                    {% else %}
-                                        {% set url_type = 'tertulis' %}
-                                    {% endif %}
-                                    
-
-                                   <!--  <li>{{ anchor('materi/detail/' ~ m.id, '<i class="icon-zoom-in"></i> Lihat Materi')|raw }}</li> -->
-
-                                    <li> {{ anchor('materi/absen/' ~ m.id, '<i class="icon-group"></i> Kehadiran')|raw }}</li>
-
-                                    {% if action_edit == true %}
-                                        <li>{{ anchor('materi/edit/' ~ url_type ~ '/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i class="icon-edit"></i> Edit')|raw }}</li>
-                                    {% endif %}
-
-                                    {% if is_admin() == true %}
-                                        {% if action_delete == true %}
-                                            <li>{{ anchor('materi/delete/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<i style="color: red" class="icon-trash"></i> <span style="color: red">Hapus</span>', {'onclick' : "return confirm('Anda yakin ingin menghapus?')"})|raw }}</li>
-                                        {% endif %}
-                                    {% endif %}
-                                    
-                                </ul>
-                            </li>
-                            </ul>
-              
-                        {% endif %}
-
-                    </td>
-                    
-
-                        {% endif %}
-
-                       
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <br>
-        {{ pagination|raw }}
-
     </div>
 </div>
+
+{% for no, m in materi %}
+        <div class="module" style="background-color: white;">
+            <div class="module-body">
+                {% if m.publish == 0 %}
+                        <strong><a href="{{ site_url('materi/detail/' ~ m.id)}}" style="font-size:15px; font-weight:normal; color: grey">{{ m.judul }}</a></strong> (<b> {{ m.mapel.nama }} </b> <span>Sesi #{{ m.sesi }}</span>)
+                {% elseif m.publish == 1 %}
+                <strong><a href="{{ site_url('materi/detail/' ~ m.id)}}" style="font-size: 15px;color: green;">{{ m.judul }}</a></strong> (<b> {{ m.mapel.nama }} </b> <span>Sesi #{{ m.sesi }}</span>)
+                {% endif %} <br>
+
+                {% if is_pengajar() == false %}
+                    <a href="{{ m.pembuat.link_profil }}">{{ m.pembuat.nama }}</a>
+                     <time style="font-weight: normal;" class="timeago" datetime="{{ m.tgl_posting }}">{{ m.tgl_posting }}</time>,
+                {% else %}
+                    Update terakhir <time style="font-weight: normal;" class="timeago" datetime="{{ m.tgl_posting }}">{{ m.tgl_posting }}</time>,
+                {% endif %} 
+
+                Untuk kelas :    
+                {% for mk in m.materi_kelas %}
+                     {{ mk.nama }}, &nbsp;
+                {% endfor %} <br>
+    
+                {% if is_siswa() == false %}
+                <div class="pull-right">
+
+                            {% if m.file is not empty %}
+                                {% set url_type = 'file' %}
+                            {% else %}
+                                {% set url_type = 'tertulis' %}
+                            {% endif %}
+
+                            <!--  <li>{{ anchor('materi/detail/' ~ m.id, '<i class="icon-zoom-in"></i> Lihat Materi')|raw }}</li> -->
+
+                            {{ anchor('materi/absen/' ~ m.id, '<button class="btn btn-xs btn-info"><i class="icon-group"></i> Kehadiran</button>')|raw }}
+
+                            
+                                {{ anchor('materi/edit/' ~ url_type ~ '/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<button class="btn btn-xs btn-success" ><i class="icon-edit"></i></button>')|raw }}
+
+                            {% if is_admin() == true %}
+                                
+                                {{ anchor('materi/delete/' ~ m.id ~ '/' ~ enurl_redirect(current_url()), '<button class="btn btn-danger btn-xs"><i class="icon-trash"></i></button>', {'onclick' : "return confirm('Anda yakin ingin menghapus?')"})|raw }}
+                                
+                            {% endif %}
+                    </div>
+                {% endif %}
+
+                <i class='icon-comments'></i> {{ m.jml_komentar }} Komentar <br>
+
+               
+
+
+            </div>
+        </div>
+{% endfor %}
+{{ pagination|raw }}
 {% endblock %}

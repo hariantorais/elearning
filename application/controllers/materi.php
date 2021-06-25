@@ -215,19 +215,27 @@ class Materi extends MY_Controller
             }
         } elseif ($type == 'file') {
             $config['upload_path']   = get_path_file();
-            $config['allowed_types'] = 'doc|zip|rar|txt|docx|xls|xlsx|pdf|tar|gz|jpg|jpeg|JPG|JPEG|png|ppt|pptx';
+            $config['allowed_types'] = 'doc|zip|rar|txt|docx|xls|xlsx|pdf|tar|gz|jpg|jpeg|JPG|JPEG|png|ppt|pptx|mp4';
             $config['max_size']      = '0';
             $config['max_width']     = '0';
             $config['max_height']    = '0';
             $config['file_name']     = url_title($this->input->post('judul', TRUE).'_'.time(), '_', TRUE);
+
             $this->upload->initialize($config);
 
-            if ($this->form_validation->run('materi/add/file') == TRUE AND $this->upload->do_upload()) {
+            // if ($this->form_validation->run('materi/add/file') == TRUE AND $this->upload->do_upload()) {
+            if ($this->form_validation->run('materi/add/file') == TRUE) {
                 $mapel_id    = $this->input->post('mapel_id', TRUE);
                 $judul       = $this->input->post('judul', TRUE);
                 $upload_data = $this->upload->data();
-                $file        = $upload_data['file_name'];
+                if (!empty($_FILES['userfile']['tmp_name'])) {    
+                    $foto = $upload_data['file_name'];
+                } else {
+                    $foto = null;
+                }
                 $status      = $this->input->post('status', TRUE);
+                $sesi      = $this->input->post('sesi', TRUE);
+                $konten      = $this->input->post('konten', TRUE);
 
                 $publish = 1;
                 if (!empty($status) && in_array($status, array('draft'))) {
@@ -239,8 +247,9 @@ class Materi extends MY_Controller
                     is_siswa() ? get_sess_data('user', 'id') : null,
                     $mapel_id,
                     $judul,
-                    null,
                     $file,
+                    $sesi,
+                    $konten,
                     $publish
                 );
 
@@ -404,6 +413,8 @@ class Materi extends MY_Controller
             if ($this->form_validation->run('materi/edit/file') == TRUE AND $upload_success == TRUE) {
                 $mapel_id = $this->input->post('mapel_id', TRUE);
                 $judul    = $this->input->post('judul', TRUE);
+                $sesi    = $this->input->post('sesi', TRUE);
+                $konten    = $this->input->post('konten', TRUE);
                 $publish  = $this->input->post('publish', TRUE);
 
                 $this->materi_model->update(
@@ -412,7 +423,8 @@ class Materi extends MY_Controller
                     $materi['siswa_id'],
                     $mapel_id,
                     $judul,
-                    null,
+                    $sesi,
+                    $konten,
                     $update_file,
                     $publish
                 );
@@ -1046,6 +1058,7 @@ class Materi extends MY_Controller
         $materi_id = $this->input->post('materi_id');
         $materi = $this->materi_model->retrieve($materi_id);
         $siswa_id = $this->input->post('siswa_id', true);
+        $mapel_id = $this->input->post('mapel_id', true);
 
         $this->form_validation->set_rules('siswa_id', 'siswa_id', 'required');
         if ($this->form_validation->run() == true)
@@ -1061,12 +1074,12 @@ class Materi extends MY_Controller
         $this->absen_model->input_data($data, 'absen_siswa');
         $this->session->set_flashdata('materi', get_alert('success', 'Isi daftar hadir berhasil'));
 
-        redirect('materi/detail/'.$materi['id']);
+        redirect('welcome/mapel_sesi/'.$mapel_id);
 
         } else 
 
         {
-            redirect ('materi/detail/'.$materi['id']);
+            redirect ('materi/detail/'.$materi_id);
             $this->session->set_flashdata('materi', get_alert('danger', 'Gagal'));
         }
 

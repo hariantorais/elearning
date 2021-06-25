@@ -47,6 +47,15 @@ Edit Materi - {{ parent() }}
                     {{ form_error('kelas_id[]')|raw }}
                 </div>
             </div>
+
+            <div class="control-group">
+                <label class="control-label">Sesi <span class="text-error">*</span></label>
+                <div class="controls">
+                    <input type="number" name="sesi" class="span3" value="{{ set_value('sesi', materi.sesi) }}">
+                    <br>{{ form_error('sesi')|raw }}
+                </div>
+            </div>
+
             {% if type == 'tertulis' %}
             <div class="control-group">
                 <label class="control-label">Konten <span class="text-error">*</span></label>
@@ -57,34 +66,13 @@ Edit Materi - {{ parent() }}
             </div>
             {% elseif type == 'file' %}
             <div class="control-group">
-                <label class="control-label">Info File</label>
+                <label class="control-label">Konten <span class="text-error">*</span></label>
                 <div class="controls">
-                    <table class="table table-condensed table-striped">
-                        <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <td><a href="{{ base_url('userfiles/files/' ~ file_info.name) }}" target="_tab">{{ file_info.name }}</a></td>
-                            </tr>
-                            <tr>
-                                <th>Server Path</th>
-                                <td>{{ file_info.server_path }}</td>
-                            </tr>
-                            <tr>
-                                <th>Size</th>
-                                <td>{{ byte_format(file_info.size) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Modified</th>
-                                <td>{{ mdate('%d %F %Y %H:%i', file_info.date) }}</td>
-                            </tr>
-                            <tr>
-                                <th>Mime</th>
-                                <td>{{ file_info.mime }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <textarea name="konten" id="konten" class="texteditor">{{ set_value('konten', materi.konten)|raw }}</textarea>
+                    {{ form_error('konten')|raw }}
                 </div>
             </div>
+            
             <div class="control-group">
                 <label class="control-label">Ganti File</label>
                 <div class="controls">

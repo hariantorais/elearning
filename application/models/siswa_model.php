@@ -395,4 +395,10 @@ class Siswa_model extends CI_Model
          return $query->row_array();
 
     }
+
+    public function get_sesi_materi($id_materi){
+            $this->db->where('id' , $id_materi);
+            $result = $this->db->get('materi',1);
+            return $result->row_array();
+    }
 }

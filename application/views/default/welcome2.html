@@ -6,8 +6,8 @@
 <div class="btn-controls">
     <div id="show-urgent-info"></div>
 
-    
-        <div class="span8">
+    <div class="btn-box-row row-fluid">
+        <div class="span12">
             <div class="visible-desktop alert"><h4>Assalamu'alaikum. Selamat Datang {{ get_sess_data('user', 'nama') }}.</h4></div>
             <table class="visible-phone visible-tablet" width="100%">
                 <tr>
@@ -62,7 +62,7 @@
             </li>
             
         </div>
-    
+    </div>
 
     {% if is_admin() %}
     {% if count_mapel_kelas == 0 %}
@@ -102,7 +102,7 @@
             <td width="25%" align="center">
                 <a href="{{ site_url('tugas?clear_filter=true') }}">
                     <i style="font-size: 30px" class="icon-tasks"></i>
-                    <p>Tugas</p>
+                    <p>Ujian</p>
                 </a>
             </td>
             <td width="25%" align="center">
@@ -128,35 +128,33 @@
     </table>
    
 
-    <div class="span5">
-        {% for p in pengumuman %}
-        <div class="module" style="background-color: white;">
-            <div class="module-head"  style="background-color: white">  
-                <img style="height:45px;width:45px; margin-right: 10px;padding: 0;border: 0;" class="img-polaroid img-circle pull-left" src="{{ get_url_image_pengajar(p.foto, 'medium', p.jenis_kelamin) }}">
-                <a href="{{ site_url('pengajar/detail/' ~ status_id ~ '/' ~ p.pengajar_id) }}">{{ p.nama }}</a>
-                        menambahkan pengumuman <br>
-                        <time style="font-weight: normal;" class="timeago" datetime="{{ p.tgl_tampil }}">{{ p.tgl_tampil }}</time>
-            </div>
-            <div class="module-body">
-                <h4>{{ p.judul|raw }}</h4>
-                <div class="wrap-content" style="font-weight: normal;">
-                    <div style="padding: 20px; background-color: rgb(238, 238, 238); border-radius: 5px;">
-                    {{ p.konten|raw }}
-                    </div>
+    <div class="btn-box-row row-fluid">
+        <div class="span6">
+              <div class="module">
+                <div class="module-head" style="background-color: white">
+                    <span class="badge" style="background-color: orange; color: white"><i class="icon-bullhorn"></i> Pengumuman</span>
                 </div>
-            </div>
+                <div class="module-body">
+                    <table class="table table-striped table-condensed">
+                                {% for p in pengumuman %}
+                                <tr>
+                                    <td>{{ anchor('pengumuman/detail/' ~ p.id, p.judul)|raw }}</td>
+                                </tr>
+                                {% endfor %}
+                    </table>
+                </div>
+              </div>
         </div>
-        {% endfor %}
-    </div>
-    <div class="span3">
-        <div class="module">
-            <div class="module-head" style="background-color: white">
-                <span class="badge" style="background-color: salmon; color: white"><i class="icon-signin"></i> Riwayat Login User</span>
-            </div>
-            <div class="module-body">
-                <div style="font-weight: normal;" id="show-last-login-list"></div>
-            </div>
-          </div>
+        <div class="span6">
+            <div class="module">
+                <div class="module-head" style="background-color: white">
+                    <span class="badge" style="background-color: salmon; color: white"><i class="icon-signin"></i> Riwayat Login User</span>
+                </div>
+                <div class="module-body">
+                    <div id="show-last-login-list"></div>
+                </div>
+              </div>
+        </div>
     </div>
     {% endif %}
 
@@ -202,28 +200,26 @@
         </tr>
     </table> -->
 
-    
-        <div class="span5">
-            {% for p in pengumuman %}
-            <div class="module" style="background-color: white;">
-                <div class="module-head"  style="background-color: white">  
-                    <img style="height:45px;width:45px; margin-right: 10px;padding: 0;border: 0;" class="img-polaroid img-circle pull-left" src="{{ get_url_image_pengajar(p.foto, 'medium', p.jenis_kelamin) }}">
-                    <a href="{{ site_url('pengajar/detail/' ~ status_id ~ '/' ~ p.pengajar_id) }}">{{ p.nama }}</a>
-                            menambahkan pengumuman <br>
-                            <time style="font-weight: normal;" class="timeago" datetime="{{ p.tgl_tampil }}">{{ p.tgl_tampil }}</time>
+    <div class="btn-box-row row-fluid">
+        <div class="span6">
+
+            <div class="module">
+                <div class="module-head" style="background-color: white">
+                    <span class="badge" style="background-color: orange; color: white"><i class="icon-bullhorn"></i> Pengumuman</span>
                 </div>
                 <div class="module-body">
-                    <h4>{{ p.judul|raw }}</h4>
-                    <div class="wrap-content" style="font-weight: normal;">
-                        <div style="padding: 20px; background-color: rgb(238, 238, 238); border-radius: 5px;">
-                        {{ p.konten|raw }}
-                        </div>
-                    </div>
+                    <table class="table table-striped table-condensed">
+                    {% for p in pengumuman %}
+                    <tr>
+                        <td>{{ anchor('pengumuman/detail/' ~ p.id, p.judul)|raw }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
                 </div>
             </div>
-            {% endfor %}
+
         </div>
-    
+    </div>
     {% endif %}
 
     {% if is_siswa() %}
@@ -237,12 +233,14 @@
             </div>
          </div>
     </div>
-    {% endif %} 
+    {% endif %}
 
-        <div class="span5">
+    <div class="btn-box-row row-fluid">
+
+        <div class="span7" style="font-family: arial; font-size: 14pt">
             <div class="module">
                 <div class="module-head" style="background-color: white">
-                    <h3>Tugas belum dikerjakan</h3>
+                    <b>Daftar Ujian</b>
                 </div>
                 <div class="module-body" style="background-color: white">
                     <table class="table table-striped table-condensed">
@@ -255,6 +253,8 @@
                             <button type="button" class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-target="#mulai-mengerjakan{{ m.id }}"><i class="icon-arrow-right"></i>
                                         Kerjakan
                             </button>
+
+
 
                             <div class="modal fade" id="mulai-mengerjakan{{ m.id }}" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
@@ -270,51 +270,46 @@
                             </div>
                             </div>
                         </td>
+                       
                     </tr>
                     {% endif %}
                     {% endfor %}
-                    </table>
+                </table>
                 </div>
-            </div>
-            
-            
-                {% for p in pengumuman %}
-                <div class="module" style="background-color: white;">
-                    <div class="module-head"  style="background-color: white;">  
-                        <img style="height:45px;width:45px; margin-right: 10px;padding: 0;border: 0;" class="img-polaroid img-circle pull-left" src="{{ get_url_image_pengajar(p.foto, 'medium', p.jenis_kelamin) }}">
-                        <a href="{{ site_url('pengajar/detail/' ~ status_id ~ '/' ~ p.pengajar_id) }}">{{ p.nama }}</a>
-                                menambahkan pengumuman <br>
-                                <time style="font-weight: normal;" class="timeago" datetime="{{ p.tgl_tampil }}">{{ p.tgl_tampil }}</time>
-                    </div>
-                    <div class="module-body">
-                        <h4>{{ p.judul|raw }}</h4>
-                        <div class="wrap-content" style="font-weight: normal;">
-                            <div style="padding: 20px; background-color: rgb(248, 247, 247); border-radius: 5px;">
-                            {{ p.konten|raw }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            
-        
-        </div>
+              </div>
 
-          <div class="span3">
-            <div class="module">
-                <div class="module-head">
-                    <h3>Matapelajaran</h3>
+              <div class="module">
+                <div class="module-head" style="background-color: white">
+                     <b>Hasil Ujian</b>
                 </div>
-                <div class="module-body">
-                    {% for no, v in mapels %}
-                            <a href="{{ site_url('welcome/mapel_sesi/'~v.id) }}" style="font-size: 14px;">{{ v.nama }}</a>
-                            <br><small>{{ v.info|nl2br }}</small>
-                    {% endfor %}
+                <div class="module-body" style="background-color: white">
+                    <div style="border-radius: 5px;">
+                        <table class="table table-striped table-condensed">
+                        {% for m in tugas_selesai %}
+                      
+                        <tr>
+                            <td>
+                                {{ m.judul }}
+                            </td>
+                            <td>
+                                <span style="border-radius: 4px; background-color: darkorange; color: white; padding: 2px 5px 2px 5px">
+                                {{ round(m.nilai) }}
+                                </span>
+                            </td>
+                           
+                        </tr>
+                        
+                        {% endfor %}
+                        </table>
+                    </div>
                 </div>
-            </div>
-              <!-- <div class="module">
+              </div>
+
+          </div>
+          <div class="span5">
+              <div class="module">
                 <div class="module-head" style="background-color: white; font-size: 15px">
-                    Pengumuman
+                    Informasi
                 </div>
                 <div class="module-body" style="padding: 0">
                     <table class="table table-striped table-condensed">
@@ -325,10 +320,15 @@
                         {% endfor %}
                     </table>
                 </div>
-            </div> -->
+            </div>
           </div>
 
+            
 
+           
+
+
+    </div>
     {% endif %}
 
     

@@ -386,7 +386,8 @@ class Materi_model extends CI_Model
         $siswa_id    = null,
         $mapel_id,
         $judul,
-        $konten  = null,
+        $sesi,
+        $konten,
         $file    = null,
         $publish = 1
     ) {
@@ -399,6 +400,7 @@ class Materi_model extends CI_Model
             'siswa_id'    => $siswa_id,
             'mapel_id'    => $mapel_id,
             'judul'       => $judul,
+            'sesi'        => $sesi,
             'konten'      => $konten,
             'file'        => $file,
             'tgl_posting' => date('Y-m-d H:i:s'),
@@ -427,8 +429,9 @@ class Materi_model extends CI_Model
         $siswa_id    = null,
         $mapel_id,
         $judul,
-        $konten  = null,
         $file    = null,
+        $sesi,
+        $konten,
         $publish = 1
     ) {
         $mapel_id = (int)$mapel_id;
@@ -439,8 +442,9 @@ class Materi_model extends CI_Model
             'siswa_id'    => $siswa_id,
             'mapel_id'    => $mapel_id,
             'judul'       => $judul,
-            'konten'      => $konten,
             'file'        => $file,
+            'sesi'        => $sesi,
+            'konten'      => $konten,
             'tgl_posting' => date('Y-m-d H:i:s'),
             'publish'     => $publish
         );

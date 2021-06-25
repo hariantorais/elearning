@@ -24,7 +24,7 @@ Profilku - {{ parent() }}
                                     <td width="5%">{{ jd.jam_mulai|date('H:i') }}</td>
                                     <td width="2%">-</td>
                                     <td width="5%">{{ jd.jam_selesai|date('H:i') }}</td>
-                                    <td width="30%">{{ jd.mapel.nama }}</td>
+                                    <td width="30%"><a href="{{ site_url('welcome/mapel_sesi/'~jd.mapel.id) }}" style="font-size: 14px;">{{ jd.mapel.nama }}</a></td>
                                     <td>Pengajar : {{ anchor(jd.pengajar.link_profil, jd.pengajar.nama)|raw }}</td>
                                 </tr>
                                 {% endfor %}

@@ -82,6 +82,8 @@ class Komentar_model extends CI_Model
         $where = array();
         if (!is_null($login_id)) {
             $where['login_id'] = array($login_id, 'where');
+            $where['kelas_siswa']          = array('kelas_siswa.siswa_id'=>$login_id, 'join', 'inner');
+            $where['kelas']          = array('kelas.id = kelas_siswa.kelas_id', 'join', 'inner');
         }
         if (!is_null($materi_id)) {
             $where['materi_id'] = array($materi_id, 'where');
@@ -89,6 +91,8 @@ class Komentar_model extends CI_Model
         if (!is_null($tampil)) {
             $where['tampil'] = array($tampil, 'where');
         }
+
+
 
         $orderby = array('id' => 'DESC');
         $data = $this->pager->set($this->table, $show_record, $page_no, $where, $orderby);

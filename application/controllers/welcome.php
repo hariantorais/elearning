@@ -24,9 +24,9 @@ class Welcome extends MY_Controller
                 1,
                 array($retrieve_kelas['id'])
             );
-            $data['materi_terbaru'] = $retrieve_all_materi['results'];
-
-
+            $data['materi'] = $retrieve_all_materi['results'];
+            
+            
             # ambil semua data tugas
             $retrieve_all_tugas = $this->tugas_model->retrieve_all(
                 10,
@@ -38,6 +38,10 @@ class Welcome extends MY_Controller
                 null,
                 null
             );
+            
+            # ambil semua data mepel
+            $data['mapels'] = $this->mapel_model->retrieve_all_mapel();
+            
 
             // ambil data user
             $siswa_id = get_sess_data('user', 'id');
@@ -88,11 +92,10 @@ class Welcome extends MY_Controller
         }
 
         # ambil pengumuman yang sudah tampil
-        $data['pengumuman'] = $this->pengumuman_model->retrieve_all(10, 1, $where_pengumuman, false);
+        $data['pengumuman'] = $this->pengumuman_model->retrieve_all_welcome(10, 1, $where_pengumuman, false);
 
         $this->twig->display('welcome.html', $data);
     }
-
     function pengaturan()
     {
         must_login();
@@ -673,6 +676,296 @@ class Welcome extends MY_Controller
         }
 
         $this->twig->display('hapus-data.html', $data);
+    }
+
+    function mapel_sesi($segment_4 = ''){
+        must_login();
+        $id_mapel = (int)$segment_4;
+        
+        $siswa_id = get_sess_data('user', 'id');
+        
+        $kelas_siswa = $this->kelas_model->retrieve_siswa(null, array(
+            'siswa_id' => $siswa_id,
+            'aktif'    => 1
+        ));
+
+        # kelas aktif
+        if (!empty($kelas_siswa)) {
+            $kelas              = $this->kelas_model->retrieve($kelas_siswa['kelas_id']);
+            $kelas_id = $kelas['id'];
+        }
+        
+        $data['mapel'] = $this->mapel_model->get_mapel($id_mapel, $kelas_id);
+ 
+        $data['tugas_selesai'] = $this->db->select('*')->from('nilai_tugas')->join('tugas','tugas.id=nilai_tugas.tugas_id')->where('siswa_id',$siswa_id)->where('tugas.mapel_id',$id_mapel)->order_by('sesi', 'DESC')->get()->result();
+
+        $data['tugas_terbaru'] = $this->db->select('*', 'tugas.id as tugas_id')
+                                          ->from('tugas')
+                                          ->where(array(
+                                              'tampil_siswa' => 1,
+                                              'tugas.mapel_id' => $id_mapel, 
+                                              'tugas_kelas.kelas_id' => $kelas_id 
+                                              ))
+                                          ->join('tugas_kelas', 'tugas_kelas.tugas_id=tugas.id')
+                                          ->order_by('sesi', 'DESC')
+                                          ->get()->result();
+        
+        $data['mapel_sesi'] = $this->mapel_model->retrieve_mapel_sesi($id_mapel,$kelas_id);
+        $this->twig->display('list-sesi.html', $data);
+    }
+
+    function download_materi($segment_4 = '', $segment_5=''){
+        $file = $segment_4;
+        $materi_id = (int)$segment_5;
+        $siswa_id = get_sess_data('user', 'id');
+
+        $cek = $this->db->get_where('absen_siswa', array('siswa_id' => $siswa_id, 'materi_id'=>$materi_id))->num_rows();
+        if ($cek > 0) {
+            redirect(base_url('userfiles/files/'.$file));
+        } else {
+            $data = array(
+                'materi_id' => $materi_id,
+                'siswa_id' => $siswa_id,
+                'absen' => 1,
+                'waktu' => date('Y-m-d H:i:s')
+            );
+            
+            $this->absen_model->input_data($data, 'absen_siswa');
+            redirect(base_url('userfiles/files/'.$file));
+        }
+        
+    }
+
+    function detail($segment_3 = '', $segment_4 = '', $segment_5 = '')
+    {
+        $materi_id = (int)$segment_4;
+
+        if (empty($materi_id)) {
+            show_404();
+        }
+
+        $materi = $this->materi_model->retrieve($materi_id);
+        if (empty($materi)) {
+            show_404();
+        }
+
+        if (is_siswa() && empty($materi['publish'])) {
+            show_404();
+        } else {
+            # cek sesuai kelas aktif tidak
+        }
+
+        /**
+         * jika pengajar cek kepemilikan untuk yang konsep
+         */
+        if (is_pengajar() && $materi['publish'] == '0' && $materi['pengajar_id'] != get_sess_data('user', 'id')) {
+            show_404();
+        }
+
+        # tambah views jika materi terfulis
+        if (empty($materi['file'])) {
+            $plus_views = false;
+
+            # buat session kalo sudah baca materi yan ini
+            $session_read = $this->session->userdata('read_materi');
+            if (empty($session_read)) {
+                $this->session->set_userdata(array('read_materi' => array($materi['id'])));
+                $plus_views = true;
+            } else {
+                if (!in_array($materi['id'], $session_read)) {
+                    $plus_views = true;
+                }
+            }
+
+            if ($plus_views) {
+                $this->materi_model->plus_views($materi['id']);
+            }
+        }
+
+        $data['materi'] = $materi;
+
+        switch ($segment_4) {
+            default:
+            case 'download':
+                # jika request download
+                if ($segment_4 == 'download' AND !empty($materi['file'])) {
+                    $target_file = get_path_file($materi['file']);
+                    if (!is_file($target_file)) {
+                        show_error("Maaf file tidak ditemukan.");
+                    }
+
+                    $data_file = file_get_contents($target_file); // Read the file's contents
+                    $name_file = $materi['file'];
+
+                    $this->materi_model->plus_views($materi['id']);
+
+                    force_download($name_file, $data_file);
+                }
+
+
+                # post komentar
+                $this->form_validation->set_rules('komentar', 'Komentar', 'required');
+                if ($this->form_validation->run() == true) {
+                    $komentar_id = $this->komentar_model->create(
+                        get_sess_data('login', 'id'),
+                        $materi['id'],
+                        $tampil = 1,
+                        $this->input->post('komentar', true)
+                    );
+
+                    redirect('welcome/mapel_sesi/' . $materi['mapel_id']);
+                }
+
+                $data['materi']['download_link'] = site_url('materi/detail/'.$materi['id'].'/download');
+
+                # ambil komentar
+                $retrieve_all_komentar = $this->komentar_model->retrieve_all(20, (int)$segment_4, null, $materi['id'], 1);
+
+                # format komentar
+                foreach ($retrieve_all_komentar['results'] as $key => $val) {
+                    $retrieve_all_komentar['results'][$key] = $this->format_komentar($val);
+                }
+
+                $data['materi']['komentar']            = $retrieve_all_komentar['results'];
+                $data['materi']['jml_komentar']        = $retrieve_all_komentar['total_record'];
+                $data['materi']['komentar_pagination'] = $this->pager->view($retrieve_all_komentar, 'materi/detail/' . $materi['id'] . '/');
+
+                # cari tipenya
+                if (empty($materi['file'])) {
+                    $type = 'tertulis';
+                } else {
+                    $type = 'file';
+                    $data['materi']['file_info']         = get_file_info(get_path_file($materi['file']));
+                    $data['materi']['file_info']['mime'] = get_mime_by_extension(get_path_file($materi['file']));
+                }
+
+                $data['type'] = $type;
+                $data['materi']['mapel'] = $this->mapel_model->retrieve($materi['mapel_id']);
+
+                # cari materi kelas
+                $arr_materi_kelas_id = array();
+                $materi_kelas        = $this->materi_model->retrieve_all_kelas($materi['id']);
+                foreach ($materi_kelas as $mk) {
+                    $arr_materi_kelas_id[]            = $mk['kelas_id'];
+                    $kelas                            = $this->kelas_model->retrieve($mk['kelas_id']);
+                    $data['materi']['materi_kelas'][] = $kelas;
+                }
+
+                /**
+                 * Jika siswa cek dengan kelas aktif
+                 */
+                if (is_siswa()) {
+                    $kelas_aktif = $this->siswa_kelas_aktif;
+                    $retrieve_kelas = $this->kelas_model->retrieve($kelas_aktif['kelas_id']);
+
+                    $kelas_valid = false;
+                    foreach ($arr_materi_kelas_id as $mk_id) {
+                        if ($mk_id == $retrieve_kelas['id']) {
+                            $kelas_valid = true;
+                            break;
+                        }
+                    }
+
+                    if ($kelas_valid == false) {
+                        $this->session->set_flashdata('materi', get_alert('warning', 'Materi tidak tersedia untuk kelas Anda.'));
+                        redirect('materi');
+                    }
+                }
+
+                # cari pembuatnya
+                if (!empty($materi['pengajar_id'])) {
+                    $pengajar = $this->pengajar_model->retrieve($materi['pengajar_id']);
+                    $data['materi']['pembuat'] = array(
+                        'nama'      => $pengajar['nama'],
+                        'link_foto' => get_url_image_pengajar($pengajar['foto'], 'medium', $pengajar['jenis_kelamin'])
+                    );
+                    if (is_admin()) {
+                        $data['materi']['pembuat']['link_profil'] = site_url('pengajar/detail/'.$pengajar['status_id'].'/'.$pengajar['id']);
+                    } else {
+                        $data['materi']['pembuat']['link_profil'] = site_url('pengajar/detail/'.$pengajar['id']);
+                    }
+                }
+
+                if (!empty($materi['siswa_id'])) {
+                    $siswa = $this->siswa_model->retrieve($materi['siswa_id']);
+                    $data['materi']['pembuat'] = array(
+                        'nama'        => $siswa['nama'],
+                        'link_foto'   => get_url_image_siswa($siswa['foto'], 'medium', $siswa['jenis_kelamin'])
+                    );
+
+                    if (is_admin()) {
+                        $data['materi']['pembuat']['link_profil'] = site_url('siswa/detail/'.$siswa['status_id'].'/'.$siswa['id']);
+                    } else {
+                        $data['materi']['pembuat']['link_profil'] = site_url('siswa/detail/'.$siswa['id']);
+                    }
+                }
+
+                # cari materi terkait
+                $retrieve_terkait_mapel = $this->materi_model->retrieve_all(
+                    $no_of_records = 10,
+                    $page_no       = 1,
+                    $pengajar_id   = array(),
+                    $siswa_id      = array(),
+                    $mapel_id      = array($materi['mapel_id']),
+                    $judul         = null,
+                    $konten        = null,
+                    $tgl_posting   = null,
+                    $publish       = 1,
+                    $kelas_id      = array(),
+                    $type          = array(),
+                    $pagination    = false
+                );
+
+                $data_terkait = array();
+                foreach ($retrieve_terkait_mapel as $row) {
+                    if (empty($data_terkait[$row['id']]) AND $row['id'] != $materi['id'] AND count($data_terkait) <= 20) {
+                        $data_terkait[$row['id']] = $row;
+                    }
+                }
+
+                $retrieve_terkait_kelas = $this->materi_model->retrieve_all(
+                    $no_of_records = 10,
+                    $page_no       = 1,
+                    $pengajar_id   = array(),
+                    $siswa_id      = array(),
+                    $mapel_id      = array(),
+                    $judul         = null,
+                    $konten        = null,
+                    $tgl_posting   = null,
+                    $publish       = 1,
+                    $kelas_id      = $arr_materi_kelas_id,
+                    $type          = array(),
+                    $pagination    = false
+                );
+
+                foreach ($retrieve_terkait_kelas as $row) {
+                    if (empty($data_terkait[$row['id']]) AND $row['id'] != $materi['id'] AND count($data_terkait) <= 20) {
+                        $data_terkait[$row['id']] = $row;
+                    }
+                }
+
+                $siswa_idabsen = get_sess_data('user', 'id');
+
+                $data['absen'] = $this->absen_model->getdata($materi_id, $siswa_idabsen);
+
+                $data['terkait'] = $data_terkait;
+
+                # setup texteditor
+                $html_js = get_texteditor();
+
+                # setup colorbox
+                $html_js .= load_comp_js(array(
+                    base_url('assets/comp/colorbox/jquery.colorbox-min.js'),
+                ));
+
+                $data['comp_js']  = $html_js;
+                $data['comp_css'] = load_comp_css(array(
+                    base_url('assets/comp/colorbox/colorbox.css')
+                ));
+
+                $this->twig->display('detail-materi.html', $data);
+            break;
+        }
     }
 }
 

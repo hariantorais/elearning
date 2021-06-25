@@ -7,14 +7,14 @@ Detail Percakapan - {{ parent() }}
 {% block content %}
 <div class="module">
     <div class="module-head">
-        <h3>{{ anchor('message', 'Pesan')|raw }} / Detail Percakapan</h3>
+        <h3>{{ anchor('message', '<i class="icon-arrow-left"></i> Kembali')|raw }}</h3>
     </div>
-    <div class="module-body">
+    <div class="module-body" style="background-color: white;">
 
         {% set active_msg_id = r.id %}
 
         <div class="table-responsive">
-        <table class="table table-hover" id="list-msg">
+        <table id="list-msg" width="100%">
             <tbody>
                 {% for d in old_related_msg %}
                     {% set item_msg = d %}
@@ -39,10 +39,14 @@ Detail Percakapan - {{ parent() }}
             <hr class="hr-msg">
             {{ form_open_multipart('message/create/' ~ r.sender_receiver_id, {'class' : 'form-horizontal row-fluid'})|raw }}
                 <input type="hidden" name="penerima" value="{{ receiver_name }}">
-                <textarea name="content" id="content" class="texteditor">{{ set_value('content')|raw }}</textarea>
-                {{ form_error('content')|raw }}
-                <br>
-                <p><button class="btn btn-primary">Kirim</button></p>
+                <div class="media-body">
+                    <div class="row-fluid">
+                        <textarea name="content" id="content" class="span12" style="height: 70px; resize: none;">{{ set_value('content')|raw }}</textarea> {{ form_error('content')|raw }}
+                    </div><br>
+                    <div class="clearfix">
+                        <button class="btn btn-primary pull-right">Kirim</button>
+                    </div>
+                </div>
             {{ form_close()|raw }}
         </div>
         {% endif %}

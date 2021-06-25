@@ -239,6 +239,7 @@ class Tugas extends MY_Controller
         if ($this->form_validation->run($form_validation) == TRUE) {
             $mapel_id = $this->input->post('mapel_id', TRUE);
             $judul    = $this->input->post('judul', TRUE);
+            $sesi    = $this->input->post('sesi', TRUE);
             $info     = $this->input->post('info');
             $durasi   = null;
             if ($type != 1) {
@@ -250,6 +251,7 @@ class Tugas extends MY_Controller
                 get_sess_data('user', 'id'),
                 $type,
                 $judul,
+                $sesi,
                 $durasi,
                 $info
             );
@@ -336,8 +338,8 @@ class Tugas extends MY_Controller
         if ($this->form_validation->run($form_validation) == TRUE) {
             $mapel_id = $this->input->post('mapel_id', TRUE);
             $judul    = $this->input->post('judul', TRUE);
+            $sesi    = $this->input->post('sesi');
             $info     = $this->input->post('info');
-            $durasi   = null;
             if ($tugas['type_id'] != 1) {
                 $durasi = $this->input->post('durasi', TRUE);
             }
@@ -349,6 +351,7 @@ class Tugas extends MY_Controller
                 $tugas['type_id'],
                 $judul,
                 $durasi,
+                $sesi,
                 $info,
                 $tugas['aktif']
             );

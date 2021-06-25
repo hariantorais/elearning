@@ -1,71 +1,79 @@
-{% extends 'layout-print-kartu.html' %}
+{% extends 'layout-print-kartu.html' %} {% block title %} Print Kartu - {{
+parent() }} {% endblock %} {% block content %} {% for s in siswa %}
+<div class="page">
+    <table border="1" cellspacing="0" width="100%" style="font-size: 9pt">
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td border="0">
+                            <center>
+                                <img
+                                    src="{{ get_logo_config() }}"
+                                    style="height: 40px; width: 40px"
+                                />
+                            </center>
+                        </td>
+                        <td width="85%">
+                            <center>
+                                KARTU PESERTA UJIAN SEKOLAH CBT <br />
+                                {{ strtoupper(site_name) }} <br />
+                                TAHUN PELAJARAN 2020-2021
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td>Nama Peserta</td>
+                        <td>:</td>
+                        <td><b>{{ strtoupper(s.nama) }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td>:</td>
+                        <td><b>{{ s.username }}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>:</td>
+                        <td><b>{{ s.password }}</b></td>
+                    </tr>
+                    <tr>
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <br />
+                                    <center>
+                                        <img
+                                            style="
+                                                height: 2.8cm;
+                                                width: 2.3cm;
+                                                margin-right: 20px;
+                                            "
+                                            src="{{ get_url_image_siswa(s.foto, 'medium', s.jenis_kelamin) }}"
+                                        />
+                                    </center>
+                                </td>
+                                <td colspan="2" style="text-align: right">
+                                    <br />
 
-{% block title %}
-    Print Kartu - {{ parent() }}
-{% endblock %}
+                                    <img
+                                        src="{{ base_url('userfiles/images/ttd.png') }}"
+                                        style="width: 150px"
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
 
-{% block content %}
-    
-	{% for s in siswa %}
-		<div class="page">
-			
-	        <table border="1" cellspacing="0" width="100%" style="font-size: 9pt;">
-	        	<tr>
-	        		<td>
-	        		<table width="100%">
-	        			<tr>
-		        		<td border=0><center><img src="{{ get_logo_config() }}" style="height: 40px; width: 40px;"></center></td>
-		        		<td width="85%">
-	        			<center>
-	        			KARTU PESERTA CBT <br>
-	        			{{ strtoupper(site_name) }} <br>
-	        			TAHUN PELAJARAN 2020-2021
-	        			</center>
-		        		</td>
-		        		</tr>
-	        		</table>
-	        		</td>
-	        	</tr>
-	        	<tr>
-	        		<td>
-	        			<table width="100%">
-	        				<tr>
-				        		<td>Nama Peserta</td>
-				        		<td>:</td>
-				        		<td><b>{{ strtoupper(s.nama) }}</b></td>
-				        	</tr>
-				        	<tr>
-				        		<td>Username</td>
-				        		<td>:</td>
-				        		<td><b>{{ s.username }}</b></td>
-				        	</tr>
-				        	<tr>
-				        		<td>Password</td>
-				        		<td>:</td>
-				        		<td><b>{{ s.password }}</b></td>
-				        	</tr>
-				        	<tr>
-				        		<table width="100%">
-				        			<tr>
-				        				<td><br>
-						        			<center><img style="height:2.8cm;width:2.3cm;margin-right: 20px" src="{{ get_url_image_siswa(s.foto, 'medium', s.jenis_kelamin) }}"></center>
-						        		</td>
-						        		<td colspan="2" style="text-align: right;">
-						        			<br>
-						        		
-						        			<img src="{{ base_url('userfiles/images/ttd.png') }}" style="width: 150px">
-						        		
-						        		</td>
-				        			</tr>
-				        		</table>
-				        	</tr>
-	        			</table>
-	        		</td>
-	        	</tr>
-	        </table>
-	        
-	        </div>
-    	
-    {% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

@@ -798,4 +798,11 @@ class Siswa extends MY_Controller
 
         $this->twig->display('jadwal-mapel.html', $data);
     }
+
+    function sesi_materi($segment_4='')
+    {
+        $id_materi = (int)$segment_4;
+        $data['materi'] = $this->siswa_model->get_sesi_materi($id_materi);
+        $this->twig->display('sesi_materi.html', $data);
+    }
 }

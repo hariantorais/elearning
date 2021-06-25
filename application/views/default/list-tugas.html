@@ -8,17 +8,13 @@ Tugas - {{ parent() }}
 <div class="module">
     <div class="module-head">
         {% if (is_siswa() == false) %}
-       
-                    <div class="btn-group pull-right">
-             
-                            {{ anchor('tugas/add/3', 'Tambah', {'class' : 'btn btn-success'})|raw }}
-                            <!-- {{ anchor('tugas/add/2', 'Essay', {'class' : 'btn btn-primary'})|raw }} -->
-                            <!-- {{ anchor('tugas/add/1', 'Upload', {'class' : 'btn btn-warning'})|raw }} -->
-                              
-                    </div>
-        
+            <div class="btn-group pull-right">
+                    {{ anchor('tugas/add/3', 'Quiz', {'class' : 'btn btn-success'})|raw }}
+                    {{ anchor('tugas/add/2', 'Essay', {'class' : 'btn btn-primary'})|raw }}
+                    {{ anchor('tugas/add/1', 'Upload', {'class' : 'btn btn-warning'})|raw }}
+            </div>
         {% endif %}
-        <h3>Ujian</h3>
+        <h3>Tugas</h3>
     </div>
     <div class="module-body"  style="background-color: white">
         {{ get_flashdata('tugas')|raw }}
@@ -26,7 +22,7 @@ Tugas - {{ parent() }}
         {% if (is_siswa() == false) %}
         <div class="bs-callout bs-callout-info">
             
-            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI UJIAN</a></b>
+            <b><a class="as-link" data-toggle="collapse" data-target="#form-filter"><i class="icon-search" style="line-height: 0px;"></i> CARI TUGAS</a></b>
             
 
             <div id="form-filter" class="collapse" style="margin-top: 5px;">

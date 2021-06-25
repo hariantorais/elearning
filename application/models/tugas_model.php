@@ -773,6 +773,7 @@ class Tugas_model extends CI_Model
         $type_id,
         $judul,
         $durasi = null,
+        $sesi,
         $info   = '',
         $aktif  = 0
     ) {
@@ -788,6 +789,7 @@ class Tugas_model extends CI_Model
             'judul'       => $judul,
             'info'        => $info,
             'durasi'      => $durasi,
+            'sesi'      => $sesi,
             'aktif'       => $aktif
         );
         $this->db->where('id', $id);
@@ -842,6 +844,7 @@ class Tugas_model extends CI_Model
         $pengajar_id,
         $type_id,
         $judul,
+        $sesi,
         $durasi = null,
         $info   = ''
     ) {
@@ -856,11 +859,22 @@ class Tugas_model extends CI_Model
             'judul'       => $judul,
             'info'        => $info,
             'durasi'      => $durasi,
+            'sesi'        => $sesi,
             'aktif'       => 0,
             'tgl_buat'    => date('Y-m-d H:i:s')
         );
         $this->db->insert('tugas', $data);
         return $this->db->insert_id();
+    }
+
+    public function retrieve_tugas_sesi($id_mapel)
+    {   
+        
+        $this->db->where('mapel_id' , $id_mapel);
+        $this->db->where('aktif' , 1);
+        $this->db->order_by('sesi', 'DESC');
+        $result = $this->db->get('tugas');
+        return $result->result_array();
     }
 
 }

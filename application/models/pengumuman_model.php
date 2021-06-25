@@ -43,7 +43,7 @@ class Pengumuman_model extends CI_Model
             }
         }
 
-        $orderby = array('id' => 'DESC');
+        $orderby = array('pengumuman.id' => 'DESC');
         if (!$pagination) {
             $no_of_records = $this->db->count_all($this->table);
         }
@@ -57,6 +57,44 @@ class Pengumuman_model extends CI_Model
         }
     }
 
+    public function retrieve_all_welcome(
+        $no_of_records = 10,
+        $page_no       = 1,
+        $array_where   = array(),
+        $pagination    = true
+    ) {
+        $where = array();
+
+        $where['pengajar']      = array('pengajar.id = pengumuman.pengajar_id', 'join', 'inner');
+
+        $exist_like = 0;
+        foreach ($array_where as $key => $val) {
+            if (in_array($key, array('judul', 'konten'))) {
+                $exist_like = 1;
+
+                if (!$exist_like) {
+                    $where[$key] = array($val, 'like');
+                } else {
+                    $where[$key] = array($val, 'or_like');
+                }
+            } else {
+                $where[$key] = array($val, 'where');
+            }
+        }
+
+        $orderby = array('pengumuman.id' => 'DESC');
+        if (!$pagination) {
+            $no_of_records = $this->db->count_all($this->table);
+        }
+
+        $data = $this->pager->set($this->table, $no_of_records, $page_no, $where, $orderby);
+
+        if ($pagination) {
+            return $data;
+        } else {
+            return $data['results'];
+        }
+    }
     /**
      * Method untuk mendapatkan satu record pengumuman
      *

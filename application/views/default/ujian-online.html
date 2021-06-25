@@ -56,60 +56,43 @@
                 <img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar img-polaroid img-circle" style="width: 30px; height: 30px;">
             </div><br>
             <div class="span2"></div>
-            <div class="content span9">
+            <div class="content span8">
 
-                <center><h4>UJIAN SEKOLAH BERBASIS CBT</h4></center>
-
-                {% if data.tugas.type_id != 1 %}
-
-                <table class="table" width="100%" style="background-color: lavender">
-                    <tr>
-                        <td align="center"><center><b>{{ strtoupper(data.tugas.judul) }}</b></center></td>
-                    </tr>
-                </table><br>
-                {% endif %}
+                <h3 align="center">{{ strtoupper(data.tugas.judul) }}</h3>
                 
-                <div class="row-fluid">
                     {% if data.tugas.type_id != 1 %}
                     <div class="span8">
                         <b><i>{{ data.tugas.info|raw }}</i></b>
                     </div>
                     
                     {% else %}
-                    <div class="span6">
-                        <b class="badge badge-info">Informasi Tugas : </b><br>
-                        <p>{{ data.tugas.info|raw }}</p>
-                    </div><hr>
-                    <div class="span6">
-                        <div class="well well-sm">
-                            <p><b>Upload file tugas anda: </b></p>
-                            {{ form_open_multipart('tugas/submit_upload/' ~ data.tugas.id ~ '/' ~ data.unix_id)|raw }}
-                            <input type="file" name="userfile">
-                            <hr class="hr1">
-                            <div class="row-fluid">
-                                <div class="span3">
-                                    <button type="submit" class="btn btn-success">Upload</button>
-                                </div>
-                                <div class="span9">
-                                    {{ get_flashdata('upload')|raw }}
-                                </div>
-                            </div><br>
-                            {{ form_close()|raw }}
-                            <div style="border: 1px dashed red;padding: 10px">
-                            <b>Cara Upload File:</b>
-                            <ol>
-                            <li>Baca permintaan tugas pada bagian <b>Informasi tugas</b>.</li>
-                            <li>Klik tombol <b>Telusuri</b> dan pilih file anda. <br></li>
-                            <li>Klik tombol <b>Upload</b>.</li>
-                            </ol>
-
-
-<a href="https://wa.widget.web.id/b8f41a" class="act-wa" target="_blank"><img src="http://smp-ia.sch.id/elearning/assets/themes/default/images/wa.png"></a>
+                    
+                        <div class="module">
+                            <div class="module-head"><b>Informasi Tugas</b></div>
+                            <div class="module-body">
+                                <p>{{ data.tugas.info|raw }}</p>
                             </div>
                         </div>
-                    </div>
+                    
+                        <div class="module">
+                            <div class="module-head"><b>Jawaban</b></div>
+                            <div class="module-body">
+                                {{ form_open_multipart('tugas/submit_upload/' ~ data.tugas.id ~ '/' ~ data.unix_id)|raw }}
+                                <input type="file" name="userfile">
+                                <hr class="hr1">
+                                <div class="row-fluid">
+                                    <div class="span3">
+                                        <button type="submit" class="btn btn-success">Upload</button>
+                                    </div>
+                                    <div class="span9">
+                                        {{ get_flashdata('upload')|raw }}
+                                    </div>
+                                </div><br>
+                                {{ form_close()|raw }}
+                            </div>
+                        </div>
                     {% endif %}
-                </div>
+                
 
                 {% if data.tugas.type_id == 3 %}
                     <table class="table">

@@ -1,0 +1,83 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Sesi - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module span8">
+  <div class="module-body">
+    <b>{{ mapel.nama }}</b>
+  </div>
+</div>
+<!-- JIKA SISWA -->
+{% if (is_siswa() == true) %}
+
+<div class="span5">
+  {% for no, m in mapel_sesi %}
+<div class="module">
+    <div class="module-head"  style="background-color: white">  
+        
+        <img style="height:45px;width:45px; margin-right: 10px;padding: 0;border: 0;" class="img-polaroid img-circle pull-left" src="{{ get_url_image_pengajar(m.foto, 'medium', m.jenis_kelamin) }}">
+        <a href="{{ site_url('pengajar/detail/' ~ status_id ~ '/' ~ m.pengajar_id) }}">{{ m.nama }}</a>
+                menambahkan materi pada <b style="color: darkorange;">sesi #{{m.sesi}}</b> mata pelajaran <b style="color: darkorange;">{{ mapel.nama }}</b> <br>
+                <time style="font-weight: normal;" class="timeago" datetime="{{ m.tgl_posting }}">{{ m.tgl_posting }}</time>
+    </div>
+    <div class="module-body" style="background-color: white;">
+      <a href="{{ site_url('materi/detail/' ~ m.id)}}" style="font-size: 20px;">{{ m.judul }}</a>
+      
+      </div>
+    </div>
+
+{% endfor %}
+</div>
+
+
+<div class="span3">
+  <h4>Tugas belum dikerjakan</h4>
+    {% for t in tugas_terbaru %}
+        {% if sudah_ngerjakan(t.tugas_id, get_sess_data('user', 'id')) == false %}
+        <div class="module">
+          <div class="module-body" style="background-color: white;">
+        Tugas  - <span>Sesi #{{ t.sesi }}</span> {% if t.type_id == 3 %} <b style="color: rgb(255, 255, 255);background-color: rgb(235, 148, 90);padding: 3px;border-radius: 2px;">Quiz</b> {% endif %} <br> 
+          {% if t.tampil_siswa == 1 and t.aktif==1%}
+          <a href="{{ site_url('tugas/kerjakan/'~t.tugas_id) }}" id="btn-submit" style="color: black;text-decoration: none;" >{{ t.judul }}
+            <div class="pull-right">
+              <span style="color: rgb(27, 177, 52);font-weight: bolder;">Kerjakan</span>
+            </div>
+          </a><br>
+          <span style="font-weight: normal;">Durasi : {{ t.durasi }} menit</span>
+          {% else %}
+            <span style="color: black;">{{ t.judul }}</span>
+            <div class="pull-right">
+              <span> <i> Tugas berakhir</i></span>
+            </div>
+          {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+
+      <h4>Tugas selesai</h4>
+      {% for t in tugas_selesai %}
+        {% if sudah_ngerjakan(t.tugas_id, get_sess_data('user', 'id')) == true %}
+        <div class="module">
+          <div class="module-body" style="background-color: white;">
+          Tugas  - <span>Sesi #{{ t.sesi }}</span> <br>
+          <span style="color: black;">{{ t.judul }} </span>
+          <div class="pull-right">
+            {% if (t.nilai<60) %}
+              <span style="background-color: rgb(223, 25, 42);padding: 5px;border-radius: 5px;color: white;">{{ t.nilai }}</span>
+              {% else %}  
+              <span style="background-color: rgb(106, 156, 230);padding: 5px;border-radius: 5px;color: white;">{{ t.nilai }}</span>
+            {% endif %}
+          </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+</div>
+{% endif %}
+
+{{ pagination|raw }}
+{% endblock %}

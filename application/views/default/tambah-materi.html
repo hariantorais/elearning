@@ -47,20 +47,32 @@ Tambah Materi - {{ parent() }}
                     {{ form_error('kelas_id[]')|raw }}
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">Sesi</label>
+                <div class="controls">
+                    <input type="number" name="sesi" class="form-control" value="{{ set_value('sesi') }}">
+                </div>
+                {{ form_error('sesi')|raw }}
+            </div>
             {% if type == 'tertulis' %}
+            <div class="control-group">
+                <label class="control-label">Konten <span class="text-error">*</span></label>
+                <div class="controls">
+                    <textarea name="konten" id="konten" class="texteditor" >{{ set_value('konten')|raw }}</textarea>
+                    {{ form_error('konten')|raw }}
+                </div>
+            </div>
+            {% elseif type == 'file' %}
             <div class="control-group">
                 <label class="control-label">Konten <span class="text-error">*</span></label>
                 <div class="controls">
                     <textarea name="konten" id="konten" class="texteditor">{{ set_value('konten')|raw }}</textarea>
                     {{ form_error('konten')|raw }}
                 </div>
-            </div>
-            {% elseif type == 'file' %}
-            <div class="control-group">
                 <label class="control-label">File <span class="text-error">*</span></label>
                 <div class="controls">
                     <input type="file" name="userfile">
-                    <div class="well well-small">Ekstensi yang diijinkan: <br>.doc, .zip, .rar, .txt, .docx, .xls, .xlsx, .pdf, .tar, .gz, .jpg, .jpeg, .JPG, .JPEG, .png, .ppt, .pptx</div>
+                    <div class="well well-small">File yang diizinkan: <br>.doc, .zip, .rar, .txt, .docx, .xls, .xlsx, .pdf, .tar, .gz, .jpg, .jpeg, .JPG, .JPEG, .png, .ppt, .pptx</div>
                     {{ (error_upload is not empty) ? error_upload|raw }}
                 </div>
             </div>
