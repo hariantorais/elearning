@@ -1,6 +1,6 @@
 
 {% for menus in list_menu %}
     {% for menu in menus %}
-        <li class="visible-phone visible-tablet">{{ menu|raw }}</li>
+        <span class="visible-phone visible-tablet" style="margin-bottom: 15px;">{{ menu|raw }}</span>
     {% endfor %}
 {% endfor %}

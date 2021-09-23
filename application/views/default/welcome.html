@@ -14,7 +14,7 @@
                     <td><img src="{{ get_url_image_session(get_sess_data('user', 'foto'), 'medium', get_sess_data('user', 'jenis_kelamin')) }}" class="nav-avatar-welcome img-polaroid" />
                     </td>
                     <td width="70%">
-                                <span style="color: black";>Assalamu'alaikum</span> <b>{{ get_sess_data('user', 'nama') }}</b> <br>
+                                <b style="color: black;">{{ get_sess_data('user', 'nama') }}</b> <br>
                                 {% if is_siswa() %}                                
                                 Kelas {{ pengguna.nama_kelas }}
                                 {% endif %}
@@ -30,7 +30,7 @@
                         {% endif %}
 
                         {% if is_pengajar() %}
-                        {{ anchor('login/pp', '<i style="font-size: 16px; color: grey" class="icon-edit"></i>')|raw }}
+                        <a href="{{ site_url('login/pp') }}" style="text-decoration: none;"><i style="font-size: 16px; color: grey" class="icon-edit"></i></a>
                         {% endif %}
 
                         {% if is_siswa() %}
@@ -96,37 +96,8 @@
         </table>
     </div>
     {% endif %}
-
-    <table width="100%" class="visible-phone">
-        <tr>
-            <td width="25%" align="center">
-                <a href="{{ site_url('tugas?clear_filter=true') }}">
-                    <i style="font-size: 30px" class="icon-tasks"></i>
-                    <p>Tugas</p>
-                </a>
-            </td>
-            <td width="25%" align="center">
-                <a href="{{ site_url('pengumuman') }}">
-                    <i style="font-size: 30px" class="icon-bullhorn"></i>
-                    <p>Informasi</p>
-                </a>
-            </td>
-            <td width="25%" align="center">
-                <a href="{{ site_url('siswa/index/1') }}">
-                    <i style="font-size: 30px" class="icon-group"></i>
-                    <p>Siswa</p>
-                </a>
-            </td>
-            <td width="25%" align="center">
-                 <a href="{{ site_url('pengajar/index/1') }}">
-                    <i style="font-size: 30px" class="icon-user"></i>
-                    <!-- <b>{{ jml_pengajar }}</b> -->
-                    <p>Guru</p>
-                </a>
-            </td>
-        </tr>
-    </table>
-   
+    
+    {% include 'menu-phone.html' %}
 
     <div class="span5">
         {% for p in pengumuman %}
@@ -173,34 +144,7 @@
     </div>
     {% endif %}
 
-    <!-- <table width="100%">
-        <tr>
-            <td width="20%" align="center">
-                <a href="{{ site_url('materi?clear_filter=true') }}" class="btn-box big span2">
-                    <i class="icon-book"></i>
-                   <p><span class="badge" style="background-color: blue; color: white">Materi</p>
-                </a>
-            </td>
-            <td width="20%" align="center">
-                <a href="{{ site_url('tugas?clear_filter=true') }}" class="btn-box big span2">
-                    <i class="icon-tasks"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Tugas</p>
-                </a>
-            </td>
-            <td width="20%" align="center">
-                <a href="{{ site_url('message') }}" class="btn-box big span2">
-                    <i class="icon-comments"></i>
-                  <p><span class="badge" style="background-color: blue; color: white">Pesan</span><span class="menu-count-new-msg2"></span></p>
-                </a>
-            </td>
-            <td width="20%" align="center">
-                <a href="{{ site_url('pengajar/jadwal') }}" class="btn-box big span2">
-                    <i class="icon-calendar"></i>
-                    <p><span class="badge" style="background-color: blue; color: white">Jadwal</p>
-                </a>
-            </td>
-        </tr>
-    </table> -->
+    {% include 'menu-phone.html' %}
 
     
         <div class="span5">
@@ -239,6 +183,39 @@
     </div>
     {% endif %} 
 
+    <div class="visible-phone">
+        <table class="table" width="100%">
+            <tr>
+                <td width="25%" style="border-style: none;">
+                    <center>
+                    <a style="text-decoration: none;" href="{{ site_url('siswa/jadwal_mapel') }}">
+                        <i style="font-size: 30px" class="icon-book"></i>
+                        <p>Mapel</p>
+                    </a>
+                    </center>
+                </td>
+                
+                <td width="25%" style="border-style: none;">
+                    <center>
+                    <a style="text-decoration: none;" href="{{ site_url('kelompok') }}">
+                        <i style="font-size: 30px" class="icon-comments"></i>
+                        <p>Ruang Diskusi</p>
+                    </a>
+                    </center>
+                </td>
+                <td width="25%" style="border-style: none;">
+                    <center>
+                     <a style="text-decoration: none;" href="{{ site_url('login/logout') }}">
+                        <i style="font-size: 30px" class="icon-signout"></i>
+                        <!-- <b>{{ jml_pengajar }}</b> -->
+                        <p>Logout</p>
+                    </a>
+                    </center>
+                </td>
+            </tr>
+        </table>
+        </div>
+
         <div class="span5">
             <div class="module">
                 <div class="module-head" style="background-color: white">
@@ -260,11 +237,12 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <span style="font-size: 15pt">Bismillah... <br>Ana atas nama <b>{{ strtoupper(get_sess_data('user', 'nama')) }}</b> menyatakan, akan berjanji mematuhi tata tertib ujian. Apabila ana terbukti melakukan kecurangan atau melanggar tata tertib ujian, maka ana bersedia dikeluarkan dari ruang ujian.</span>
+                                        <!-- <span style="font-size: 15pt">Bismillah... <br>Ana atas nama <b>{{ strtoupper(get_sess_data('user', 'nama')) }}</b> menyatakan, akan berjanji mematuhi tata tertib ujian. Apabila ana terbukti melakukan kecurangan atau melanggar tata tertib ujian, maka ana bersedia dikeluarkan dari ruang ujian.</span> -->
+                                        <span style="font-size: 15px;">Apakah antum siap mengerjakan tugas ini {{ strtoupper(get_sess_data('user', 'nama')) }} ?</span>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Tidak Setuju</button>
-                                        <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/'~m.id) }}" id="btn-submit">Setuju, Mulai Mengerjakan.</a>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Belum</button>
+                                        <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/'~m.id) }}" id="btn-submit">Siap</a>
                                     </div>
                                 </div>
                             </div>

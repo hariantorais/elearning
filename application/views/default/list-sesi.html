@@ -6,7 +6,7 @@ Sesi - {{ parent() }}
 
 {% block content %}
 <div class="module span8">
-  <div class="module-body">
+  <div class="module-body" style="background-color: rgb(255, 255, 255);">
     <b>{{ mapel.nama }}</b>
   </div>
 </div>
@@ -38,15 +38,31 @@ Sesi - {{ parent() }}
     {% for t in tugas_terbaru %}
         {% if sudah_ngerjakan(t.tugas_id, get_sess_data('user', 'id')) == false %}
         <div class="module">
+          <div class="module-header" style="padding: 5px;background-color: rgb(222, 239, 240);">
+            Tugas  - <span>Sesi #{{ t.sesi }}</span> {% if t.type_id == 3 %} <b style="color: rgb(255, 255, 255);background-color: rgb(235, 148, 90);padding: 3px;border-radius: 2px;">Quiz</b> {% endif %}
+          </div>
           <div class="module-body" style="background-color: white;">
-        Tugas  - <span>Sesi #{{ t.sesi }}</span> {% if t.type_id == 3 %} <b style="color: rgb(255, 255, 255);background-color: rgb(235, 148, 90);padding: 3px;border-radius: 2px;">Quiz</b> {% endif %} <br> 
           {% if t.tampil_siswa == 1 and t.aktif==1%}
-          <a href="{{ site_url('tugas/kerjakan/'~t.tugas_id) }}" id="btn-submit" style="color: black;text-decoration: none;" >{{ t.judul }}
-            <div class="pull-right">
-              <span style="color: rgb(27, 177, 52);font-weight: bolder;">Kerjakan</span>
-            </div>
-          </a><br>
-          <span style="font-weight: normal;">Durasi : {{ t.durasi }} menit</span>
+          <b>{{ t.judul }}</b>
+          
+          <a style="text-decoration: none;" type="button" class="pull-right" data-toggle="modal" data-target="#mulai-mengerjakan{{ t.tugas_id }}"><i class="icon-arrow-right"></i>
+            Kerjakan
+          </a>
+
+          <div class="modal fade" id="mulai-mengerjakan{{ t.tugas_id }}" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-body">
+                      <span style="font-size: 15px;">Apakah antum siap mengerjakan tugas ini {{ strtoupper(get_sess_data('user', 'nama')) }} ?</span>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Belum</button>
+                      <a class="btn btn-primary" href="{{ site_url('tugas/kerjakan/'~t.tugas_id) }}" id="btn-submit">Siap</a>
+                  </div>
+              </div>
+          </div>
+          </div>
+          
           {% else %}
             <span style="color: black;">{{ t.judul }}</span>
             <div class="pull-right">
@@ -62,8 +78,10 @@ Sesi - {{ parent() }}
       {% for t in tugas_selesai %}
         {% if sudah_ngerjakan(t.tugas_id, get_sess_data('user', 'id')) == true %}
         <div class="module">
+          <div class="module-header" style="padding: 5px; background-color: rgb(222, 239, 240);">
+            Tugas  - <span>Sesi #{{ t.sesi }}</span>
+          </div>
           <div class="module-body" style="background-color: white;">
-          Tugas  - <span>Sesi #{{ t.sesi }}</span> <br>
           <span style="color: black;">{{ t.judul }} </span>
           <div class="pull-right">
             {% if (t.nilai<60) %}

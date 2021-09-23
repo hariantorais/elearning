@@ -1,0 +1,56 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Anggota {{ nama_kelompok }} - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>{{ anchor('kelompok', 'Kelompok')|raw }} / {{ anchor('kelompok/detail/'~kelompok_id, strtoupper(nama_kelompok))|raw }} / Anggota</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('tugas')|raw }}
+        {% if is_pengajar() == true or is_admin() == true %}
+        <a href="{{ site_url('kelompok/atur_anggota/' ~ kelas_id ~'/'~kelompok_id) }}" class="btn btn-success">
+            Tambah Anggota
+        </a>
+
+        
+        <br><br>
+        {% endif %}
+
+        <table class="table table-striped datatable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nama Siswa</th>
+                    <th>Kelas</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for no, s in siswa %}
+                <tr>
+                    <td>#{{ loop.index }}</td>
+                    <td>
+                        <span>{{ s.nama_siswa }}</span>
+                    </td>
+                    <td>
+                      <span>{{ s.nama_kelas }}</span>
+                    </td>
+                    <td>
+                        {% if is_admin() or is_pengajar() %}
+                        <a href="{{ site_url('kelompok/keluarkan_anggota/'~kelompok_id~'/'~s.siswa_id~'/'~kelas_id) }}">Keluarkan</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+
+    </div>
+</div>
+{% endblock %}

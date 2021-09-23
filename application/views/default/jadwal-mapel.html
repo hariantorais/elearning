@@ -38,4 +38,13 @@ Profilku - {{ parent() }}
         </table>
     </div>
 </div>
+
+<div class="module">
+    <div class="module-body">
+        {% for d in diskusi %}
+        {{ d.id }}
+        <a href="{{ site_url('kelompok/diskusi/'~d.kelompok_id~'#'~data_terakhir) }}">Ruang Diskusi</a>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

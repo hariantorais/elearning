@@ -794,7 +794,11 @@ class Siswa extends MY_Controller
             redirect('siswa');
         }
 
+        $siswa_id = get_sess_data('user', 'id');
+        $data['data_terakhir'] = $this->db->select_max('id')->get('diskusi')->row()->id;
         $data['list_jadwal'] = $this->get_jadwal_mapel_siswa(get_sess_data('user', 'id'));
+        $data['kelompok']  = $this->db->select('kelas.nama as nama_kelas, pengajar.nama as nama_pengajar, kelompok.*')
+        ->join('kelas', 'kelompok.kelas_id=kelas.id')->join('pengajar', 'pengajar.id=kelompok.pengajar_id')->get('kelompok')->result();
 
         $this->twig->display('jadwal-mapel.html', $data);
     }

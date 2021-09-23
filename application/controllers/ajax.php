@@ -21,42 +21,6 @@ class Ajax extends MY_Controller
     function get_data($page)
     {
         switch ($page) {
-            case 'elearning-dokumenary-feed':
-                if (!is_admin()) {
-                    echo json_encode(array(
-                        'feed'        => array(),
-                        'urgent_info' => "",
-                    ));die;
-                }
-
-                # ambil informasi update
-                $urgent_info = $this->check_urgent_info();
-                if (!empty($urgent_info)) {
-                    $urgent_info = $this->twig->render('urgent-info.html', array('info' => $urgent_info));
-                }
-
-                $feed = array();
-                try {
-                    // https://bavotasan.com/2010/display-rss-feed-with-php/
-                    $rss = new DOMDocument();
-                    $rss->load($this->update_link);
-                    foreach ($rss->getElementsByTagName('item') as $node) {
-                        $item = array (
-                            'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
-                            'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
-                        );
-
-                        array_push($feed, $item);
-                    }
-                } catch (\Exception $e) {
-                }
-
-                echo json_encode(array(
-                    'feed'        => $feed,
-                    'urgent_info' => $urgent_info,
-                ));
-            break;
-
             case 'penerima':
                 $query =  !empty($_GET['query']) ? $_GET['query'] : '';
 

@@ -5,16 +5,17 @@ Detail Percakapan - {{ parent() }}
 {% endblock %}
 
 {% block content %}
-<div class="module">
+<div class="module span6 visible-desktop" style="border: 4px solid rgb(72, 172, 230);">
     <div class="module-head">
-        <h3>{{ anchor('message', '<i class="icon-arrow-left"></i> Kembali')|raw }}</h3>
+        <div class="pull-right">{{ anchor('message', '<i class="icon-arrow-left"></i> Kembali')|raw }}</div>
+        <h3>{{ character_limiter(receiver_name, 20, '...') }}</h3>
     </div>
-    <div class="module-body" style="background-color: white;">
+    <div class="module-body" style="background-image: url({{ base_url('userfiles/images/bg-chat.jpg') }}); background-attachment:fixed;">
 
         {% set active_msg_id = r.id %}
 
-        <div class="table-responsive">
-        <table id="list-msg" width="100%">
+        <div class="table-responsive" style="border-style: none;">
+        <table id="list-msg" width="100%" >
             <tbody>
                 {% for d in old_related_msg %}
                     {% set item_msg = d %}
@@ -33,27 +34,27 @@ Detail Percakapan - {{ parent() }}
         </div>
 
         <br>
+        
+
+    </div>
+    <div class="module-footer" style="border:0px;">
         {% if confirm_del_all == false %}
-        <div class="msg-active">
-            <b>Kirim Pesan</b>
-            <hr class="hr-msg">
+        <div class="msg-active" style="border: 0px;">
+            
             {{ form_open_multipart('message/create/' ~ r.sender_receiver_id, {'class' : 'form-horizontal row-fluid'})|raw }}
                 <input type="hidden" name="penerima" value="{{ receiver_name }}">
-                <div class="media-body">
-                    <div class="row-fluid">
-                        <textarea name="content" id="content" class="span12" style="height: 70px; resize: none;">{{ set_value('content')|raw }}</textarea> {{ form_error('content')|raw }}
-                    </div><br>
-                    <div class="clearfix">
-                        <button class="btn btn-primary pull-right">Kirim</button>
-                    </div>
-                </div>
+                
+                <button class="btn btn-primary pull-right">Kirim</button>
+                
+                <textarea placeholder="ketik sesuatu disini..." name="content" id="content" style="height: 50px;width: 80%; resize: none;">{{ set_value('content')|raw }}</textarea> {{ form_error('content')|raw }}
+                
             {{ form_close()|raw }}
         </div>
         {% endif %}
 
         {% if confirm_del_all == true %}
         <hr class="hr-msg">
-        <div id="confirm" class="alert alert-block">
+        <div id="confirm" class="alert alert-block" >
             <div class="pull-right btn-group" style="margin-top: -5px;">
                 <a class="btn btn-danger" href="{{ site_url('message/del_all/' ~ r.id) }}">Ya hapus</a>
                 <a class="btn btn-primary" href="{{ site_url('message') }}">Batal</a>
@@ -63,7 +64,6 @@ Detail Percakapan - {{ parent() }}
         {% endif %}
 
         <input type="hidden" id="active_msg_id" value="{{ r.id }}">
-
     </div>
 </div>
 {% endblock %}

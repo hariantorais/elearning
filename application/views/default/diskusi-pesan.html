@@ -1,0 +1,30 @@
+
+  
+       {% if is_siswa() == false %}
+         <div id="{{ d.diskusi_id }}" style="margin-bottom: 10px; background-color: {{ d.pengajar_id == get_sess_data('user','id') ? 'rgb(193, 248, 207)' : 'white' }}; width: 70%; padding: 5px;" class="{{ d.pengajar_id == get_sess_data('user','id') ? 'pull-right' :'pull-left' }}" >
+          
+       {% endif %}
+
+       {% if is_siswa() == true %}
+         <div id="{{ d.diskusi_id }}" style="margin-bottom: 10px; background-color: {{ d.siswa_id == get_sess_data('user','id') ? 'rgb(193, 248, 207)' : 'white' }}; width: 70%; padding: 5px;" class="{{ d.siswa_id == get_sess_data('user','id') ? 'pull-right' : 'pull-left' }}"  >
+          
+       {% endif %}
+
+       {% if d.pengajar_id == 0 %}
+       <img style="height:40px;width:40px; margin-right: 10px; padding: 0px;border: 0px;" class="img-polaroid img-circle {{ d.siswa_id == get_sess_data('user','id') ? 'pull-right' : 'pull-left' }}" src="{{ get_url_image_siswa(d.siswa_foto, 'medium', d.siswa_jk) }}">
+       {% endif %}
+
+       {% if d.pengajar_id > 0 %}
+       <img style="height:40px;width:40px; margin-right: 10px; padding: 0px;border: 0px;" class="img-polaroid img-circle {{ d.pengajar_id == get_sess_data('user','id') ? 'pull-right' : 'pull-left' }}" src="{{ get_url_image_pengajar(d.pengajar_foto, 'medium', d.pengajar_jk) }}">
+       {% endif %}
+
+       <a href="{{ site_url('siswa/detail/'~d.siswa_id) }}">{{ d.nama_siswa }}</a>
+       <a href="{{ site_url('pengajar/detail/'~d.pengajar_id) }}">{{ d.nama_pengajar }}</a>
+         <br>
+           <span style="color: black;">{{ d.konten }}</span> <br>
+           <span class="pull-right" style="font-weight: normal;">{{ format_datetime(d.date) }}</span>
+       </div>
+       
+
+
+  

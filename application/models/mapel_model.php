@@ -177,14 +177,14 @@ class Mapel_model extends CI_Model
 
     public function retrieve_mapel_sesi($id_mapel,$kelas_id)
     {   
-        $this->db->select('materi.*,pengajar.id as pengajar_id, pengajar.nama, pengajar.jenis_kelamin, pengajar.foto')->from('materi');
+        $this->db->select('materi.*,pengajar.id as pengajar_id, pengajar.nama, pengajar.jenis_kelamin, pengajar.foto, mapel.nama as nama_mapel')->from('materi');
         $this->db->where('mapel_id' , $id_mapel);
         $this->db->where('publish' , 1);
         $this->db->where('materi_kelas.kelas_id', $kelas_id);
-        $this->db->join('pengajar', 'materi.pengajar_id=pengajar.id');
-        $this->db->join('materi_kelas', 'materi.id=materi_kelas.materi_id');
-        $this->db->group_by('sesi');
-        $this->db->order_by('sesi', 'DESC');
+        $this->db->join('mapel', 'materi.mapel_id=mapel.id', 'left');
+        $this->db->join('pengajar', 'materi.pengajar_id=pengajar.id', 'left');
+        $this->db->join('materi_kelas', 'materi.id=materi_kelas.materi_id', 'left');
+        $this->db->order_by('id', 'DESC');
         $result = $this->db->get();
         return $result->result_array();
     }

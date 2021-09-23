@@ -1,0 +1,102 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Pengaturan - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>Pengaturan</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('pengaturan')|raw }}
+
+        {% if is_demo_app() %}
+            {{ get_alert('warning', get_demo_msg())|raw }}
+        {% endif %}
+
+        {{ form_open_multipart('welcome/pengaturan', {'class' : 'form-horizontal row-fluid'})|raw }}
+            <div class="control-group">
+                <label class="control-label">Logo sekolah</label>
+                <div class="controls">
+                    {% set logo_sekolah = get_pengaturan('logo-sekolah', 'value') %}
+                    {% if logo_sekolah is empty %}
+                        <img src="{{ logo_url_medium }}">
+                    {% else %}
+                        <a href="{{ site_url('welcome/pengaturan/?delete-img=5') }}" onclick="return confirm('Anda yakin ingin menghapus?')" class="pull-right" title="Hapus logo"><i class="icon-trash"></i></a>
+                        <img src="{{ get_url_image(logo_sekolah) }}" style="max-width: 120px;">
+                    {% endif %}
+                    <br>Ganti logo <small>(Ukuran terbaik 120 x 122 pixel)</small><br>
+                    <input type="file" name="logo-sekolah">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Nama sekolah <span class="text-error">*</span></label>
+                <div class="controls">
+                    <input type="text" name="nama-sekolah" class="span8" value="{{ set_value('nama-sekolah', get_pengaturan('nama-sekolah', 'value')) }}">
+                    <br>{{ form_error('nama-sekolah')|raw }}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Alamat sekolah <span class="text-error">*</span></label>
+                <div class="controls">
+                    <input type="text" name="alamat" class="span8" value="{{ set_value('alamat', get_pengaturan('alamat', 'value')) }}">
+                    <br>{{ form_error('alamat')|raw }}
+                </div>
+            </div>
+
+            <input type="hidden" name="telp" class="span5" value="{{ set_value('telp', get_pengaturan('telp', 'value')) }}">
+
+            
+            
+                        <input type="hidden" name="registrasi-siswa" value="1" {{ set_radio('registrasi-siswa', '1', ((get_pengaturan('registrasi-siswa', 'value') == '1') ? true)) }}>
+            
+                        
+            
+                        <input type="hidden" name="status-registrasi-siswa" value="1" {{ set_radio('status-registrasi-siswa', '0', ((in_array(get_pengaturan('status-registrasi-siswa', 'value'), ['', '0'])) ? true)) }}>
+
+                        <input type="hidden" name="registrasi-pengajar" value="1" {{ set_radio('registrasi-pengajar', '1', ((get_pengaturan('registrasi-pengajar', 'value') == '1') ? true)) }}>
+
+                        <input type="hidden" name="status-registrasi-pengajar" value="1" {{ set_radio('status-registrasi-pengajar', '0', ((in_array(get_pengaturan('status-registrasi-pengajar', 'value'), ['', '0'])) ? true)) }}>
+            
+                    <input type="hidden" name="info-registrasi" style="width:100%; height:300px;">
+                    <input type="hidden" name="peraturan-elearning" style="width:100%; height:300px;">
+            
+            
+                    <input type="hidden" name="email-server" class="span5" value="{{ set_value('email-server', get_pengaturan('email-server', 'value')) }}">
+            
+                    <input type="hidden" name="smtp-host" class="span5" value="{{ set_value('smtp-host', get_pengaturan('smtp-host', 'value')) }}">
+            
+                    <input type="hidden" name="smtp-username" class="span5" value="{{ set_value('smtp-username', get_pengaturan('smtp-username', 'value')) }}">
+            
+            {% if is_demo_app() == false %}
+                    <input type="hidden" name="smtp-pass" class="span5" value="{{ set_value('smtp-pass', get_pengaturan('smtp-pass', 'value')) }}">
+            
+            {% endif %}
+                    <input type="hidden" name="smtp-port" class="span5" value="{{ set_value('smtp-port', get_pengaturan('smtp-port', 'value')) }}">
+            
+                        <input type="hidden" name="edit-username-siswa" value="0" {{ set_radio('edit-username-siswa', '1', ((in_array(get_pengaturan('edit-username-siswa', 'value'), ['', '1'])) ? true)) }}> 
+            
+                        
+                        <input type="hidden" name="edit-foto-siswa" value="0" {{ set_radio('edit-foto-siswa', '0', ((get_pengaturan('edit-foto-siswa', 'value') == '0') ? true)) }}> 
+            
+            
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            {% if is_demo_app() == false %}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            {% endif %}
+        {{ form_close()|raw }}
+
+    </div>
+</div>
+{% endblock %}

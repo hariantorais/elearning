@@ -173,6 +173,7 @@ class Materi extends MY_Controller
             if ($this->form_validation->run('materi/add/tertulis') == TRUE) {
                 $mapel_id = $this->input->post('mapel_id', TRUE);
                 $judul    = $this->input->post('judul', TRUE);
+                $sesi    = $this->input->post('sesi', TRUE);
                 $konten   = $this->input->post('konten');
                 $status   = $this->input->post('status', TRUE);
 
@@ -205,8 +206,9 @@ class Materi extends MY_Controller
                         is_siswa() ? get_sess_data('user', 'id') : null,
                         $mapel_id,
                         $judul,
+                        $file,
+                        $sesi,
                         $konten,
-                        null,
                         $publish
                     );
                 }
@@ -215,28 +217,23 @@ class Materi extends MY_Controller
             }
         } elseif ($type == 'file') {
             $config['upload_path']   = get_path_file();
-            $config['allowed_types'] = 'doc|zip|rar|txt|docx|xls|xlsx|pdf|tar|gz|jpg|jpeg|JPG|JPEG|png|ppt|pptx|mp4';
+            $config['allowed_types'] = 'doc|zip|rar|txt|docx|xls|xlsx|pdf|tar|gz|jpg|jpeg|JPG|JPEG|png|ppt|pptx';
             $config['max_size']      = '0';
             $config['max_width']     = '0';
             $config['max_height']    = '0';
             $config['file_name']     = url_title($this->input->post('judul', TRUE).'_'.time(), '_', TRUE);
-
             $this->upload->initialize($config);
 
-            // if ($this->form_validation->run('materi/add/file') == TRUE AND $this->upload->do_upload()) {
-            if ($this->form_validation->run('materi/add/file') == TRUE) {
+            if ($this->form_validation->run('materi/add/file') == TRUE AND $this->upload->do_upload()) {
+            // if ($this->form_validation->run('materi/add/file') == TRUE) {
                 $mapel_id    = $this->input->post('mapel_id', TRUE);
                 $judul       = $this->input->post('judul', TRUE);
                 $upload_data = $this->upload->data();
-                if (!empty($_FILES['userfile']['tmp_name'])) {    
-                    $foto = $upload_data['file_name'];
-                } else {
-                    $foto = null;
-                }
+                $file       = $upload_data['file_name'];
                 $status      = $this->input->post('status', TRUE);
                 $sesi      = $this->input->post('sesi', TRUE);
-                $konten      = $this->input->post('konten', TRUE);
-
+                $konten      = $this->input->post('konten');
+                
                 $publish = 1;
                 if (!empty($status) && in_array($status, array('draft'))) {
                     $publish = 0;
@@ -526,7 +523,23 @@ class Materi extends MY_Controller
     {
         $materi_id = (int)$segment_3;
 
-        
+        if (is_siswa()) {
+            $siswa_id = get_sess_data('user', 'id');
+
+            $cek = $this->db->get_where('absen_siswa', array('siswa_id' => $siswa_id, 'materi_id'=>$materi_id))->num_rows();
+            if ($cek > 0) {
+                
+            } else {
+                $data = array(
+                    'materi_id' => $materi_id,
+                    'siswa_id' => $siswa_id,
+                    'absen' => 1,
+                    'waktu' => date('Y-m-d H:i:s')
+                );
+                
+            $this->absen_model->input_data($data, 'absen_siswa');   
+            }
+        }
 
         if (empty($materi_id)) {
             show_404();
@@ -652,10 +665,6 @@ class Materi extends MY_Controller
 
                     force_download($name_file, $data_file);
                 }
-
-
-                
-
 
 
                 # post komentar
@@ -817,6 +826,8 @@ class Materi extends MY_Controller
                 $data['comp_css'] = load_comp_css(array(
                     base_url('assets/comp/colorbox/colorbox.css')
                 ));
+
+                // echo '<pre>'; print_r($data); echo '</pre>';die;
 
                 $this->twig->display('detail-materi.html', $data);
             break;

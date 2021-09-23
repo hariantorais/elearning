@@ -1,0 +1,116 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Daftar Kelompok - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>{{ anchor('kelompok', 'Daftar Kelompok')|raw }}</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('tugas')|raw }}
+
+          {% if is_admin() or is_pengajar() %}
+          
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambah-kelompok">
+                Tambah Kelompok 
+            </button>
+
+            {% endif %}
+            
+            <div class="modal fade" id="tambah-kelompok" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header"><b style="font-size: 20px;">Tambah Kelompok</b></div>
+                        <form action="{{ site_url('kelompok/add') }}" method="post" class="form-horizontal">
+                            <input type="hidden" name="pengajar_id" value="{{ get_sess_data('user', 'id') }}">
+                            <div class="modal-body">
+                                <div class="control-group">
+                                    <div class="control-label">Nama Kelompok</div>
+                                    <div class="controls">
+                                        <input type="text" placeholder="Nama Kelompok" name="kelompok_nama" class="span3">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="control-label">Kelas</div>
+                                    <div class="controls">
+                                        <select name="kelas_id" id="kelas_id" required class="span3">
+                                            <option value="">Pilih Kelas</option>
+                                            {% for k in kelas %}
+                                                <option value="{{ k.id }}">{{ k.nama }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+            </div>
+        
+
+        <br><br>
+        <table class="table table-striped datatable">
+            <thead>
+                <tr>
+                    
+                    <th>Nama Kelompok</th>
+                    <th>Kelas</th>
+                    <th>Pembimbing</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k in kelompok %}
+                <tr>
+                    <td>
+                        <span>{{ strtoupper(k.kelompok_nama) }}</span>
+                    </td>
+                    <td>
+                        <span>{{ k.nama_kelas }}</span>
+                    </td>
+                    <td>
+                        <span>{{ k.nama_pengajar }}</span>
+                    </td>
+                    <td>
+                      <a class="btn btn-primary" href="{{ site_url('kelompok/detail/'~k.kelompok_id) }}" id="btn-submit"><i class='icon-group'></i></a>
+                      <a class="btn btn-success" href="{{ site_url('kelompok/diskusi/'~k.kelompok_id) }}" id="btn-submit"><i class='icon-comments'></i></a>
+                      <!-- <a href="{{ site_url('kelompok/atur_anggota/' ~ k.kelas_id ~'/'~k.kelompok_id) }}" class="btn btn-success">Atur Anggota</a> -->
+                      {% if is_admin() or is_pengajar() %}
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-kelompok{{ k.kelompok_id }}"><i class="icon-trash"></i>
+                       
+                    </button>
+        
+                    <div class="modal fade" id="hapus-kelompok{{ k.kelompok_id }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <form action="{{ site_url('kelompok/add') }}" method="post" class="form-horizontal">
+                                    <div class="modal-body">
+                                        <h3>Apakah anda yakin akan menghapus <b>{{ strtoupper(k.kelompok_nama) }}</b></h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <a href="{{ site_url('kelompok/delete/'~k.kelompok_id) }}" class="btn btn-danger" >Hapus</a>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                    </div>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+
+    </div>
+</div>
+{% endblock %}

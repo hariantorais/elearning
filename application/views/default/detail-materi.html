@@ -15,15 +15,15 @@
                 <time style="font-weight: normal;" class="timeago" datetime="{{ materi.tgl_posting }}">{{ materi.tgl_posting }}</time>
     </div>
     <div class="module-body" style="background-color: white;">
-      <span style="color: black; font-size: 20px;">{{ materi.judul }}</span>
+      <span style="color: black; font-size: 20px;margin-bottom: 20px;">{{ materi.judul }}</span>
         <div class="wrap-content" style="font-weight: normal;">
-            {{ materi.konten|raw }}
-            <div style="background-color: rgb(220, 232, 238);border-radius: 3px;padding: 5px 10px 5px 10px;">
-            {% if (m.file!=null) %}
-            <a href="{{ site_url('welcome/download_materi/'~m.file~ '/'  ~m.id) }}" style="font-weight: bold;">{{ m.file }}</a>
-            {% else %}
-            <i>Tidak ada file</i>
-            {% endif %}
+            <div class="content">
+                {{ materi.konten|raw }}
+                {% if (materi.file!=null) %}
+                <div style="background-color: rgb(220, 232, 238);border-radius: 3px;padding: 5px 10px 5px 10px;">
+                    <a href="{{ site_url('welcome/download_materi/'~materi.file~ '/'  ~materi.id) }}" style="font-weight: bold;">{{ materi.file }}</a>
+                </div>
+                {% endif %}
             </div>
         </div>
   

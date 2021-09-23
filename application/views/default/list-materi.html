@@ -9,8 +9,8 @@ Materi - {{ parent() }}
     <div class="module-head">
         {% if is_siswa() == false %}
             <div class="btn-group pull-right" style="margin-top:-5px;">
-                <!-- {{ anchor('materi/add/tertulis', '<i class="icon-pencil"></i>Tambah Materi Tertulis', {'class' : 'btn btn-primary'})|raw }} -->
-                {{ anchor('materi/add/file', '<i class="icon-plus"></i>Tambah', {'class' : 'btn btn-primary'})|raw }}
+                {{ anchor('materi/add/tertulis', '<i class="icon-pencil"></i>Materi Tertulis', {'class' : 'btn btn-primary'})|raw }}
+                {{ anchor('materi/add/file', '<i class="icon-file"></i>Materi File', {'class' : 'btn btn-success'})|raw }}
             </div>
         {% endif %}
         <h3>Materi</h3>

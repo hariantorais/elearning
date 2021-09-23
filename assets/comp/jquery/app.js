@@ -251,6 +251,7 @@
             get_new_msg();
         }, 10000);
 
+
         // jika ada class datatable
         if ($(".datatable").length) {
             $('.datatable').dataTable({

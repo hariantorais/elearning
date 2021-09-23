@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <div class="navbar hidden-phone" style="position: fixed;z-index: 9999">
+        <div class="navbar" style="position: fixed;z-index: 9999">
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
@@ -25,10 +25,10 @@
                         </form> -->
 
                         <ul class="nav pull-right">
-                            <!-- {% include 'top-mobile-menu.html' %} -->
+                            {% include 'top-mobile-menu.html' %}
 
                            
-                            <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <li class="nav-user dropdown visible-desktop"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 {{ get_sess_data('user', 'nama') }}
 
                                 <span class="pull-right">
@@ -87,7 +87,7 @@
         </div>
         <!--/.wrapper-->
 
-        <div class="nav-phone visible-phone">
+        <!-- <div class="nav-phone visible-phone">
             <div class="phone-menu"><br>
                 <table width="100%">
                     <tr>
@@ -114,17 +114,17 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </div> -->
 
-        <div class="footer visible-desktop">
+        <!-- <div class="footer visible-desktop">
             <div class="container">
                 <center>
-                    <b>Elemes Assunnah</b> <br>
+                    <b>LMS SMPIA</b> <br>
                     {{ site_name }}<br>
                     <span style="color: grey">by <a href="https://facebook.com/hariantorais">Harianto Rais</a></span>
                 </center>
             </div>
-        </div>
+        </div> -->
 
         {% include 'layout-footer.html' %}
         {% block js %}{% endblock %}

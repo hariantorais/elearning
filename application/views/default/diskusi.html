@@ -1,0 +1,36 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Diskusi - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module span6" style="border: 4px solid rgb(72, 172, 230);">
+    <div class="module-head">
+      <input type="button" class="pull-right" value="Refresh Halaman" onClick="window.location.reload()" />
+        <h3>Forum Diskusi {{ nama_kelompok }}</h3>
+    </div>
+
+    <div class="module-body" style="background-image: url({{ base_url('userfiles/images/bg-chat.jpg') }}); background-attachment:fixed; display:block; height:400px; overflow:auto;">
+
+      {% for d in diskusi %}
+        {% include 'diskusi-pesan.html' %}
+      {% endfor %}
+   
+    </div>
+    <div class="module-footer">
+      {{ form_open_multipart('kelompok/kirim_diskusi/', {'class' : 'form-horizontal row-fluid'})|raw }}
+                <input type="hidden" name="kelompok_id" value="{{ kelompok_id }}">
+                <input type="hidden" name="pengirim_id" value="{{ get_sess_data('user', 'id') }}">
+                <input type="hidden" name="data_terakhir" value="{{ data_terakhir }}">
+
+                <button class="btn btn-primary pull-right">Kirim</button>
+                
+                <textarea required placeholder="ketik sesuatu disini..." name="konten" id="konten" style="height: 50px;width: 80%; resize: none;">{{ set_value('konten')|raw }}</textarea> {{ form_error('konten')|raw }}
+                
+      {{ form_close()|raw }}
+    </div>
+
+       
+   
+{% endblock %}

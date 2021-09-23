@@ -861,6 +861,32 @@ function sudah_ngerjakan($tugas_id, $siswa_id)
     return $sudah;
 }
 
+function sudah_berkelompok($kelompok_id, $siswa_id)
+{
+    $sudah = false;
+    $ci = get_instance();
+    # cek history, kalo sudah ada berarti sudah mengerjakan
+    $check = $ci->db->get_where('kelompok_siswa', array('kelompok_id'=>$kelompok_id, 'siswa_id'=>$siswa_id))->num_rows();
+    if (!empty($check)) {
+        $sudah = true;
+    }
+
+    return $sudah;
+}
+
+function ada_kelompok($siswa_id)
+{
+    $sudah = false;
+    $ci = get_instance();
+    # cek history, kalo sudah ada berarti sudah mengerjakan
+    $check = $ci->db->get_where('kelompok_siswa', array('siswa_id'=>$siswa_id))->num_rows();
+    if (!empty($check)) {
+        $sudah = true;
+    }
+
+    return $sudah;
+}
+
 /**
  * Method untuk mendapatkan lama pengerjaan berdasarkan waktu mulai dan selesai
  *

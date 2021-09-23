@@ -1,0 +1,47 @@
+{% extends "layout-private.html" %}
+
+{% block title %}
+Tambah Anggota - {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <div class="module-head">
+        <h3>{{ anchor('kelompok', 'Kelompok')|raw }} / Tambah Anggota</h3>
+    </div>
+    <div class="module-body">
+        {{ get_flashdata('tugas')|raw }}
+
+        <table class="table table-striped datatable">
+            <thead>
+                <tr> 
+                    <th></th>
+                    <th>Nama Siswa</th>
+                    <th>Kelas</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in siswa %}
+                {% if ada_kelompok(s.siswa_id) == false %}
+                <tr>
+                    <td>
+                        <span>{{ s.nama_siswa }}</span>
+                    </td>
+                    <td>
+                      <span>{{ s.nama_kelas }}</span>
+                    </td>
+                    <td>
+                        <a href="{{ site_url('kelompok/update_kelompok_anggota/'~kelompok_id~'/'~s.siswa_id~'/'~s.kelas_id) }}">Tambahkan</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+
+    </div>
+</div>
+{% endblock %}

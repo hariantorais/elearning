@@ -711,6 +711,7 @@ class Welcome extends MY_Controller
                                           ->get()->result();
         
         $data['mapel_sesi'] = $this->mapel_model->retrieve_mapel_sesi($id_mapel,$kelas_id);
+        // echo '<pre>'; print_r($data); echo '</pre>'; die;
         $this->twig->display('list-sesi.html', $data);
     }
 

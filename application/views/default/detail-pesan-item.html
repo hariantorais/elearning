@@ -1,27 +1,28 @@
 <tr id="msg-{{ item_msg.id }}">
     <td class="msg-user {{ (msg_flag_new == 1) ? 'msg-flag-new' }}">
        
-    <div class="media stream {% if item_msg.profil.id == get_sess_data('user','id') %} pull-right {% endif %}" style="background-color: rgb(220, 238, 199);width: 45%;border-radius: 10px;padding: 8px;">
+    <div class="media stream {% if item_msg.profil.id == get_sess_data('user','id') %} pull-right {% endif %}" style="box-shadow: 1px 1px 1px rgba(0,0,0,0.3);background-color: {% if item_msg.profil.id == get_sess_data('user','id') %} rgb(220, 238, 199) {% else %} white {% endif %};width: 45%;border-radius: 10px;padding: 8px;margin-bottom:5px;">
         
             <img style="border:0px; padding:0px; width:50px; height:50px" class="img-msg-user img-polaroid img-circle pull-left visible-desktop" src="{{ item_msg.profil.link_image }}">
         
         <div class="media-body">
             <div class="stream-headline">
                 <h5 class="stream-author">
-                    <a href="{{ item_msg.profil.link_profil }}">{{ character_limiter(item_msg.profil.nama, 20, '...') }}</a>
-                    {% if item_msg.timeago is not empty %}
-                        <small><time class="timeago" datetime="{{ item_msg.timeago }}">{{ item_msg.date }}</time></small>
-                    {% else %}
-                        <small>{{ item_msg.date }}</small>
-                    {% endif %}
-                    
+                    <a href="{{ item_msg.profil.link_profil }}">{{ character_limiter(item_msg.profil.nama, 20, '...') }}</a>                    
                 </h5>
-                <div class="stream-text"></div>
-                    <a class="pull-right" style="margin-left:10px;" href="{{ site_url('message/del/' ~ item_msg.id ~ '/' ~ active_msg_id) }}" onclick="return confirm('Anda yakin ingin menghapus?')"><i class="icon-trash"></i></a>
+                <div class="stream-text" style="color:black">
                     {{ item_msg.content|raw }}
                 </div>
+                <div class="pull-right">
+                    <small>{{ item_msg.date }}</small>
+                    {% if get_sess_data('user', 'id') == 1 %}
+                    <a style="margin-left:10px;" href="{{ site_url('message/del/' ~ item_msg.id ~ '/' ~ active_msg_id) }}" onclick="return confirm('Anda yakin ingin menghapus?')"><i class="icon-trash"></i></a>
+                    {% endif %}
+                </div>
             </div><!--/.stream-headline-->
+            
         </div>
+        
     </div>
     </td>
 </tr>
